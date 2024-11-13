@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../blocks/ideal_cstatus/amd/build/styles.min.css" type="text/css">
+
+</head>
+<script>
+</script>
+<div class="container_main" id='container_main'>
+    <div class="section_1">
+
+        <div class="container_children">
+            {{#circles}}
+                {{#circle1}}
+                    {{> block_ideal_cstatus/circles/1_circle}}
+                {{/circle1}}
+            {{/circles}}
+            {{#circles}}
+                {{#circle2}}
+                    {{> block_ideal_cstatus/circles/2_circle}}
+                {{/circle2}}
+            {{/circles}}
+            {{#circles}}
+                {{#circle3}}
+                    {{> block_ideal_cstatus/circles/3_circle}}
+                {{/circle3}}
+            {{/circles}}
+            {{#circles}}
+                {{#circle4}}
+                    {{> block_ideal_cstatus/circles/4_circle}}
+                {{/circle4}}
+            {{/circles}}
+            {{#circles}}
+                {{#circle5}}
+                    {{> block_ideal_cstatus/circles/5_circle}}
+                {{/circle5}}
+            {{/circles}}
+    </div>
+    </div>
+    <div class="section_2" >
+
+        <div class="Soft">
+            {{#circles}}
+                {{#circle6}}
+                    {{> block_ideal_cstatus/circles/6_circle}}
+                {{/circle6}}
+            {{/circles}}
+        </div>
+
+        <div class="Ethical">
+            {{#circles}}
+                {{#circle7}}
+                    {{> block_ideal_cstatus/circles/7_circle}}
+                {{/circle7}}
+            {{/circles}}
+                <div id='message_not_found' style="visibility:hidden">
+                    {{#str}} error_render_img, block_ideal_cstatus {{/str}}
+                </div> 
+        </div>
+        </div>
+        
+    <div id="legend_container" >
+    <h3>{{#str}} lvl, block_ideal_cstatus {{/str}}</h3>
+
+    </div>
+
+
+
+</body>
+
+</html>
+

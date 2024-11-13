@@ -1,0 +1,25 @@
+<body>
+<form method="post" id="form_manage_user">
+    <label id="label_form_manage_user" for="menu_manage">{{#str}} select_user, block_ideal_cstatus {{/str}}</label>
+    <select id="menu_manage" name="selected_user">
+        <option></option>
+    </select>
+    <button id="Btn_seearsh_user" type="submit">{{#str}} search, block_ideal_cstatus {{/str}}</button>
+</form>
+
+
+<script>
+    var search_user_={{{users_search}}};
+    var json_user_list = JSON.parse(JSON.stringify(search_user_));
+    var select = document.getElementById('menu_manage');
+
+    json_user_list.forEach(function(user) {
+            var option = document.createElement('option');
+            option.value = user.id;
+            option.text = user.fullname+" ("+user.email+")";
+            option.setClassName = "user_list";
+            select.appendChild(option);
+        });
+
+</script>
+</body>
