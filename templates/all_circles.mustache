@@ -3,11 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../blocks/ideal_cstatus/amd/build/styles.min.css" type="text/css">
+   <!-- <link rel="stylesheet" href="../blocks/ideal_cstatus/amd/build/styles.min.css" type="text/css"> -->
+    
+    <script>
+        window.onload = function() {
+            var head = document.getElementsByTagName('head')[0]; // Obtén el primer <head> del documento
+            if (head) {
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.type = 'text/css';
+                link.href = '../blocks/ideal_cstatus/amd/build/styles.min.css'; // Cambia la URL según sea necesario
+                console.log(link);
+                head.appendChild(link); // Agrega el <link> al <head>
+            }
+            console.log(head); // Verifica si obtienes el elemento head
+
+        };
+    </script>
 
 </head>
-<script>
-</script>
 <div class="container_main" id='container_main'>
     <div class="section_1">
 

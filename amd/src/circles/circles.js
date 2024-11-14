@@ -164,6 +164,7 @@ window.comprobar_color_circles_peque = function (texts, levels, name_container_c
     try {
         // Obtener el elemento
         var circle_centro_div_white = document.getElementById(name_container_centro);
+
         if (!circle_centro_div_white) {
             throw new Error("El elemento con id '" + name_container_centro + "' no existe.");
         }
@@ -174,7 +175,21 @@ window.comprobar_color_circles_peque = function (texts, levels, name_container_c
             "O": "#d966ff"  // Rosado claro O
         };
         // Identificar qué nivel aplica
-        var targetLevel = Object.keys(levels).find(level => levels[level] === texts.length);
+        var targetLevel = null;
+
+        if(levels["A"]==texts.length){
+            targetLevel = "A";
+        }
+         if(levels["D"]==texts.length){
+            targetLevel = "D";
+        }
+         if(levels["L"]==texts.length){
+            targetLevel = "L";
+        }
+        if(levels["O"]==texts.length){
+            targetLevel = "O";
+        }
+        
         //OK
         if (targetLevel) {
             circle_centro_div_white.style.backgroundColor = colorMap[targetLevel];
@@ -320,7 +335,7 @@ window.circle_7 = function () {
     }
 };
 
-window.create_legend=function(){
+window.create_legend = function() {
     var levels = window.legend;
     var container = document.getElementById('legend_container');
 
@@ -331,7 +346,7 @@ window.create_legend=function(){
     table.appendChild(headerRow);
 
     // Agrega las filas de datos
-    levels.forEach((level, index) => {
+    levels.slice(0, 3).forEach((level, index) => {
         const row = document.createElement("tr");
         row.className = "level-row";
         row.id = `level-${index}`;
@@ -356,8 +371,40 @@ window.create_legend=function(){
         table.appendChild(row);
     });
 
+    // Combina los últimos dos niveles
+    if (levels.length > 3) {
+        const combinedLevel = {
+            color: levels[3].color,
+            name: levels.slice(3).map(level => level.name).join(' & ')
+        };
+
+        const row = document.createElement("tr");
+        row.className = "level-row";
+        row.id = `level-3`;
+
+        // Celda de color
+        const colorCell = document.createElement("td");
+        const colorBox = document.createElement("div");
+        colorBox.style.width = "20px";
+        colorBox.style.height = "20px";
+        colorBox.style.backgroundColor = combinedLevel.color;
+        colorBox.style.border = "1px solid black";
+        colorBox.style.borderRadius = "50%";
+        colorCell.appendChild(colorBox);
+        row.appendChild(colorCell);
+
+        // Celda de nombre
+        const nameCell = document.createElement("td");
+        nameCell.textContent = combinedLevel.name;
+        row.appendChild(nameCell);
+
+        // Añadir la fila a la tabla
+        table.appendChild(row);
+    }
+
     // Añade la tabla al contenedor
     container.appendChild(table);
 };
+
 
 create_legend();
