@@ -166,13 +166,13 @@ window.comprobar_color_circles_peque = function (texts, levels, name_container_c
         var circle_centro_div_white = document.getElementById(name_container_centro);
 
         if (!circle_centro_div_white) {
-            throw new Error("El elemento con id '" + name_container_centro + "' no existe.");
+            throw new Error("Error in element id: " + name_container_centro);
         }
         const colorMap = {
             "A": "#66a3ff", // Azul A
             "D": "#ffa366", // Naranja claro D
             "L": "#a366ff", // Violeta claro L
-            "O": "#d966ff"  // Rosado claro O
+            "O": "#E592FF"  // Rosado claro O
         };
         // Identificar qué nivel aplica
         var targetLevel = null;
@@ -196,8 +196,8 @@ window.comprobar_color_circles_peque = function (texts, levels, name_container_c
             circle_centro_div_white.style.color = "#FFFFFF";
             circle_centro_div_white.style.opacity = ".9";
             //OPCION POR SI SE AGG UNA IMAGEN AL OBTENER L
-            /*if(targetLevel=='A'){
-               // circle_centro_div_white.style.backgroundImage = "url('" + M.cfg.wwwroot + "/blocks/ideal_cstatus/templates/media/img/L.png')";
+           /* if(targetLevel=='A'){
+                circle_centro_div_white.style.backgroundImage = "url('" + M.cfg.wwwroot + "/blocks/ideal_cstatus/templates/media/img/b.jpg')";
                 circle_centro_div_white.style.backgroundRepeat = 'no-repeat';
                 circle_centro_div_white.style.backgroundPositionX = 'center';
                 circle_centro_div_white.style.backgroundPositionY = 'center';
@@ -206,7 +206,7 @@ window.comprobar_color_circles_peque = function (texts, levels, name_container_c
             }*/
         }
     } catch (error) {
-        console.error("Error in comprobar_color_circles_peque function:", error);
+        console.error("Error in comprobar_color function:", error);
     }
 };
 
@@ -400,6 +400,28 @@ window.create_legend = function() {
 
         // Añadir la fila a la tabla
         table.appendChild(row);
+
+        var btn_help = document.getElementById('help_cstatus');
+        btn_help.addEventListener('mouseover', function() {
+            var helpWindow = document.createElement('div');
+            helpWindow.id = 'helpWindow';
+            helpWindow.style.backgroundColor = 'white';
+            helpWindow.style.border = '1px solid black';
+            helpWindow.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.1)';
+            helpWindow.style.padding = '10px';
+            helpWindow.style.left = btn_help.getBoundingClientRect().right + 'px';
+            helpWindow.style.top = btn_help.getBoundingClientRect().top + 'px';
+            helpWindow.style.transform = 'translateY(10%)';
+            helpWindow.innerText = 'This is a help message.';
+            document.body.appendChild(helpWindow);
+        });
+
+        btn_help.addEventListener('mouseout', function() {
+            var helpWindow = document.getElementById('helpWindow');
+            if (helpWindow) {
+            document.body.removeChild(helpWindow);
+            }
+        });
     }
 
     // Añade la tabla al contenedor

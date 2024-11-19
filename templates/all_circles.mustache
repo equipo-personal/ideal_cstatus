@@ -12,11 +12,9 @@
                 var link = document.createElement('link');
                 link.rel = 'stylesheet';
                 link.type = 'text/css';
-                link.href = '../blocks/ideal_cstatus/amd/build/styles.min.css'; // Cambia la URL según sea necesario
-                console.log(link);
-                head.appendChild(link); // Agrega el <link> al <head>
+                link.href = '../blocks/ideal_cstatus/amd/build/styles.min.css';
+                head.appendChild(link); 
             }
-            console.log(head); // Verifica si obtienes el elemento head
 
         };
     </script>
@@ -76,7 +74,9 @@
         </div>
         
     <div id="legend_container" >
-    <h3>{{#str}} lvl, block_ideal_cstatus {{/str}}</h3>
+    <h3>{{#str}} lvl, block_ideal_cstatus {{/str}}
+        <img id="help_cstatus" style="width:25px; height:25px; margin 0 auto;" id="icon_help" src="../blocks/ideal_cstatus/templates/media/img/help.png" title="signo de interrogación iconos" alt="help icon">
+    </h3>
 
     </div>
 

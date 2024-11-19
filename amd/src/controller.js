@@ -18,16 +18,16 @@ define(['jquery'], function($) {
                             circle_7();
 
                         } catch (err) {
-                            console.error("Error al ejecutar las funciones de los círculos: ", err);
+                            console.error("Error: ", err);
                             showError();
                         }
                     })
                     .fail(function(jqxhr, settings, exception) {
-                        console.error("Error al cargar el script circles.js: ", exception);
+                        console.error("Error script circles.js: ", exception);
                         showError();
                     });
             } catch (err) {
-                console.error("Error en la inicialización del script: ", err);
+                console.error("Error inicialización script: ", err);
                 showError();
             }
 
