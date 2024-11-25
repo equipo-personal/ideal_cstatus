@@ -15,6 +15,7 @@ $string['str_L'] = 'Leadership';
 $string['str_Soft'] = 'Soft Skills Proficiency';
 $string['str_Ethi'] = 'Ethical Citizenship Proficiency';
 $string['lvl']="Proficiency Levels";
+$string['descriptionlegend']="The color of each circle represents the proficiency level of the competency.";
 //COLORS LVLs
 $string['#0066FF']="#0066FF";
 $string['#FF6600']="#FF6600";
@@ -27,6 +28,11 @@ $string['user_select'] = 'Selected user: ';
 $string['view_profile'] = "View this user's profile ";
 $string['user_select_email'] = 'Email: ';
 $string['is_rol_ok'] = 'ideal_manage';
+$string['all_users'] = 'All users';
+$string['users_not_country'] = 'Users without country';
+$string['select_filter_country'] = 'Select a country: ';
+$string['select_country_first'] = 'Select a country first';
+
 
 
 

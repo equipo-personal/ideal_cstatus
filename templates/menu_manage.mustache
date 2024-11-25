@@ -1,25 +1,70 @@
 <body>
 <form method="post" id="form_manage_user">
-    <label id="label_form_manage_user" for="menu_manage">{{#str}} select_user, block_ideal_cstatus {{/str}}</label>
-    <select id="menu_manage" name="selected_user">
-        <option></option>
+    <label id="label_select_country" for="menu_countries">
+        {{#str}} select_filter_country, block_ideal_cstatus {{/str}}
+    </label>
+    <select id="menu_countries">
+        <option value=""></option>
     </select>
-    <button id="Btn_seearsh_user" type="submit">{{#str}} search, block_ideal_cstatus {{/str}}</button>
+    <br>
+
+    <label id="label_form_manage_user" for="menu_manage">{{#str}} select_user, block_ideal_cstatus {{/str}}</label>
+    <select id="menu_manage" name="selected_user" disabled>
+        <option value="">{{#str}} select_country_first, block_ideal_cstatus {{/str}} </option>
+    </select>
+    <button id="Btn_seearsh_user" type="submit" disabled>{{#str}} search, block_ideal_cstatus {{/str}}</button>
 </form>
 
-
 <script>
-    var search_user_={{{users_search}}};
-    var json_user_list = JSON.parse(JSON.stringify(search_user_));
-    var select = document.getElementById('menu_manage');
+    var search_user_ = {{{users_search}}};
+    var search_country_ = {{{list_countries}}} || '[]';
+    var all_users_str = "{{#str}} all_users, block_ideal_cstatus {{/str}}";
+    var users_not_country_str = "{{#str}} users_not_country, block_ideal_cstatus {{/str}}";
+    // Create the list of countries
+    var json_country_list = JSON.parse(JSON.stringify(search_country_));
+    var countrySelect = document.getElementById('menu_countries');
 
-    json_user_list.forEach(function(user) {
-            var option = document.createElement('option');
-            option.value = user.id;
-            option.text = user.fullname+" ("+user.email+")";
-            option.setClassName = "user_list";
-            select.appendChild(option);
-        });
+    json_country_list.forEach(function(country) {
+        var option = document.createElement('option');
+        option.text = country;
+        option.value = country;
+        option.className = "country_list";
+        countrySelect.appendChild(option);
+    });
 
+    countrySelect.addEventListener('change', function() {
+        var selectedCountry = this.value;
+        var userSelect = document.getElementById('menu_manage');
+        userSelect.innerHTML = '<option value="">Seleccione un usuario</option>'; // Reset user select
+        userSelect.disabled = !selectedCountry;
+        document.getElementById('Btn_seearsh_user').disabled = !selectedCountry;
+        console.error(selectedCountry.slice(0,2));
+        if (selectedCountry) {
+            var json_user_list = JSON.parse(JSON.stringify(search_user_));
+            json_user_list.forEach(function(user) {
+                if (user.country == selectedCountry.slice(0,2)) {
+                    var option = document.createElement('option');
+                    option.value = user.id;
+                    option.text = user.fullname + " (" + user.email + ")";
+                    option.className = "user_list";
+                    userSelect.appendChild(option);
+                }else if (selectedCountry == all_users_str){
+                    var option = document.createElement('option');
+                    option.value = user.id;
+                    option.text = user.fullname + " (" + user.email + ")";
+                    option.className = "user_list";
+                    userSelect.appendChild(option);
+                }else if(selectedCountry==users_not_country_str){
+                    if(user.country == ""){
+                        var option = document.createElement('option');
+                        option.value = user.id;
+                        option.text = user.fullname + " (" + user.email + ")";
+                        option.className = "user_list";
+                        userSelect.appendChild(option);
+                    }
+                }
+            });
+        }
+    });
 </script>
 </body>

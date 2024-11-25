@@ -400,28 +400,30 @@ window.create_legend = function() {
 
         // Añadir la fila a la tabla
         table.appendChild(row);
-
+      
+      /*  var helpWindow = document.getElementById('description_legend');
         var btn_help = document.getElementById('help_cstatus');
         btn_help.addEventListener('mouseover', function() {
-            var helpWindow = document.createElement('div');
-            helpWindow.id = 'helpWindow';
-            helpWindow.style.backgroundColor = 'white';
-            helpWindow.style.border = '1px solid black';
+            helpWindow.style.border = '1px solid white';
             helpWindow.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.1)';
+            helpWindow.style.borderRadius = '5px';
+            helpWindow.style.width = '70%';
             helpWindow.style.padding = '10px';
-            helpWindow.style.left = btn_help.getBoundingClientRect().right + 'px';
-            helpWindow.style.top = btn_help.getBoundingClientRect().top + 'px';
-            helpWindow.style.transform = 'translateY(10%)';
-            helpWindow.innerText = 'This is a help message.';
-            document.body.appendChild(helpWindow);
+            helpWindow.style.color = 'white';
+            helpWindow.style.display = 'block';
+            helpWindow.style.textAlign = 'center';
+            helpWindow.style.margin = '1% 29% -3%';
+        });
+        btn_help.addEventListener('mouseover', function() {
+            helpWindow.style.display = 'none';
         });
 
-        btn_help.addEventListener('mouseout', function() {
+        btn_help.addEventListener('mouseover', function() {
             var helpWindow = document.getElementById('helpWindow');
             if (helpWindow) {
-            document.body.removeChild(helpWindow);
+                document.body.removeChild(helpWindow);
             }
-        });
+        });*/
     }
 
     // Añade la tabla al contenedor

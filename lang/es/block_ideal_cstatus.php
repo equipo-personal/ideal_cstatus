@@ -15,6 +15,7 @@ $string['str_L'] = 'Liderazgo';
 $string['str_Soft'] = 'Dominio de Habilidades Blandas';
 $string['str_Ethi'] = 'Dominio de Ciudadanía Ética';
 $string['lvl'] = 'Dominio de Niveles';
+$string['descriptionlegend']="El color de cada círculo representa el nivel de dominio de la competencia.";
 //COLORS LVLs
 $string['#0066FF']="#0066FF";
 $string['#FF6600']="#FF6600";
@@ -27,5 +28,11 @@ $string['user_select'] = 'Usuario seleccionado: ';
 $string['view_profile'] = "Ver el perfil de este usuario ";
 $string['user_select_email'] = 'Correo: ';
 $string['is_rol_ok'] = 'ideal_manage';
+$string['all_users'] = 'Todos los usuarios';
+$string['users_not_country'] = 'Usuarios sin país';
+$string['select_filter_country'] = 'Seleccione un país: ';
+$string['select_country_first'] = 'Seleccione un país primero';
+
+
 
 

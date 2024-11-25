@@ -44,13 +44,21 @@ function get_list_users(){
 
     try {
         $sql = "
-            SELECT DISTINCT
-                u.firstname, u.lastname, u.id, u.email
-            FROM
-                {user} u
-            JOIN {competency_usercomp} cu ON
-                cu.userid = u.id
-            WHERE cu.proficiency = 1
+SELECT 
+    u.id,
+    u.firstname,
+    u.lastname,
+    u.email,
+    u.country
+FROM
+    {user} u
+JOIN {competency_usercomp} cu ON
+    cu.userid = u.id
+WHERE
+    cu.proficiency = 1
+GROUP BY
+    u.id, u.firstname, u.lastname, u.email
+    ORDER BY `u`.`firstname` ASC;
         ";
 
         // Obtiene los usuarios
@@ -59,18 +67,46 @@ function get_list_users(){
         // Procesamos los usuarios para crear un array de datos adecuados
         $users_ok = [];
         foreach ($users as $user) {
-            // Combina el nombre y apellido en un solo campo para el nombre completo
             $users_ok[] = [
                 'id' => $user->id,
                 'fullname' => fullname($user), // Usamos la función fullname para generar el nombre completo
-                'email' => $user->email
+                'email' => $user->email,
+                'country' => $user->country
             ];
         }
-
         return $users_ok;
 
     } catch (Exception $e) {
         error_log("Error al obtener la lista de usuarios: " . $e->getMessage());
+        return [];
+    }
+}
+
+function get_list_countries(){
+    global $DB;
+
+    try {
+        $sql = "
+SELECT DISTINCT
+    country
+FROM
+    {user}
+WHERE
+    country NOT LIKE ''
+ORDER BY
+    `mdl_user`.`country` ASC
+                ";
+    $countries = $DB->get_records_sql($sql);
+    $countries_ok = [];
+
+    foreach ($countries as $country) {
+        $countries_ok[] = $country->country." (".get_string($country->country, 'countries').")";
+    }
+    $countries_ok[] = get_string('all_users', 'block_ideal_cstatus');
+    $countries_ok[] = get_string('users_not_country', 'block_ideal_cstatus');
+    return $countries_ok;
+    } catch (Exception $e) {
+        error_log("Error al obtener la lista de paises: " . $e->getMessage());
         return [];
     }
 }

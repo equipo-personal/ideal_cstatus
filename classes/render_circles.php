@@ -93,8 +93,10 @@ function render_circles()
         // Verifica si el usuario es admin o tiene el rol 'ideal_manage'
         if (is_siteadmin() || isset($rol) && $rol == $rol_admin_id) {
             try {
+                $list_countries = get_list_countries();
                 $users_search = get_list_users();
-                $templatecontext = ['users_search' => json_encode($users_search)];
+                $templatecontext = ['users_search' => json_encode($users_search)
+                    , 'list_countries' => json_encode($list_countries)];
 
                 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_user'])) {
                     $id_user_search_competence = $_POST['selected_user'] ?: $USER->id;

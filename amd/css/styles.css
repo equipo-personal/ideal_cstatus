@@ -1,7 +1,11 @@
+
 body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+#description_legend{
+    display: none;
 }
 #legend_container {
     display: math !important;
@@ -24,11 +28,16 @@ body {
 #form_manage_user{
     margin: 10px;
 }
-#label_form_manage_user{
+#label_form_manage_user,#label_select_country{
     font-size: 1.2rem;
     font-weight: bold;
 }
-
+#menu_countries{
+    margin: 10px;
+    border-radius: 10px;
+    text-align: center;
+    width: 20%  ;
+}
 #menu_manage
 {
     margin: 10px;
