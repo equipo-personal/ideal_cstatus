@@ -16,55 +16,63 @@
 </form>
 
 <script>
-    var search_user_ = {{{users_search}}};
-    var search_country_ = {{{list_countries}}} || '[]';
-    var all_users_str = "{{#str}} all_users, block_ideal_cstatus {{/str}}";
-    var users_not_country_str = "{{#str}} users_not_country, block_ideal_cstatus {{/str}}";
-    // Create the list of countries
-    var json_country_list = JSON.parse(JSON.stringify(search_country_));
-    var countrySelect = document.getElementById('menu_countries');
+    try {
+        var search_user_ = {{{users_search}}};
+        var search_country_ = {{{list_countries}}} || '[]';
+        var all_users_str = "{{#str}} all_users, block_ideal_cstatus {{/str}}";
+        var users_not_country_str = "{{#str}} users_not_country, block_ideal_cstatus {{/str}}";
+        // Create the list of countries
+        var json_country_list = JSON.parse(JSON.stringify(search_country_));
+        var countrySelect = document.getElementById('menu_countries');
 
-    json_country_list.forEach(function(country) {
-        var option = document.createElement('option');
-        option.text = country;
-        option.value = country;
-        option.className = "country_list";
-        countrySelect.appendChild(option);
-    });
+        json_country_list.forEach(function(country) {
+            var option = document.createElement('option');
+            option.text = country;
+            option.value = country;
+            option.className = "country_list";
+            countrySelect.appendChild(option);
+        });
 
-    countrySelect.addEventListener('change', function() {
-        var selectedCountry = this.value;
-        var userSelect = document.getElementById('menu_manage');
-        userSelect.innerHTML = '<option value="">Seleccione un usuario</option>'; // Reset user select
-        userSelect.disabled = !selectedCountry;
-        document.getElementById('Btn_seearsh_user').disabled = !selectedCountry;
-        console.error(selectedCountry.slice(0,2));
-        if (selectedCountry) {
-            var json_user_list = JSON.parse(JSON.stringify(search_user_));
-            json_user_list.forEach(function(user) {
-                if (user.country == selectedCountry.slice(0,2)) {
-                    var option = document.createElement('option');
-                    option.value = user.id;
-                    option.text = user.fullname + " (" + user.email + ")";
-                    option.className = "user_list";
-                    userSelect.appendChild(option);
-                }else if (selectedCountry == all_users_str){
-                    var option = document.createElement('option');
-                    option.value = user.id;
-                    option.text = user.fullname + " (" + user.email + ")";
-                    option.className = "user_list";
-                    userSelect.appendChild(option);
-                }else if(selectedCountry==users_not_country_str){
-                    if(user.country == ""){
-                        var option = document.createElement('option');
-                        option.value = user.id;
-                        option.text = user.fullname + " (" + user.email + ")";
-                        option.className = "user_list";
-                        userSelect.appendChild(option);
-                    }
+        countrySelect.addEventListener('change', function() {
+            try {
+                var selectedCountry = this.value;
+                var userSelect = document.getElementById('menu_manage');
+                userSelect.innerHTML = '<option value="">{{#str}} select_user, block_ideal_cstatus {{/str}}</option>'; // Reset user select
+                userSelect.disabled = !selectedCountry;
+                document.getElementById('Btn_seearsh_user').disabled = !selectedCountry;
+                console.error(selectedCountry.slice(0,2));
+                if (selectedCountry) {
+                    var json_user_list = JSON.parse(JSON.stringify(search_user_));
+                    json_user_list.forEach(function(user) {
+                        if (user.country == selectedCountry.slice(0,2)) {
+                            var option = document.createElement('option');
+                            option.value = user.id;
+                            option.text = user.fullname + " (" + user.email + ")";
+                            option.className = "user_list";
+                            userSelect.appendChild(option);
+                        } else if (selectedCountry == all_users_str) {
+                            var option = document.createElement('option');
+                            option.value = user.id;
+                            option.text = user.fullname + " (" + user.email + ")";
+                            option.className = "user_list";
+                            userSelect.appendChild(option);
+                        } else if (selectedCountry == users_not_country_str) {
+                            if (user.country == "") {
+                                var option = document.createElement('option');
+                                option.value = user.id;
+                                option.text = user.fullname + " (" + user.email + ")";
+                                option.className = "user_list";
+                                userSelect.appendChild(option);
+                            }
+                        }
+                    });
                 }
-            });
-        }
-    });
+            } catch (error) {
+                console.error('Error processing user list:', error);
+            }
+        });
+    } catch (error) {
+        console.error('Error initializing script:', error);
+    }
 </script>
 </body>

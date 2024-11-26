@@ -23,14 +23,14 @@ $string['#6600FF']="#6600FF";
 $string['#C000FF']="#C000FF";
 //MANAGE
 $string['search'] = 'Search';
-$string['select_user'] = 'Select a user: ';
+$string['select_user'] = 'Select a user ';
 $string['user_select'] = 'Selected user: ';
 $string['view_profile'] = "View this user's profile ";
 $string['user_select_email'] = 'Email: ';
 $string['is_rol_ok'] = 'ideal_manage';
 $string['all_users'] = 'All users';
 $string['users_not_country'] = 'Users without country';
-$string['select_filter_country'] = 'Select a country: ';
+$string['select_filter_country'] = 'Select a country ';
 $string['select_country_first'] = 'Select a country first';
 
 
