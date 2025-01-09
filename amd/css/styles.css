@@ -115,8 +115,6 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-
-
 #block-region-content .card-body h5 {
     font-size: 1.6rem;
 }
@@ -163,7 +161,6 @@ body {
     .container_circles {
         width: 300px;
     }
-
 
     .section_1 {
         justify-content: space-around;

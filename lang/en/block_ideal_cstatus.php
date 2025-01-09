@@ -32,8 +32,12 @@ $string['all_users'] = 'All users';
 $string['users_not_country'] = 'Users without country';
 $string['select_filter_country'] = 'Select a country ';
 $string['select_country_first'] = 'Select a country first';
-
-
+$string['help_manage_user'] = 'Select a country to filter users';
+//modal centro
+$string['course_list'] = 'List of missing competencies and related courses';
+$string['competency_label'] = 'Competency';
+$string['course_label'] = 'Course';
+$string['Ir'] = 'Go curse';
 
 
 

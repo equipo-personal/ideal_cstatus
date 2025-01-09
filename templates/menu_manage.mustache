@@ -16,6 +16,43 @@
 </form>
 
 <script>
+    const form_manage = document.getElementById('form_manage_user');
+    var img_help = document.createElement('img');
+    img_help.src = '../blocks/ideal_cstatus/templates/media/img/help.png';
+    img_help.style.width = '25px';
+    img_help.style.height = '25px';
+    img_help.style.margin = '0 auto';
+    img_help.title = 'signo de interrogación iconos';
+    img_help.alt = 'help icon';
+    img_help.style.display = 'inline';
+    img_help.style.cursor = 'pointer';
+    img_help.style.position = 'relative';
+    img_help.onmouseover = function() {
+        var text_help = document.createElement('div');
+        text_help.id = 'help_text';
+        text_help.innerHTML = "{{#str}} help_manage_user, block_ideal_cstatus {{/str}}";
+        text_help.style.position = 'relative';
+        text_help.style.top = '0';
+        text_help.style.left = '0';
+        text_help.style.width = '100%';
+        text_help.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+        text_help.style.zIndex = '1';
+        text_help.style.padding = '10px';
+        text_help.style.border = '1px solid black';
+        text_help.style.borderRadius = '5px';
+        text_help.style.overflow = 'auto';
+        text_help.style.textAlign = 'center';
+        form_manage.appendChild(text_help);
+    };
+
+    img_help.onmouseout = function() {
+        var text_help = document.getElementById('help_text');
+        if (text_help) {
+            form_manage.removeChild(text_help);
+        }
+    };
+    form_manage.appendChild(img_help);
+
     try {
         var search_user_ = {{{users_search}}};
         var search_country_ = {{{list_countries}}} || '[]';
@@ -36,7 +73,7 @@
         countrySelect.addEventListener('change', function() {
             try {
                 var selectedCountry = this.value;
-                var userSelect = document.getElementById('menu_manage');
+                const userSelect = document.getElementById('menu_manage');
                 userSelect.innerHTML = '<option value="">{{#str}} select_user, block_ideal_cstatus {{/str}}</option>'; // Reset user select
                 userSelect.disabled = !selectedCountry;
                 document.getElementById('Btn_seearsh_user').disabled = !selectedCountry;

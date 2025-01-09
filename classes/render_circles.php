@@ -5,7 +5,6 @@ require_once(__DIR__ . '/consultas_db.php');
 function get_circle_data($sql, $id_user_search_competence)
 {
     global $DB, $OUTPUT,$PAGE;
-
     try {
         $all_areas = $DB->get_records_sql($sql);
         if (!$all_areas) {
@@ -59,7 +58,11 @@ function get_circle_data($sql, $id_user_search_competence)
 function get_id_user_search_competence_admin()
 {
     global $USER;
-    return $USER->id;
+    try {
+        return $USER->id;
+    } catch (\Throwable $th) {
+        return false;
+    }
 }
 
 function render_circles()
@@ -82,7 +85,6 @@ function render_circles()
         try {
             // Obtén los roles del usuario
             $role = get_role_user($id_user_search_competence);
-
             // Asegurar de que el rol 'ideal_manage' existe
             if (isset($role[$rol_admin_id]) && $role[$rol_admin_id]->shortname) {
                 $rol = $role[$rol_admin_id]->shortname;
@@ -113,7 +115,6 @@ function render_circles()
             }
         }
 
-
         for ($i = 0; $i < count($ids); $i++) {
             $circle_key = 'circle' . ($i + 1);
             $circle_data = get_circle_data($consultas['consulta' . $i], $id_user_search_competence);
@@ -131,7 +132,12 @@ function render_circles()
 
         $data = ['circles' => $circles_data];
         echo $OUTPUT->render_from_template('block_ideal_cstatus/all_circles', $data);
+        #modal centro
+        $courses=list_courses_avalible($id_user_search_competence);
 
+        echo $OUTPUT->render_from_template('block_ideal_cstatus/modal_centro/modal_centro', [
+            'template_data' => json_encode($courses)
+        ]);
     } catch (Exception $e) {
         error_log('Error en render_circles: ' . $e->getMessage());
     }

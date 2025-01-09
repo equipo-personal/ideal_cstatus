@@ -32,6 +32,13 @@ $string['all_users'] = 'Todos los usuarios';
 $string['users_not_country'] = 'Usuarios sin país';
 $string['select_filter_country'] = 'Seleccione un país';
 $string['select_country_first'] = 'Seleccione un país primero';
+$string['help_manage_user'] = 'Seleccione un país para filtrar a los usuarios';
+//modal centro
+$string['course_list'] = 'Lista de competencias faltantes y cursos relacionados';
+$string['competency_label'] = 'Competencia';
+$string['course_label'] = 'Curso';
+$string['Ir'] = 'Ir al curso';
+
 
 
 

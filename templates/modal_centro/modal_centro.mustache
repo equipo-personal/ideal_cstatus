@@ -1,0 +1,100 @@
+<!-- modal_courses.mustache -->
+<script>
+    var course={{{template_data}}};
+    var img_help = document.getElementById('img_help_modal');
+
+</script>
+
+<div id="myModal" class="modal" style="display:none;">
+    <div class="modal-content" id="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 class="title_modal">{{#str}}course_list,block_ideal_cstatus{{/str}}</h2>
+        <table id="table_competency">
+            <tr style='background:none;'>
+                <th>{{#str}}competency_label,block_ideal_cstatus{{/str}}</th>
+                <th>{{#str}}course_label,block_ideal_cstatus{{/str}}</th>
+                <th>Nivel</th>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<style>
+/*Tabla*/
+
+table {
+overflow: hidden;
+    margin: 0 auto;
+    width: 90%;
+    position: relative;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+
+
+thead {
+	th {
+		background-color: #55608f;
+	}
+}
+
+tr:hover {background-color: #5b7992;}
+
+.img_level{
+    width: 20px;
+    height: 20px;
+    position: relative;
+    transform: translate(24%, -6%);
+}
+#img_no_avalible_courses{
+    width:50%;
+    height:50%;
+    margin: 0 auto;
+    position: relative;
+}
+img.img_go_curse {
+    margin: 0% 1.5% 1% 1%;
+}
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1111;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+        padding-top: 60px;
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        height: 80% auto;
+    }
+
+    .close {
+        color: #aaa;
+        font-size: 28px;
+        font-weight: bold;
+        position: relative;
+        text-decoration: none;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    a.lista_cursos {
+    margin: 2%;
+    position: relative;
+    }
+</style>

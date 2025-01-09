@@ -89,7 +89,13 @@ function create_circle(ids_numbers, count_cabecera, name_container_principal_1, 
             try {
                 var div = document.createElement("div");
                 div.className = "circles_1";
-                div.setAttribute("id", texts[f]);
+                var id_circle_peque= texts[f];
+                //remplazar . por _
+                id_circle_peque= id_circle_peque.replace('.','_')
+                //quitar espacios
+                id_circle_peque=id_circle_peque.replace(/\s+/g, '');
+                id_circle_peque="circle_"+id_circle_peque;
+                div.setAttribute("id", id_circle_peque);
                 for (var k = 0; k < competencia_ok_for_user.length; k++) {
                     if (competencia_ok_for_user[k].slice(0, 3) === texts[f].slice(0, 3)) {
                         ids_circles_cambio_color.push(texts[f]);
@@ -121,11 +127,15 @@ function create_circle(ids_numbers, count_cabecera, name_container_principal_1, 
     } catch (error) {
         console.error("Error in create_circle function:", error);
     }
+
     function pintar(texts, name_container_centro, ids_numbers, name_competencia_cambio_color_A_D_L, ids_circles_cambio_color) {
         try {
             var levels = { "A": 0, "D": 0, "L": 0, "O": 0 };
 
             ids_circles_cambio_color.forEach((id, i) => {
+                id= id.replace('.','_')
+                id="circle_"+id;
+                id= id.replace(/\s+/g, '');
                 var circle_cambio_color = document.getElementById(id);
                 if (circle_cambio_color) {
                     switch (name_competencia_cambio_color_A_D_L[i].slice(3, 4)) {
@@ -213,7 +223,7 @@ window.comprobar_color_circles_peque = function (texts, levels, name_container_c
 window.circle_1 = function () {
     try {
         var name_container_padre = window.name_container_padre_1;
-        var name_container_centro = window.name_container_centro_1;
+        var name_container_centro="centro_circle_1";
         var texts = window.texts_1;
         var numberOfCircles = window.numberOfCircles_1;
         var competencia_ok_for_user = window.competencia_ok_for_user_1;
@@ -231,7 +241,7 @@ window.circle_1 = function () {
 window.circle_2 = function () {
     try {
         var name_container_padre = window.name_container_padre_2;
-        var name_container_centro = window.name_container_centro_2;
+        var name_container_centro="centro_circle_2";
         var texts = window.texts_2;
         var numberOfCircles = window.numberOfCircles_2;
         var competencia_ok_for_user = window.competencia_ok_for_user_2;
@@ -249,7 +259,7 @@ window.circle_2 = function () {
 window.circle_3 = function () {
     try {
         var name_container_padre = window.name_container_padre_3;
-        var name_container_centro = window.name_container_centro_3;
+        var name_container_centro="centro_circle_3";
         var texts = window.texts_3;
         var numberOfCircles = window.numberOfCircles_3;
         var competencia_ok_for_user = window.competencia_ok_for_user_3;
@@ -266,7 +276,7 @@ window.circle_3 = function () {
 window.circle_4 = function () {
     try {
         var name_container_padre = window.name_container_padre_4;
-        var name_container_centro = window.name_container_centro_4;
+        var name_container_centro="centro_circle_4";
         var texts = window.texts_4;
         var numberOfCircles = window.numberOfCircles_4;
         var competencia_ok_for_user = window.competencia_ok_for_user_4;
@@ -284,7 +294,7 @@ window.circle_4 = function () {
 window.circle_5 = function () {
     try {
         var name_container_padre = window.name_container_padre_5;
-        var name_container_centro = window.name_container_centro_5;
+        var name_container_centro="centro_circle_5";
         var texts = window.texts_5;
         var numberOfCircles = window.numberOfCircles_5;
         var competencia_ok_for_user = window.competencia_ok_for_user_5;
@@ -302,7 +312,7 @@ window.circle_5 = function () {
 window.circle_6 = function () {
     try {
         var name_container_padre = window.name_container_padre_6;
-        var name_container_centro = window.name_container_centro_6;
+        var name_container_centro="centro_circle_6";
         var texts = window.texts_6;
         var numberOfCircles = window.numberOfCircles_6;
         var competencia_ok_for_user = window.competencia_ok_for_user_6;
@@ -320,7 +330,7 @@ window.circle_6 = function () {
 window.circle_7 = function () {
     try {
         var name_container_padre = window.name_container_padre_7;
-        var name_container_centro = window.name_container_centro_7;
+        var name_container_centro="centro_circle_7";
         var texts = window.texts_7;
         var numberOfCircles = window.numberOfCircles_7;
         var competencia_ok_for_user = window.competencia_ok_for_user_7;
@@ -429,6 +439,4 @@ window.create_legend = function() {
     // Añade la tabla al contenedor
     container.appendChild(table);
 };
-
-
 create_legend();

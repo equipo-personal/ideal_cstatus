@@ -1,7 +1,7 @@
 define(['jquery'], function($) {
     return {
         init: function() {
-            var title_error = document.getElementById('message_not_found');
+            const title_error = document.getElementById('message_not_found');
 
             try {
                 // Cargar el script circles.js
@@ -32,8 +32,8 @@ define(['jquery'], function($) {
             }
 
             function showError() {
-                var container_error_ = document.getElementById('container_main');
-                var container_error = document.createElement('div');
+                const container_error_ = document.getElementById('container_main');
+                const container_error = document.createElement('div');
                 container_error_.appendChild(container_error);
                 container_error.style.backgroundImage = "url('" + M.cfg.wwwroot + "/blocks/ideal_cstatus/templates/media/img/error.png')";
                 container_error.style.backgroundRepeat = "no-repeat";
@@ -42,8 +42,8 @@ define(['jquery'], function($) {
                 container_error.style.minHeight = "300px";
                 container_error.style.zIndex = "1000";
                 // Crear el título del error
-                var title_error = document.createElement('h1');
-                var txt_=document.getElementById('message_not_found').textContent;
+                let title_error = document.createElement('h1');
+                let txt_=document.getElementById('message_not_found').textContent;
                 title_error.textContent = txt_;
                 title_error.style.textAlign = "center";
                 title_error.style.fontSize = "2rem";
