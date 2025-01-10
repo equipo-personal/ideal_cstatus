@@ -37,6 +37,7 @@ $string['help_manage_user'] = 'Select a country to filter users';
 $string['course_list'] = 'List of missing competencies and related courses';
 $string['competency_label'] = 'Competency';
 $string['course_label'] = 'Course';
+$string['Level'] = 'Level';
 $string['Ir'] = 'Go curse';
 
 

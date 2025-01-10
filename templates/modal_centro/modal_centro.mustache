@@ -13,7 +13,7 @@
             <tr style='background:none;'>
                 <th>{{#str}}competency_label,block_ideal_cstatus{{/str}}</th>
                 <th>{{#str}}course_label,block_ideal_cstatus{{/str}}</th>
-                <th>Nivel</th>
+                <th>{{#str}}Level,block_ideal_cstatus{{/str}}</th>
             </tr>
         </table>
     </div>
@@ -21,17 +21,20 @@
 
 <style>
 /*Tabla*/
-
+.tr_competency> td,th {
+    border: solid 1px;
+    position: relative;
+    margin: 0 auto;
+    display: revert;
+}
 table {
-overflow: hidden;
+    overflow: hidden;
     margin: 0 auto;
     width: 90%;
     position: relative;
     margin-top: 2%;
     margin-bottom: 2%;
 }
-
-
 
 thead {
 	th {
@@ -72,7 +75,7 @@ img.img_go_curse {
 
     .modal-content {
         background-color: #fefefe;
-        margin: 5% auto;
+        margin: 15% auto;
         padding: 20px;
         border: 1px solid #888;
         width: 80%;

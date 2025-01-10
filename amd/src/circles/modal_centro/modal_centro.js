@@ -141,7 +141,6 @@ async function loadCourses(id) {
                 let level_competency=`${course.shortname} `;
                 level_competency=level_competency.slice(3,4);
                 
-                console.warn(level_competency);
                 switch(level_competency){
                     case 'A':
                         img_.src = '../blocks/ideal_cstatus/templates/media/img/A.png';
@@ -166,7 +165,7 @@ async function loadCourses(id) {
                         img_.className = "img_level";
                         img_.style.background="#C000FF";
                         img_.style.borderRadius="50%";
-                    breack;
+                    break;
                 }
                 // Configuramos la imagen del enlace.
                 course_a.textContent = `${course.fullname}`;
