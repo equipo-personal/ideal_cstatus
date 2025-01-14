@@ -41,6 +41,7 @@ $string['Level'] = 'Nivel';
 $string['Complete'] = 'Completo';
 $string['Completed'] = 'Completado';
 $string['Pending'] = 'Pendiente';
+$string['Close'] = 'Cerrar';
 
 
 

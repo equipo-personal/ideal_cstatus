@@ -41,6 +41,7 @@ $string['Level'] = 'Level';
 $string['Ir'] = 'Go curse';
 $string['Completed'] = 'Completed';
 $string['Pending'] = 'Pending';
+$string['Close'] = 'Close';
 
 
 

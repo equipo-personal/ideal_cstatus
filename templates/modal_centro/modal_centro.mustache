@@ -16,6 +16,8 @@
                 <th class="td_nivel">{{#str}}Level,block_ideal_cstatus{{/str}}</th>
             </tr>
         </table>
+    <button type="button" id="btn_close_modal" onclick="closeModal()">{{#str}}Close,block_ideal_cstatus{{/str}}</button>
+
     </div>
 </div>
 
@@ -62,8 +64,8 @@ tr:hover {background-color: #5b7992;}
     font-weight: bold;
 }
 #all_competence_complete_img{
-    width:50%;
-    height:50%;
+    width:40%;
+    height:30%;
     margin: 0 auto;
     position: relative;
 }
@@ -86,12 +88,13 @@ img.img_go_curse {
 
     .modal-content {
         background-color: #fefefe;
-        margin: 15% auto;
+        margin: 0 auto;
         padding: 20px;
         border: 1px solid #888;
         width: 80%;
-        height: 80% auto;
     }
+        
+    
 
     .close {
         color: #aaa;
@@ -110,5 +113,17 @@ img.img_go_curse {
     a.lista_cursos {
     margin: 2%;
     position: relative;
+    }
+    #btn_close_modal{
+        width: 15%;
+        position: relative;
+        margin: 0 auto;
+        background: #3fb5dac2;
+        border-radius: 20px;
+        font-weight: 500;
+    }
+    #btn_close_modal:hover{
+        background:#1b6e88c2;
+        color:white;
     }
 </style>
