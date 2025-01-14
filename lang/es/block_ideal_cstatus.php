@@ -38,7 +38,10 @@ $string['course_list'] = 'Lista de competencias faltantes y cursos relacionados'
 $string['competency_label'] = 'Competencia';
 $string['course_label'] = 'Curso';
 $string['Level'] = 'Nivel';
-$string['Ir'] = 'Ir al curso';
+$string['Complete'] = 'Completo';
+$string['Completed'] = 'Completado';
+$string['Pending'] = 'Pendiente';
+
 
 
 

@@ -36,9 +36,12 @@ $string['help_manage_user'] = 'Select a country to filter users';
 //modal centro
 $string['course_list'] = 'List of missing competencies and related courses';
 $string['competency_label'] = 'Competency';
-$string['course_label'] = 'Course';
+$string['Complete'] = 'Complete';
 $string['Level'] = 'Level';
 $string['Ir'] = 'Go curse';
+$string['Completed'] = 'Completed';
+$string['Pending'] = 'Pending';
+
 
 
 

@@ -8,12 +8,12 @@
 <div id="myModal" class="modal" style="display:none;">
     <div class="modal-content" id="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
-        <h2 class="title_modal">{{#str}}course_list,block_ideal_cstatus{{/str}}</h2>
+        <h2 class="title_modal"></h2>
         <table id="table_competency">
             <tr style='background:none;'>
                 <th>{{#str}}competency_label,block_ideal_cstatus{{/str}}</th>
-                <th>{{#str}}course_label,block_ideal_cstatus{{/str}}</th>
-                <th>{{#str}}Level,block_ideal_cstatus{{/str}}</th>
+                <th>{{#str}}Complete,block_ideal_cstatus{{/str}}</th>
+                <th class="td_nivel">{{#str}}Level,block_ideal_cstatus{{/str}}</th>
             </tr>
         </table>
     </div>
@@ -26,6 +26,12 @@
     position: relative;
     margin: 0 auto;
     display: revert;
+}
+.td_nivel {
+    width: 7%;
+    margin: 0 auto;
+    text-align: center;
+    align-content: center;
 }
 table {
     overflow: hidden;
@@ -48,9 +54,14 @@ tr:hover {background-color: #5b7992;}
     width: 20px;
     height: 20px;
     position: relative;
-    transform: translate(24%, -6%);
+    text-align: center;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
 }
-#img_no_avalible_courses{
+#all_competence_complete_img{
     width:50%;
     height:50%;
     margin: 0 auto;

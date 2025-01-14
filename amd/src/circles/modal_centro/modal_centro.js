@@ -45,11 +45,11 @@ function showModal(id) {
         modal.style.display = 'block';
         loadCourses(id);
     } catch (error) {
-        console.error(error);            
+        console.error(error);     
+        closeModal();       
     }
-}
 
-// Función para cerrar el modal
+}
 function closeModal() {
     const modal = document.getElementById('myModal');
     try {
@@ -61,7 +61,9 @@ function closeModal() {
 }
 
 function removeCourses() {
-    let img = document.getElementById('img_no_avalible_courses');
+    let img = document.getElementById('all_competence_complete_img');
+    let title = document.querySelector('.title_modal');
+    title.innerHTML=" ";
     
     try {
         const rows = document.querySelectorAll('tr.tr_competency');
@@ -71,19 +73,20 @@ function removeCourses() {
             while (row.firstChild) {
                 row.removeChild(row.firstChild);
             }
-            // Finalmente, eliminar la fila en sí
-            row.remove();
-        });
-    }
+                row.remove();
+            });
+        }
+
         if (img) {
-            // Si la imagen existe, obtener su nodo padre y eliminarla
             let padre = img.parentNode;
             padre.removeChild(img);
         }
+
         let lista_cursos_p = Array.prototype.slice.call(document.getElementsByClassName("lista_cursos"), 0);
+
         for(element of lista_cursos_p){
             element.remove();
-          }  
+        }  
     } catch (error) {
         console.error(error);   
         closeModal();        
@@ -96,7 +99,6 @@ async function loadCourses(id) {
         if (!courses || typeof courses !== "object") {
             throw new Error("El objeto 'courses' no está definido o no es válido.");
         }
-
         const renamedCourses = {}; // Nuevo objeto con las claves renombradas
         let index = 1;
 
@@ -113,66 +115,72 @@ async function loadCourses(id) {
                 renamedCourses[newKey] = courses[key]; // Asignamos el valor con la nueva clave
                 index++;
             } else {
-                console.warn(`Se omitió la clave ${key} porque supera el límite de 7.`);
+                console.warn(error);
             }
         });
 
         // Verificamos que el elemento del DOM exista antes de usarlo.
         const div_modal_content = document.getElementById('modal-content');
         if (!div_modal_content) {
-            throw new Error("El elemento con id 'modal-content' no existe.");
+            throw new Error("'modal-content' no existe.");
         }
         // Validamos si hay cursos disponibles para el ID proporcionado.
         if (renamedCourses[id]) {
-            renamedCourses[id].forEach(function (course) {
-                // Creamos la URL del curso.
-                const URL_curse = `/ideal/course/view.php?id=${course.id_curso}`;
-                const URL_competency = `/ideal/admin/tool/lp/coursecompetencies.php?courseid=${course.id_curso}`;
-                //datos tabla modal
+            get_and_set_cabecera(id.slice(14,15));
+            Object.values(renamedCourses[id]).forEach(course => {
+
+                let level_competency=`${course.shortname} `;
+                let compe_circle=level_competency.slice(0,1);
+                level_competency=level_competency.slice(3,4);
+
                 const competency_a = document.createElement('a');
                 const course_a = document.createElement('a');
                 course_a.className="course_a";
-                const img_ = document.createElement('img');
+                const  nivel_div= document.createElement('div');
                 const table_competency = document.getElementById('table_competency');
 
-                // Configuramos el enlace del curso.
-                competency_a.className = "competency_a";
-                competency_a.textContent = `${course.shortname} `;
-                let level_competency=`${course.shortname} `;
-                level_competency=level_competency.slice(3,4);
-                
+                if(compe_circle<6){
+                    if(level_competency!=" "){
+                        competency_a.className = "competency_a";
+                        competency_a.textContent = `${course.shortname} `;
+                    }
+                }else{
+                    competency_a.className = "competency_a";
+                    competency_a.textContent = `${course.shortname} `;
+                    text=document.createTextNode("O");
+                    nivel_div.className = "img_level";
+                    nivel_div.style.background="#C000FF";
+                    nivel_div.style.borderRadius="50%";
+                    nivel_div.appendChild(text);
+                }
+                //Verificamos que Nivel mantiene A,D,L y O(otros o 6 y 7)
                 switch(level_competency){
                     case 'A':
-                        img_.src = '../blocks/ideal_cstatus/templates/media/img/A.png';
-                        img_.className = "img_level";
-                        img_.style.background="rgb(0 102 255 / 77%)";
-                        img_.style.borderRadius="50%";
+                        var text=document.createTextNode("A");
+                        nivel_div.className = "img_level";
+                        nivel_div.style.background="rgb(0 102 255 / 77%)";
+                        nivel_div.style.borderRadius="50%";
+                        nivel_div.appendChild(text);
                     break;
                     case 'D':
-                        img_.src = '../blocks/ideal_cstatus/templates/media/img/D.png';
-                        img_.className = "img_level";
-                        img_.style.background="rgb(255 102 0 / 77%)";
-                        img_.style.borderRadius="50%";
+                         text=document.createTextNode("D");
+                         nivel_div.className = "img_level";
+                         nivel_div.style.background="rgb(255 102 0 / 77%)";
+                         nivel_div.style.borderRadius="50%";
+                         nivel_div.appendChild(text);
                     break;
                     case 'L':
-                        img_.src = '../blocks/ideal_cstatus/templates/media/img/L.png';
-                        img_.className = "img_level";
-                        img_.style.background="rgb(102 0 255 / 77%)";
-                        img_.style.borderRadius="50%";
+                        text=document.createTextNode("L");
+                        nivel_div.className = "img_level";
+                        nivel_div.style.background="rgb(102 0 255 / 77%)";
+                        nivel_div.style.borderRadius="50%";
+                        nivel_div.appendChild(text);
                     break;
                     default :
-                        img_.src = '../blocks/ideal_cstatus/templates/media/img/O.png';
-                        img_.className = "img_level";
-                        img_.style.background="#C000FF";
-                        img_.style.borderRadius="50%";
+
                     break;
                 }
-                // Configuramos la imagen del enlace.
-                course_a.textContent = `${course.fullname}`;
-                course_a.href = URL_curse;
-                course_a.style.color = "black";
-                course_a.target = "_blank";
-                competency_a.href = URL_competency;
+                let appro_txt=document.createTextNode(`${course.approved}`);
                 competency_a.style.color = "black";
                 competency_a.target = "_blank";
 
@@ -181,44 +189,60 @@ async function loadCourses(id) {
                 tr_3.className="tr_competency";
                 const td_competency = document.createElement('td');
                 td_competency.appendChild(competency_a);
-                const td_course = document.createElement('td');
-                td_course.appendChild(course_a);
-                const td_img= document.createElement('td');
-                td_img.appendChild(img_);
-
+                const td_lcompleto = document.createElement('td');
+                td_lcompleto.appendChild(appro_txt);
+                td_lcompleto.className="status_competency";
+                
+                const td_lvl= document.createElement('td');
+                td_lvl.classList="td_nivel";
+                td_lvl.appendChild(nivel_div);
                 tr_3.appendChild(td_competency);
-                tr_3.appendChild(td_course);
-                tr_3.appendChild(td_img);
-                table_competency.appendChild(tr_3);
+                tr_3.appendChild(td_lcompleto);
+                tr_3.appendChild(td_lvl);
+                if(level_competency!=" " || compe_circle>5){
+                    table_competency.appendChild(tr_3);
+                }
             });
         } else {
             console.error(`centro_circle_${id}.`);
         }
+        var statusCompetencies = document.querySelectorAll(".status_competency");
+        // Obtén el número de elementos
+        var count = statusCompetencies.length;
+        let status_count=0;
+        try {
+            // Recorre los elementos para obtener el texto de cada uno
+            statusCompetencies.forEach((element, index) => {
+                let status=`${element.textContent.trim()}`;
+                if(status=="Completado" || status=="Completed"){
+                    status_count++;
+                }
+            });
 
-        // Verificamos si se deben mostrar los cursos completados. si no es asi se mostrara una imagen
-        const img_pss = all_course_complete();
-        if (!img_pss) {
-            const img = document.createElement('img');
-            img.src = "../blocks/ideal_cstatus/templates/media/img/nofound.png";
-            img.id = "img_no_avalible_courses";
-            div_modal_content.appendChild(img);
+            if(status_count==count){
+                const img = document.createElement('img');
+                img.src = "../blocks/ideal_cstatus/templates/media/img/all_complete.png";
+                img.id = "all_competence_complete_img";
+                div_modal_content.appendChild(img);
+            }
+        } catch (error) {
+            console.error(error);
         }
     } catch (error) {
-        // Capturamos errores y mostramos mensajes descriptivos.
         console.error('loadCourses', error);
     }
 }
 
-function all_course_complete() {
-    const element = document.getElementById('modal-content');
+
+function get_and_set_cabecera(compe_circle){
+    let cabecera =document.querySelector(`#cabecera_`+compe_circle).textContent;
     try {
-        // Comprueba si existe el elemento y si contiene etiquetas <a>
-        if (element && element.getElementsByTagName('a').length > 0) {
-            return true; // Hay enlaces <a>
-        } else {
-            return false; // No hay enlaces <a>
-        }
+        let cabecera_modal=document.querySelector('.title_modal');
+        var text=document.createTextNode(cabecera);
+
+        cabecera_modal.appendChild(text);
+
     } catch (error) {
-        console.error('all_course_complete', error);
+        console.error(error);
     }
 }

@@ -134,7 +134,6 @@ function render_circles()
         echo $OUTPUT->render_from_template('block_ideal_cstatus/all_circles', $data);
         #modal centro
         $courses=list_courses_avalible($id_user_search_competence);
-
         echo $OUTPUT->render_from_template('block_ideal_cstatus/modal_centro/modal_centro', [
             'template_data' => json_encode($courses)
         ]);

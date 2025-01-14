@@ -36,42 +36,32 @@ function list_courses_avalible($id_user) {
     try {
         foreach ($paths_categori as $path) {
             $competenci_proficiency[$path->id] = get_competency_aprobadas($path->id, $id_user);
-        }
+        }        
 
         // Obtener todas las competencias disponibles por categoría
         foreach ($paths_categori as $path) {
             $all_competenci[$path->id] = get_all_competencies_area($path->id);
         }
+       //var_dump($all_competenci);
 
-        // Inicializar array para las competencias faltantes
-        $missing_competenci = [];
-
-        // Comparar competencias aprobadas con todas las competencias
-        foreach ($paths_categori as $path) {
-            $competencies_proficiency = $competenci_proficiency[$path->id]; // Competencias aprobadas por el usuario
-            $competencies_all = $all_competenci[$path->id]; // Todas las competencias disponibles en la categoría
-
-            // Inicializar array para las competencias faltantes en esta categoría
-            $missing_competenci[$path->id] = [];
-
-            // Comparar las competencias
-            foreach ($competencies_all as $competency) {
-                // Verificar si la competencia no está en las competencias aprobadas del usuario
-                $found = false;
-                foreach ($competencies_proficiency as $competency_proficiency) {
-                if ($competency->id == $competency_proficiency->competencyid) {
-                    $found = true;
-                    break;
-                }
-            }
-
-            // Si la competencia no fue encontrada, añadirla al array de competencias faltantes
-            if (!$found) {
-                $missing_competenci[$path->id][] = $competency;
-            }
+       foreach ($paths_categori as $path) {
+        // Obtener todas las competencias del área
+        $all_competencies = get_all_competencies_area($path->id);
+        
+        foreach ($all_competencies as $competency) {
+            // Verificar si la competencia está aprobada
+            $is_approved = isset($competenci_proficiency[$path->id][$competency->id]);
+    
+            // Crear el arreglo con la estructura deseada
+            $competencies_with_status[$path->id][$competency->id] = [
+                'id' => $competency->id,
+                'shortname' => $competency->shortname,
+                'approved' => $is_approved ? get_string('Completed', 'block_ideal_cstatus') : get_string('Pending', 'block_ideal_cstatus'),
+            ];
         }
-    }       
-        return $missing_competenci;
+    }
+
+        return $competencies_with_status;
     }catch (dml_exception $e) {
         error_log( $e->getMessage()); 
         return false; 
@@ -102,10 +92,7 @@ function get_competency_aprobadas($path, $id_user) {
     global $DB;
     $sql = "
         SELECT
-            cu.id AS uniqueid, 
-            u.id,
-            cu.competencyid,
-            c.shortname
+            cu.competencyid as id
         FROM {user} u
         JOIN {competency_usercomp} cu ON cu.userid = u.id
         JOIN {competency} c ON cu.competencyid = c.id
@@ -126,21 +113,14 @@ function get_all_competencies_area($path){
     if (empty($path)) {
         return false; // Retornamos false si el parámetro no es válido.
     }
-    // La consulta SQL que obtiene las competencias basadas en el $path proporcionado
     $sql = "
-        SELECT
+        SELECT DISTINCT
             c.id,
-            c.shortname,
-            cc.courseid AS id_curso,
-            cur.fullname
+            c.shortname
         FROM
-            {competency} c
-        JOIN {competency_coursecomp} cc ON
-            c.id = cc.competencyid
-        JOIN mdl_course cur ON
-            cur.id = cc.courseid
+            mdl_competency c
         WHERE
-            path LIKE '/0/$path/%' AND path NOT LIKE '/0/' AND parentid > 1;
+            path LIKE '/0/$path/%' AND path NOT LIKE '/0/';
     ";
     try {
         $competences_for_area = $DB->get_records_sql($sql);
