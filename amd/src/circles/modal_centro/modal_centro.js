@@ -53,6 +53,7 @@ function showModal(id) {
 }
 function closeModal() {
     const modal = document.getElementById('myModal');
+
     try {
         modal.style.display = 'none';
         removeCourses();
@@ -64,6 +65,7 @@ function closeModal() {
 function removeCourses() {
     let img = document.getElementById('all_competence_complete_img');
     let title = document.querySelector('.title_modal');
+    const canvas = document.getElementById('confettiCanvas');
     title.innerHTML=" ";
     
     try {
@@ -81,6 +83,7 @@ function removeCourses() {
         if (img) {
             let padre = img.parentNode;
             padre.removeChild(img);
+            padre.removeChild(canvas);
         }
 
         let lista_cursos_p = Array.prototype.slice.call(document.getElementsByClassName("lista_cursos"), 0);
