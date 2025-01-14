@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function () {
     setTimeout(function () {
         const centro_circle = document.getElementsByClassName('circle_center_modal');
@@ -224,6 +225,8 @@ async function loadCourses(id) {
                 img.src = "../blocks/ideal_cstatus/templates/media/img/all_complete.png";
                 img.id = "all_competence_complete_img";
                 div_modal_content.appendChild(img);
+                const canvas=document.querySelector('#confettiCanvas');
+                canvas.style.visibility='visible';
             }
         } catch (error) {
             console.error(error);
@@ -246,3 +249,5 @@ function get_and_set_cabecera(compe_circle){
         console.error(error);
     }
 }
+
+/**/ 
