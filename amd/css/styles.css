@@ -61,7 +61,6 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    margin: 0 auto;
     width: 100%;
     height: 100%;
     padding: 0;
@@ -151,7 +150,21 @@ body {
     background-color: #e0e0e0;
 }
 
-@media (max-width: 399px) {
+@media (max-width: 420px) {
+    /*List countries*/
+    #menu_countries {
+        width: auto !important;
+        font-size: 30px !important;
+    }
+    #menu_manage {
+        width: auto !important;
+        font-size: 30px !important;
+    }
+    .img_ir_competence {
+        width: 20px !important;
+        height: 20px !important;
+        margin-left: 71% !important;
+    }
     .container_main {
         flex-direction: column;
         width: 200px;
@@ -184,9 +197,7 @@ body {
     .Ethical {
         margin-top: 10%;
     }
-    #menu_manage {
-        width: 80%;
-    }
+
     form#form_manage_user {
         display: flex;
         flex-wrap: wrap;
@@ -224,16 +235,18 @@ thead {
 
 tr:hover {background-color: #5b7992;}
 
-.img_level{
+.img_level {
     width: 20px;
     height: 20px;
     position: relative;
     text-align: center;
     display: inline-flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: column-reverse;
     align-items: center;
-    font-weight: bold;
+    font-weight: 700;
+    color: white !important ;
+    justify-content: center;
+    flex-wrap: nowrap;
 }
 #all_competence_complete_img{
     width:40%;
@@ -299,4 +312,18 @@ img.img_go_curse {
         color:white;
     }
 
+    /*img table competence*/
+    .img_ir_competence {
+        display: block;
+        width: 20px;
+        height: 20px;
+        position: relative;
+        margin-left: 85%;
+        margin-top: -3%;
+    }
+
+    .a_ir_competence {
+        position: absolute;
+        display: contents;
+    }
       

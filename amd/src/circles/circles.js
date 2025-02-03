@@ -206,7 +206,7 @@ window.comprobar_color_circles_peque = function (texts, levels, name_container_c
             circle_centro_div_white.style.color = "#FFFFFF";
             circle_centro_div_white.style.opacity = ".9";
             //OPCION POR SI SE AGG UNA IMAGEN AL OBTENER L
-           /* if(targetLevel=='A'){
+            /*if(targetLevel=='L' || targetLevel=='O'){
                 circle_centro_div_white.style.backgroundImage = "url('" + M.cfg.wwwroot + "/blocks/ideal_cstatus/templates/media/img/b.jpg')";
                 circle_centro_div_white.style.backgroundRepeat = 'no-repeat';
                 circle_centro_div_white.style.backgroundPositionX = 'center';

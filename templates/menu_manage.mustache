@@ -4,7 +4,7 @@
         {{#str}} select_filter_country, block_ideal_cstatus {{/str}}
     </label>
     <select id="menu_countries">
-        <option value=""></option>
+            <option value="" disabled selected ></option>
     </select>
     <br>
 
@@ -67,6 +67,7 @@
             option.text = country;
             option.value = country;
             option.className = "country_list";
+            option.style.setProperty('background', 'red', 'important');
             countrySelect.appendChild(option);
         });
 
@@ -77,7 +78,6 @@
                 userSelect.innerHTML = '<option value="">{{#str}} select_user, block_ideal_cstatus {{/str}}</option>'; // Reset user select
                 userSelect.disabled = !selectedCountry;
                 document.getElementById('Btn_seearsh_user').disabled = !selectedCountry;
-                console.error(selectedCountry.slice(0,2));
                 if (selectedCountry) {
                     var json_user_list = JSON.parse(JSON.stringify(search_user_));
                     json_user_list.forEach(function(user) {

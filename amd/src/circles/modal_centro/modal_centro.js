@@ -193,6 +193,16 @@ async function loadCourses(id) {
                 tr_3.className="tr_competency";
                 const td_competency = document.createElement('td');
                 td_competency.appendChild(competency_a);
+                //add icon atd competencie
+                const img_icon_ir= document.createElement('img');
+                const a_icon_ir= document.createElement('a');
+                img_icon_ir.src="../blocks/ideal_cstatus/templates/media/img/ir.png";
+                img_icon_ir.className="img_ir_competence";
+                a_icon_ir.href="https://www.google.com";
+                a_icon_ir.target="_blank";
+                a_icon_ir.className="a_ir_competence";
+
+
                 const td_lcompleto = document.createElement('td');
                 td_lcompleto.appendChild(appro_txt);
                 td_lcompleto.className="status_competency";
@@ -201,8 +211,12 @@ async function loadCourses(id) {
                 td_lvl.classList="td_nivel";
                 td_lvl.appendChild(nivel_div);
                 tr_3.appendChild(td_competency);
+                a_icon_ir.appendChild(img_icon_ir);
+                td_competency.appendChild(a_icon_ir);
+
                 tr_3.appendChild(td_lcompleto);
                 tr_3.appendChild(td_lvl);
+
                 if(level_competency!=" " || compe_circle>5){
                     table_competency.appendChild(tr_3);
                 }
