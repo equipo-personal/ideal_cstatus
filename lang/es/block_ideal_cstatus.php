@@ -37,11 +37,16 @@ $string['help_manage_user'] = 'Seleccione un país para filtrar a los usuarios';
 $string['course_list'] = 'Lista de competencias faltantes y cursos relacionados';
 $string['competency_label'] = 'Competencia';
 $string['course_label'] = 'Curso';
-$string['Level'] = 'Nivel';
 $string['Complete'] = 'Completo';
+$string['Level'] = 'Nivel';
+$string['Ir'] = 'Ir al Curso';
 $string['Completed'] = 'Completado';
 $string['Pending'] = 'Pendiente';
 $string['Close'] = 'Cerrar';
+$string['ProgresoAreasParrafo'] = 'Progreso en áreas de competencia: ';
+$string['Avanzar'] = 'Avanzar...';
+
+
 
 
 

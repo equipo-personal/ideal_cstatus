@@ -16,13 +16,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         ids.push(id); // Añadir el ID a la lista si existe
                     }
                 }
-            } 
+            }
         } catch (error) {
             console.error(error);
         }
 
         try {
-            for (let i = 0; i < ids.length; i++) {
+            for (var i = 0; i < ids.length; i++) {
                 let id = ids[i]; // Usa `let` para que el alcance sea de bloque
                 let circle_centro_for_id = document.getElementById(id);
                 if (circle_centro_for_id) {
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (error) {
             console.error(error);            
         }
-    }, 600); // Ajusta el tiempo según lo necesario
+    }, 1000); // Ajusta el tiempo según lo necesario
 });
 
 // Función para abrir el modal 
@@ -64,6 +64,10 @@ function closeModal() {
 
 function removeCourses() {
     let img = document.getElementById('all_competence_complete_img');
+    let title_h5 = document.getElementById('title_modal_');
+
+    let title_ = modal_txt_title;
+
     let title = document.querySelector('.title_modal');
     const canvas = document.getElementById('confettiCanvas');
     title.innerHTML=" ";
@@ -91,6 +95,13 @@ function removeCourses() {
         for(element of lista_cursos_p){
             element.remove();
         }  
+            // Elimina todos los nodos de texto dentro de title_h5
+            while (title_h5.firstChild) {
+                title_h5.removeChild(title_h5.firstChild);
+            }
+
+            // Agrega el nuevo texto
+            title_h5.appendChild(document.createTextNode(title_));
     } catch (error) {
         console.error(error);   
         closeModal();        
@@ -192,27 +203,42 @@ async function loadCourses(id) {
                 tr_3.id=`${course.shortname} `;
                 tr_3.className="tr_competency";
                 const td_competency = document.createElement('td');
+                const td_icon = document.createElement('td');
+                td_icon.className="td_icon";
+
                 td_competency.appendChild(competency_a);
                 //add icon atd competencie
-                const img_icon_ir= document.createElement('img');
+                const img_icon_ir= document.createElement('i');
                 const a_icon_ir= document.createElement('a');
-                img_icon_ir.src="../blocks/ideal_cstatus/templates/media/img/ir.png";
-                img_icon_ir.className="img_ir_competence";
+
+                if(`${course.approved}` !== 'Completado' && `${course.approved}` !== 'Completed'){
+                    let avanzar_txt_=avanzar_txt;
+                    a_icon_ir.className="fas fa-forward";
+                    let p_txt=document.createElement('p');
+                    p_txt.className="p_txt";
+                    let txt=document.createTextNode(avanzar_txt_);
+                    txt.className="txt_icon_ir";
+                    p_txt.appendChild(txt);
+                    a_icon_ir.appendChild(p_txt);
+                }
+                td_competency.appendChild(a_icon_ir);
+                img_icon_ir.id="img_ir_competence";
                 a_icon_ir.href="https://www.google.com";
                 a_icon_ir.target="_blank";
-                a_icon_ir.className="a_ir_competence";
-
+                a_icon_ir.id="img_ir_competence";
 
                 const td_lcompleto = document.createElement('td');
                 td_lcompleto.appendChild(appro_txt);
+
                 td_lcompleto.className="status_competency";
                 
                 const td_lvl= document.createElement('td');
                 td_lvl.classList="td_nivel";
                 td_lvl.appendChild(nivel_div);
                 tr_3.appendChild(td_competency);
-                a_icon_ir.appendChild(img_icon_ir);
-                td_competency.appendChild(a_icon_ir);
+
+                td_icon.appendChild(a_icon_ir);
+                td_competency.appendChild(td_icon);
 
                 tr_3.appendChild(td_lcompleto);
                 tr_3.appendChild(td_lvl);
@@ -239,9 +265,10 @@ async function loadCourses(id) {
 
             if(status_count==count){
                 const img = document.createElement('img');
-                img.src = "../blocks/ideal_cstatus/templates/media/img/all_complete.png";
+                img.src = "../blocks/ideal_cstatus/templates/media/img/all_complete_2.png";
                 img.id = "all_competence_complete_img";
-                div_modal_content.appendChild(img);
+                const div_contaimner_canvas = document.getElementById('all_complete');
+                div_contaimner_canvas.appendChild(img);
                 const canvas=document.querySelector('#confettiCanvas');
                 canvas.style.visibility='visible';
             }
@@ -259,7 +286,7 @@ function get_and_set_cabecera(compe_circle){
     try {
         let cabecera_modal=document.querySelector('.title_modal');
         var text=document.createTextNode(cabecera);
-
+        
         cabecera_modal.appendChild(text);
 
     } catch (error) {

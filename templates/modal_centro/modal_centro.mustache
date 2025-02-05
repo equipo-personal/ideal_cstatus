@@ -1,13 +1,17 @@
 <!-- modal_courses.mustache -->
 <script>
-    var course={{{template_data}}};
+    var course = {{{template_data}}};
     var img_help = document.getElementById('img_help_modal');
+    var modal_txt_title = `{{#str}}ProgresoAreasParrafo,block_ideal_cstatus{{/str}}`;
+    var avanzar_txt = `{{#str}}Avanzar,block_ideal_cstatus{{/str}}`;
 </script>
 
 <div id="myModal" class="modal" style="display:none;">
     <div class="modal-content" id="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
-        <h2 class="title_modal"></h2>
+        <h5 id="title_modal_">{{#str}}ProgresoAreasParrafo,block_ideal_cstatus{{/str}}</h5>
+        <h4 class="title_modal"></h4>
+
         <table id="table_competency">
             <tr style='background:none;'>
                 <th>{{#str}}competency_label,block_ideal_cstatus{{/str}}</th>
@@ -15,51 +19,39 @@
                 <th class="td_nivel">{{#str}}Level,block_ideal_cstatus{{/str}}</th>
             </tr>
         </table>
-        <canvas style="visibility: hidden;" id="confettiCanvas"></canvas>
+        <div id="all_complete">
+            <canvas style="visibility: hidden;" id="confettiCanvas"></canvas>
+        </div>
         <script src="../blocks/ideal_cstatus/templates/modal_centro/confetti.js"></script>
         <button type="button" id="btn_close_modal" onclick="closeModal()">{{#str}}Close,block_ideal_cstatus{{/str}}</button>
     </div>
 </div>
 
-  <style>
+<style>
+    #confettiCanvas {
+        z-index: 1;
+        position: relative;
+        display: inline-block;
+        width: 150px;
+        margin: 0 auto;
+        padding-top: 10px;
+        transform: translate(10%, 70%);
+    }
 
-/*canvas {
-    z-index: 1;
-    position: absolute;
-    transform: translate(-11%, 37%);
-}*/
-#confettiCanvas {
-    z-index: 1;
-    position: absolute;
-    transform: translate(68%, 140%);
-    display: block;
-    width: 40%;
-    height: 45%;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
-    justify-items: stretch;
-}
-@media(width<450px){
-#all_competence_complete_img{
-    width:250px;
-    height250px;
-}
+    @media (max-width: 700px) {
+        #confettiCanvas {
+            position: relative;
+            display: inline-block;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+            padding-top: 5px;
+            transform: translate(10%, 50%);
+        }
 
-#confettiCanvas {
-    z-index: 1;
-    position: absolute;
-    transform: translate(42%, 380%);
-    width: 140px;
-    height: 20%;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
-    justify-items: stretch;
-}
-#btn_close_modal {
-    width: 23%;
-    display: inline-flex;
-}
-}
-  </style>
+        #btn_close_modal {
+            width: auto;
+            display: inline-flex;
+        }
+    }
+</style>

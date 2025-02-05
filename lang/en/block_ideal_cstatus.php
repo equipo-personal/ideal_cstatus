@@ -16,7 +16,7 @@ $string['str_Soft'] = 'Soft Skills Proficiency';
 $string['str_Ethi'] = 'Ethical Citizenship Proficiency';
 $string['lvl']="Proficiency Levels";
 $string['descriptionlegend']="The color of each circle represents the proficiency level of the competency.";
-//COLORS LVLs
+//COLORS LVLs EN TODOS LOS LANG
 $string['#0066FF']="#0066FF";
 $string['#FF6600']="#FF6600";
 $string['#6600FF']="#6600FF";
@@ -38,10 +38,12 @@ $string['course_list'] = 'List of missing competencies and related courses';
 $string['competency_label'] = 'Competency';
 $string['Complete'] = 'Complete';
 $string['Level'] = 'Level';
-$string['Ir'] = 'Go curse';
+$string['Ir'] = 'Go to curse';
 $string['Completed'] = 'Completed';
 $string['Pending'] = 'Pending';
 $string['Close'] = 'Close';
+$string['ProgresoAreasParrafo'] = 'Progress in areas of competence: ';
+$string['Avanzar'] = 'Go to...';
 
 
 
