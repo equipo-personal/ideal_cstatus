@@ -203,8 +203,8 @@ async function loadCourses(id) {
                 tr_3.id=`${course.shortname} `;
                 tr_3.className="tr_competency";
                 const td_competency = document.createElement('td');
-                const td_icon = document.createElement('td');
-                td_icon.className="td_icon";
+                const div_icon_compe = document.createElement('div');
+                div_icon_compe.className="div_icon_compe";
 
                 td_competency.appendChild(competency_a);
                 //add icon atd competencie
@@ -219,7 +219,7 @@ async function loadCourses(id) {
                     let txt=document.createTextNode(avanzar_txt_);
                     txt.className="txt_icon_ir";
                     p_txt.appendChild(txt);
-                    a_icon_ir.appendChild(p_txt);
+                    div_icon_compe.appendChild(p_txt);
                 }
                 td_competency.appendChild(a_icon_ir);
                 img_icon_ir.id="img_ir_competence";
@@ -237,7 +237,11 @@ async function loadCourses(id) {
                 td_lvl.appendChild(nivel_div);
                 tr_3.appendChild(td_competency);
 
-                td_icon.appendChild(a_icon_ir);
+                //td_icon.appendChild(a_icon_ir);
+                div_icon_compe.appendChild(a_icon_ir);
+                const td_icon = document.createElement('td');
+                td_icon.className="td_icon";
+                td_icon.appendChild(div_icon_compe);
                 td_competency.appendChild(td_icon);
 
                 tr_3.appendChild(td_lcompleto);

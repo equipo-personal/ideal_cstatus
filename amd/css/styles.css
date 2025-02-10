@@ -161,6 +161,9 @@ h5#title_modal_ {
 }
 
 @media (max-width: 690px) {
+    td.td_icon {
+        margin: 13%;
+    }
     #all_competence_complete_img {
         width: 150px !important;
         height: 110px !important;
@@ -179,7 +182,6 @@ h5#title_modal_ {
     #img_ir_competence {
         width: 20px !important;
         height: 20px !important;
-        margin-left: 71% !important;
     }
 
     .container_main {
@@ -233,8 +235,11 @@ th {
 
 td.td_icon {
     display: flex;
-    padding: 1%;
-    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: center;
+}
+#table_competency, td {
+    height: 4px;
 }
 
 .td_nivel {
@@ -276,12 +281,14 @@ tr:hover {
 }
 
 p.p_txt {
-    display: flex;
-    font-size: xx-small;
-    text-align: -webkit-center;
-    transform: translate(-9px, 2px);
+    color: orange;
+    font-weight: bold;
 }
-
+.div_icon_compe {
+    position: relative;
+    display: inline-flex
+;
+}
 #all_competence_complete_img {
     width: 18%;
     height: auto;
@@ -295,7 +302,7 @@ div#all_complete {
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: 10px;
+    margin: -10% 0% 0% 0%;
 }
 
 img.img_go_curse {
@@ -359,10 +366,8 @@ a.lista_cursos {
 
 /* img table competence */
 #img_ir_competence {
-    display: contents;
     width: 20px;
     height: 20px;
-    position: absolute;
 }
 
 .a_ir_competence {
