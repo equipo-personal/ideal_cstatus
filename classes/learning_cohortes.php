@@ -1,0 +1,62 @@
+<!--
+Para la matriculacion en los cohortes, es necesario asignar dichos cohortes a los learning plans
+si esta agg a un learning plan, se genra una plantilla en mdl_competency_templatecohort que busca su templateid y lo asigna con un cohortid
+-->
+
+<?php
+require_once '../classes/consultas_db.php';
+require_once '../../../config.php';
+global $DB, $USER, $CFG;
+
+require_once ($CFG->dirroot.'/cohort/lib.php');
+$id_cohort="";
+try {
+    $id_competence = required_param('id', PARAM_INT);
+    //== Ensure $id_competence_for_url is valid
+    if (!$id_competence) {
+        throw new Exception('Invalid competence ID');
+    }
+    $list_learning_plans_avalible = learning_for_competency($id_competence);
+    if (!empty($list_learning_plans_avalible)) {
+        //== Loop through available learning plans
+        foreach ($list_learning_plans_avalible as $plan) {
+            $list_cohort_for_template_id = get_cohort_per_id_template($plan->id_template, strtolower($USER->country));
+            //== Loop through cohorts available for the learning plan template
+            foreach ($list_cohort_for_template_id as $cohor) {
+                try {
+                    $id_cohort = $cohor->cohortid;
+                    $name_cohort = $cohor->name;
+                    if ($id_cohort) {
+                        $user_in_cohor_ = user_in_cohort($USER->id, $id_cohort);
+                        //== Check if user is in cohort
+                        //print_r($id_cohort);
+                        //== Check if user is already in the cohort
+                        if (isset($user_in_cohor_[$id_cohort]) && $user_in_cohor_[$id_cohort]->cohortid == $id_cohort) {
+                            echo '<br>' . 'usuario en cohorte: ' . $name_cohort;
+                        } else {
+                            echo 'usuario no matriculado ' . $name_cohort;
+                            $ultimos_caracteres_name_cohort = substr($name_cohort, -2);
+                            //== Matriculate user in the cohort based on the country in the user's profile
+                            if ($ultimos_caracteres_name_cohort == strtolower($USER->country)) {
+                                cohort_add_member($id_cohort, $USER->id);
+                                echo '<br>' . 'usuario matriculando en: ' . $name_cohort . ' espere por favor...' . '<br>';
+                            }
+                        }
+                    } else {
+                        echo '<br>' .'cohorte no disponible para su matriculacion';
+                    }
+                } catch (Exception $e) {
+                    //== Handle exceptions and display error message
+                    echo 'Error: ' . $e->getMessage();
+                }
+            }
+        }
+    } 
+    if(!$id_cohort){
+        echo '<br>' .'cohorte no disponible';
+    }
+} catch (Exception $e) {
+    //== Handle exceptions and display error message
+    echo 'Error: ' . $e->getMessage();
+}
+?>

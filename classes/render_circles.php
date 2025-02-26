@@ -135,7 +135,7 @@ function render_circles()
         #modal centro
         $courses=list_courses_avalible($id_user_search_competence);
         echo $OUTPUT->render_from_template('block_ideal_cstatus/modal_centro/modal_centro', [
-            'template_data' => json_encode($courses)
+            'template_data' => json_encode($courses),
         ]);
     } catch (Exception $e) {
         error_log('Error en render_circles: ' . $e->getMessage());

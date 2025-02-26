@@ -111,6 +111,9 @@ function removeCourses() {
 async function loadCourses(id) {
     try {
         const courses = window.course;
+        const datas = window.data;
+
+
         if (!courses || typeof courses !== "object") {
             throw new Error("El objeto 'courses' no está definido o no es válido.");
         }
@@ -139,11 +142,12 @@ async function loadCourses(id) {
         if (!div_modal_content) {
             throw new Error("'modal-content' no existe.");
         }
+        var approved_competency=true;
+
         // Validamos si hay cursos disponibles para el ID proporcionado.
         if (renamedCourses[id]) {
             get_and_set_cabecera(id.slice(14,15));
-            Object.values(renamedCourses[id]).forEach(course => {
-
+            Object.values(renamedCourses[id]).some(course => {
                 let level_competency=`${course.shortname} `;
                 let compe_circle=level_competency.slice(0,1);
                 level_competency=level_competency.slice(3,4);
@@ -205,7 +209,6 @@ async function loadCourses(id) {
                 const td_competency = document.createElement('td');
                 const div_icon_compe = document.createElement('div');
                 div_icon_compe.className="div_icon_compe";
-
                 td_competency.appendChild(competency_a);
                 //add icon atd competencie
                 const img_icon_ir= document.createElement('i');
@@ -221,9 +224,11 @@ async function loadCourses(id) {
                     p_txt.appendChild(txt);
                     div_icon_compe.appendChild(p_txt);
                 }
+                //traza console.error(`${course.id}`);
+
                 td_competency.appendChild(a_icon_ir);
                 img_icon_ir.id="img_ir_competence";
-                a_icon_ir.href="https://www.google.com";
+                a_icon_ir.href = `../blocks/ideal_cstatus/classes/learning_cohortes.php?id=${course.id}`;
                 a_icon_ir.target="_blank";
                 a_icon_ir.id="img_ir_competence";
 
@@ -235,6 +240,9 @@ async function loadCourses(id) {
                 const td_lvl= document.createElement('td');
                 td_lvl.classList="td_nivel";
                 td_lvl.appendChild(nivel_div);
+                //ESTOY AQUI
+               // console.log(`${course.shortname} ` );
+                approved_competency=false;
                 tr_3.appendChild(td_competency);
 
                 //td_icon.appendChild(a_icon_ir);
@@ -249,6 +257,14 @@ async function loadCourses(id) {
 
                 if(level_competency!=" " || compe_circle>5){
                     table_competency.appendChild(tr_3);
+                }
+                //Detenemos si no ha completado competencias segun el nivel
+                if(course.approved!=="Complete" && course.approved!=="Completado" &&course.shortname.slice(3,4)!==" "){
+                    console.log();
+
+                    if(course.shortname.slice(3,4)=="L"){
+                        return true;
+                    }
                 }
             });
         } else {

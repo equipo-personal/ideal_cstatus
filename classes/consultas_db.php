@@ -393,7 +393,8 @@ function get_competencias_por_area() {
 
             $sub_cabeceras_sql_[$i] = "
                 SELECT DISTINCT
-                    c.id
+                    c.id,
+                    c.shortname
                 FROM
                     {competency} c
                 WHERE
@@ -422,4 +423,81 @@ function get_ids(){
         return [];
     }
 }
+function learning_for_competency($id_competency){
+    global $DB;
+    $sql="
+        SELECT
+            ct.id AS id_template,
+            ct.shortname,
+            cttc.templateid,
+            cttc.competencyid AS id_compe_template
+        FROM
+            {competency_template} ct
+        JOIN {competency_templatecomp} cttc ON
+            ct.id = cttc.templateid
+        WHERE
+            cttc.competencyid = :id_competency
+    ";
+    try {
+        $params = ['id_competency' => $id_competency];
+        $result = $DB->get_records_sql($sql, $params);
+        return $result;
+    } catch (dml_exception $e) {
+        error_log($e->getMessage());
+        return false;
+    }
+}
+
+function get_cohort_per_id_template($id_template_cohort, $lang_profile_user){
+    global $DB;
+    $sql="
+        SELECT
+            ctc.id AS id_template_cohort,
+            ctc.templateid AS id_template_id,
+            ctc.cohortid,
+            c.name,
+            c.idnumber
+        FROM
+            {competency_templatecohort} ctc
+        JOIN {cohort} c ON
+            c.id = ctc.cohortid AND ctc.templateid = :id_template_cohort
+        WHERE
+            c.idnumber LIKE :lang_profile_user
+    ";
+    try {
+        $params = [
+            'id_template_cohort' => $id_template_cohort,
+            'lang_profile_user' => '%' . $lang_profile_user . '%'
+        ];
+        $result = $DB->get_records_sql($sql, $params);
+        return $result;
+    } catch (dml_exception $e) {
+        error_log($e->getMessage());
+        return false;
+    }
+}
+
+function user_in_cohort($id_user, $cohort_id) {
+    global $DB;
+    $sql = "
+        SELECT
+            cohortid
+        FROM
+            {cohort_members}
+        WHERE
+            cohortid = :cohort_id AND userid = :id_user
+    ";
+    try {
+        $params = [
+            'cohort_id' => $cohort_id,
+            'id_user' => $id_user
+        ];
+        $result = $DB->get_records_sql($sql, $params);
+        return $result;
+    } catch (dml_exception $e) {
+        error_log($e->getMessage());
+        return false;
+    }
+}
+
 ?>
