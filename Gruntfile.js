@@ -10,7 +10,7 @@ module.exports = function(grunt) {
             },
             my_target: {
                 files: {
-                    'amd/build/controller.min.js': ['amd/src/controller.js']
+                    '<%= process.cwd() %>/amd/build/controller.min.js': ['<%= process.cwd() %>/amd/src/controller.js']
                 }
             }
         },
@@ -19,7 +19,7 @@ module.exports = function(grunt) {
         cssmin: {
             target: {
                 files: {
-                    'amd/build/styles.min.css': ['amd/css/styles.css'] // Ruta de destino y origen de los archivos CSS
+                    '<%= process.cwd() %>/amd/build/styles.min.css': ['<%= process.cwd() %>/amd/css/styles.css'] // Ruta de destino y origen de los archivos CSS
                 }
             }
         },
@@ -27,14 +27,14 @@ module.exports = function(grunt) {
         // Vigilar cambios en archivos JS y CSS
         watch: {
             scripts: {
-                files: ['amd/src/*.js'],
+                files: ['<%= process.cwd() %>amd/src/*.js'],
                 tasks: ['uglify'],
                 options: {
                     spawn: false,
                 },
             },
             styles: {
-                files: ['amd/css/*.css'], // Asegurarse de que la ruta es correcta
+                files: ['<%= process.cwd() %>amd/css/*.css'], // Asegurarse de que la ruta es correcta
                 tasks: ['cssmin'],
                 options: {
                     spawn: false,

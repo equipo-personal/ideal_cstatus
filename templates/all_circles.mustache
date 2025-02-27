@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="../blocks/ideal_cstatus/amd/src/circles/modal_centro/modal_centro.js"></script>
+    <script src="{{{config.wwwroot}}}/blocks/ideal_cstatus/amd/src/circles/modal_centro/modal_centro.js"></script>
     <script>
     //Cargar los estilos de manera dinamica
         window.onload = function() {
@@ -12,7 +12,7 @@
                 var link = document.createElement('link');
                 link.rel = 'stylesheet';
                 link.type = 'text/css';
-                link.href = '../blocks/ideal_cstatus/amd/build/styles.min.css';
+                link.href = '{{{config.wwwroot}}}/blocks/ideal_cstatus/amd/build/styles.min.css';
                 head.appendChild(link); 
             }
         };

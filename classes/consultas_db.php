@@ -7,8 +7,8 @@ function get_course_for_competenci($competencyid){
         cc.competencyid,
         c.fullname
     FROM
-        `mdl_competency_coursecomp` cc
-    JOIN mdl_course c ON
+        {competency_coursecomp} cc
+    JOIN {course} c ON
         c.id = cc.courseid
     WHERE
         competencyid = $competencyid AND c.visible = 1;
@@ -74,7 +74,7 @@ function get_competenci_and_id_category_main(){
         SELECT
             c.id
         FROM
-            mdl_competency c
+            {competency} c
         WHERE
         c.path LIKE '/0/' AND c.competencyframeworkid =".get_idnumber_frameword()."
     ";
@@ -118,7 +118,7 @@ function get_all_competencies_area($path){
             c.id,
             c.shortname
         FROM
-            mdl_competency c
+            {competency} c
         WHERE
             path LIKE '/0/$path/%' AND path NOT LIKE '/0/';
     ";
@@ -227,7 +227,7 @@ FROM
 WHERE
     country NOT LIKE ''
 ORDER BY
-    `mdl_user`.`country` ASC
+    {user}.`country` ASC
                 ";
     $countries = $DB->get_records_sql($sql);
     $countries_ok = [];

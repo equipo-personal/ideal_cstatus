@@ -53,21 +53,32 @@ function drawParticles() {
 }
 
 function loop() {
-  updateParticles();
-  drawParticles();
-  requestAnimationFrame(loop);
+  try { // ==
+    updateParticles();
+    drawParticles();
+    requestAnimationFrame(loop);
+  } catch (error) { // ==
+    console.error("Error in animation loop:", error); // ==
+  } // ==
 }
 
 // Initialize particles
-for (let i = 0; i < 100; i++) {
-  confettiParticles.push(createParticle());
-}
-
-// Start animation
-loop();
+try { // ==
+  for (let i = 0; i < 100; i++) {
+    confettiParticles.push(createParticle());
+  }
+  // Start animation
+  loop();
+} catch (error) { // ==
+  console.error("Error initializing particles:", error); // ==
+} // ==
 
 // Adjust canvas size on resize
 window.addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  try { // ==
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  } catch (error) { // ==
+    console.error("Error resizing canvas:", error); // ==
+  } // ==
 });

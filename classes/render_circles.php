@@ -67,7 +67,9 @@ function get_id_user_search_competence_admin()
 
 function render_circles()
 {
-    global $CFG, $DB;
+    global $CFG, $DB,$PAGE;
+    //require '../block/ideal_cstatus/circles/modal_centro/modal_centro.js';
+
     require_once($CFG->dirroot . '/user/lib.php');
     global $OUTPUT, $USER;
     try {

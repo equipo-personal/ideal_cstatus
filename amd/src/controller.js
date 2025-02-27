@@ -1,11 +1,13 @@
 define(['jquery'], function($) {
     return {
         init: function() {
-            const title_error = document.getElementById('message_not_found');
+            //const title_error = document.getElementById('message_not_found');
 
             try {
                 // Cargar el script circles.js
-                $.getScript(M.cfg.wwwroot + "/blocks/ideal_cstatus/amd/src/circles/circles.js")
+                var cstatusJsPath = M.cfg.wwwroot + '/blocks/ideal_cstatus/amd/src/circles/circles.js';
+
+                $.getScript(cstatusJsPath)
                     .done(function(script, textStatus) {
                         try {
                             // Llamar a las funciones de los círculos correctamente
