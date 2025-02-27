@@ -14,7 +14,7 @@ try {
     $id_competence = required_param('id', PARAM_INT);
     //== Ensure $id_competence_for_url is valid
     if (!$id_competence) {
-        throw new Exception('Invalid competence ID');
+        throw new Exception(get_string('idcompetencyinvalid','block_ideal_cstatus'));
     }
     $list_learning_plans_avalible = learning_for_competency($id_competence);
     if (!empty($list_learning_plans_avalible)) {
@@ -32,18 +32,18 @@ try {
                         //print_r($id_cohort);
                         //== Check if user is already in the cohort
                         if (isset($user_in_cohor_[$id_cohort]) && $user_in_cohor_[$id_cohort]->cohortid == $id_cohort) {
-                            echo '<br>' . 'usuario en cohorte: ' . $name_cohort;
+                            echo '<br>' . get_string('userincohort','block_ideal_cstatus') . $name_cohort;
                         } else {
-                            echo 'usuario no matriculado ' . $name_cohort;
+                            echo get_string('usernotinscrip','block_ideal_cstatus') . $name_cohort;
                             $ultimos_caracteres_name_cohort = substr($name_cohort, -2);
                             //== Matriculate user in the cohort based on the country in the user's profile
                             if ($ultimos_caracteres_name_cohort == strtolower($USER->country)) {
                                 cohort_add_member($id_cohort, $USER->id);
-                                echo '<br>' . 'usuario matriculando en: ' . $name_cohort . ' espere por favor...' . '<br>';
+                                echo '<br>' . get_string('userininscrip','block_ideal_cstatus'). $name_cohort . get_string('onemoment','block_ideal_cstatus') . '<br>';
                             }
                         }
                     } else {
-                        echo '<br>' .'cohorte no disponible para su matriculacion';
+                        echo '<br>' .get_string('cohortnoavalible','block_ideal_cstatus');
                     }
                 } catch (Exception $e) {
                     //== Handle exceptions and display error message
@@ -53,7 +53,7 @@ try {
         }
     } 
     if(!$id_cohort){
-        echo '<br>' .'cohorte no disponible';
+        echo '<br>' .get_string('cohortnoavalible','block_ideal_cstatus');
     }
 } catch (Exception $e) {
     //== Handle exceptions and display error message
