@@ -99,7 +99,7 @@ function list_courses_avalible($id_user) {
     
             $competencies_with_status[$path->id][$competency->id] = [
                 'id' => $competency->id,
-                'shortname' => $competency->shortname,
+                'shortname' => get_string($competency->shortname,'block_ideal_cstatus'),
                 'approved' => $is_approved ? get_string('Completed', 'block_ideal_cstatus') : get_string('Pending', 'block_ideal_cstatus'),
             ];
         }
