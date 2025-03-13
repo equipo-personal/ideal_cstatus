@@ -52,10 +52,9 @@ function list_courses_avalible($id_user) {
             // Verificar si la competencia está aprobada
             $is_approved = isset($competenci_proficiency[$path->id][$competency->id]);
     
-            // Crear el arreglo con la estructura deseada
             $competencies_with_status[$path->id][$competency->id] = [
                 'id' => $competency->id,
-                'shortname' => $competency->shortname,
+                'shortname' => get_string($competency->shortname,'block_ideal_cstatus'),
                 'approved' => $is_approved ? get_string('Completed', 'block_ideal_cstatus') : get_string('Pending', 'block_ideal_cstatus'),
             ];
         }

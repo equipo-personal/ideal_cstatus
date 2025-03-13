@@ -1,7 +1,6 @@
 <?php
 require_once(__DIR__ . '/renderer.php');
 require_once(__DIR__ . '/consultas_db.php');
-
 function get_circle_data($sql, $id_user_search_competence)
 {
     global $DB, $OUTPUT,$PAGE;
@@ -34,8 +33,9 @@ function get_circle_data($sql, $id_user_search_competence)
         foreach ($cabeceras as $cabecera) {
             $cabeceras_ok[] = [
                 'id' => $cabecera->id,
-                'cabecera' => $cabecera->cabecera
+                'cabecera' => get_string($cabecera->cabecera, 'block_ideal_cstatus'),
             ];
+
         }
         return [
             'numberOfCircles' => $numberOfCircles,
@@ -68,7 +68,6 @@ function get_id_user_search_competence_admin()
 function render_circles()
 {
     global $CFG, $DB,$PAGE;
-    //require '../block/ideal_cstatus/circles/modal_centro/modal_centro.js';
 
     require_once($CFG->dirroot . '/user/lib.php');
     global $OUTPUT, $USER;

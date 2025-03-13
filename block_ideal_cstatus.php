@@ -1,6 +1,5 @@
 <?php
 require_once(__DIR__ . '/classes/render_circles.php');
-
 class block_ideal_cstatus extends block_base {
     public function init() {
         $this->title = get_string('pluginname', 'block_ideal_cstatus');

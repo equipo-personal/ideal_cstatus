@@ -1,4 +1,6 @@
 
+
+
 document.addEventListener('DOMContentLoaded', function () {
     setTimeout(function () {
         const centro_circle = document.getElementsByClassName('circle_center_modal');
@@ -99,8 +101,6 @@ function removeCourses() {
             while (title_h5.firstChild) {
                 title_h5.removeChild(title_h5.firstChild);
             }
-
-            // Agrega el nuevo texto
             title_h5.appendChild(document.createTextNode(title_));
     } catch (error) {
         console.error(error);   
@@ -109,6 +109,7 @@ function removeCourses() {
 }
 
 async function loadCourses(id) {
+
     try {
         const courses = window.course;
         const datas = window.data;
@@ -119,7 +120,6 @@ async function loadCourses(id) {
         }
         const renamedCourses = {}; // Nuevo objeto con las claves renombradas
         let index = 1;
-
         // invertir 6 y 7
         Object.keys(courses).forEach(function (key) {
             if (index <= 7) { 
@@ -260,8 +260,6 @@ async function loadCourses(id) {
                 }
                 //Detenemos si no ha completado competencias segun el nivel
                 if(course.approved!=="Complete" && course.approved!=="Completado" &&course.shortname.slice(3,4)!==" "){
-                    console.log();
-
                     if(course.shortname.slice(3,4)=="L"){
                         return true;
                     }
