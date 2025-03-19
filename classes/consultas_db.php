@@ -25,7 +25,7 @@ function get_course_for_competenci($competencyid){
 function list_learning_plans($userid, $num_circle){
     global $DB;
     $sql="
-    SELECT
+SELECT
     t.id AS templateid,
     t.shortname AS templatename,
     lp.id AS learningplanid,
@@ -37,10 +37,12 @@ COUNT(
     CASE WHEN uc.proficiency = 1 THEN 1 ELSE NULL
 END
 ) AS competency_completed,
-CASE WHEN REGEXP_LIKE(t.shortname, '^.*\\\(A\\\)$') THEN 'A' ELSE CASE WHEN REGEXP_LIKE(t.shortname, '^.*\\\(D\\\)$') THEN 'D' ELSE CASE WHEN REGEXP_LIKE(t.shortname, '^.*\\\(L\\\)$') THEN 'L' else 'O'
-END
-END
-END as LvL 
+CASE 
+    WHEN t.shortname REGEXP '.*\\\(A\\\)$' THEN 'A' 
+    WHEN t.shortname REGEXP '.*\\\(D\\\)$' THEN 'D' 
+    WHEN t.shortname REGEXP '.*\\\(L\\\)$' THEN 'L' 
+    ELSE 'O'
+END AS LvL
 FROM
     mdl_competency_template t
 LEFT JOIN mdl_competency_plan lp ON
