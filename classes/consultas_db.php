@@ -22,6 +22,48 @@ function get_course_for_competenci($competencyid){
         return false; 
     }
 }
+function list_learning_plans($userid, $num_circle){
+    global $DB;
+    $sql="
+    SELECT
+    t.id AS templateid,
+    t.shortname AS templatename,
+    lp.id AS learningplanid,
+    lp.name AS learningplanname,
+    CASE WHEN lp.userid = $userid THEN TRUE ELSE FALSE
+END AS matriculado,
+COUNT(c.id) AS num_competencies,
+COUNT(
+    CASE WHEN uc.proficiency = 1 THEN 1 ELSE NULL
+END
+) AS competency_completed,
+CASE WHEN REGEXP_LIKE(t.shortname, '^.*\\\(A\\\)$') THEN 'A' ELSE CASE WHEN REGEXP_LIKE(t.shortname, '^.*\\\(D\\\)$') THEN 'D' ELSE CASE WHEN REGEXP_LIKE(t.shortname, '^.*\\\(L\\\)$') THEN 'L' else 'O'
+END
+END
+END as LvL 
+FROM
+    mdl_competency_template t
+LEFT JOIN mdl_competency_plan lp ON
+    t.id = lp.templateid AND lp.userid = $userid
+JOIN mdl_competency c ON
+    c.idnumber LIKE '$num_circle%'
+LEFT JOIN mdl_competency_usercomp uc ON
+    uc.competencyid = c.id AND uc.userid = lp.userid
+JOIN mdl_competency_templatecomp ctt ON
+    t.id = ctt.templateid AND ctt.competencyid = c.id
+GROUP BY
+    t.id,
+    lp.id;
+    ";
+    try {
+        $learning_plans=[];
+        $learning_plans=$DB->get_records_sql($sql);
+        return $learning_plans;
+    }catch (dml_exception $e) {
+        error_log( $e->getMessage()); 
+        return false; 
+    }
+}
 function list_courses_avalible($id_user) {
     $paths_categori = get_competenci_and_id_category_main();
 
@@ -493,6 +535,41 @@ function user_in_cohort($id_user, $cohort_id) {
             'id_user' => $id_user
         ];
         $result = $DB->get_records_sql($sql, $params);
+        return $result;
+    } catch (dml_exception $e) {
+        error_log($e->getMessage());
+        return false;
+    }
+}
+
+
+function load_learning_plans_for_circles($id_user, $circle_num) {
+    global $DB;
+    $sql = "
+    SELECT DISTINCT
+        ct.id AS id_learning_plans, -- ID of the learning plan
+        ct.shortname,              -- Short name of the learning plan
+        ctc.templateid,            -- Template ID associated with the competency
+        ctc.id,                    -- ID of the competency-template relationship
+        cth.cohortid,              -- Cohort ID associated with the learning plan
+        c.name                     -- Name of the cohort
+    FROM
+        {competency_template} ct -- Table for competency templates
+    JOIN {competency_templatecomp} ctc ON ctc.templateid = ct.id -- Join with competency-template relationship
+    JOIN {competency_templatecohort} cth ON cth.templateid = ct.id -- Join with template-cohort relationship
+    JOIN {cohort} c ON c.id = cth.cohortid -- Join with cohort table
+    join mdl_user u on u.id=$id_user
+    WHERE
+        ct.shortname LIKE '$circle_num%' -- Filter for learning plans with shortname starting with '3'
+        AND ct.visible = 1;    -- Ensure the learning plan is visible
+";
+    try {
+        $params = [
+            'cohort_id' => $circle_num,
+            'id_user' => $id_user
+        ];
+        $result = $DB->get_records_sql($sql, $params);
+        var_dump($result);
         return $result;
     } catch (dml_exception $e) {
         error_log($e->getMessage());

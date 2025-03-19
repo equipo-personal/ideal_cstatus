@@ -67,7 +67,7 @@ function get_id_user_search_competence_admin()
 
 function render_circles()
 {
-    global $CFG, $DB,$PAGE;
+    global $CFG, $DB,$PAGE,$USER;
     //require '../block/ideal_cstatus/circles/modal_centro/modal_centro.js';
 
     require_once($CFG->dirroot . '/user/lib.php');
@@ -135,9 +135,11 @@ function render_circles()
         $data = ['circles' => $circles_data];
         echo $OUTPUT->render_from_template('block_ideal_cstatus/all_circles', $data);
         #modal centro
-        $courses=list_courses_avalible($id_user_search_competence);
+        //$courses=list_courses_avalible($id_user_search_competence);
+        $learning_plans=list_learning_plans($id_user_search_competence,"%");
+        //var_dump($learning_plans);die();
         echo $OUTPUT->render_from_template('block_ideal_cstatus/modal_centro/modal_centro', [
-            'template_data' => json_encode($courses),
+            'template_data' => json_encode($learning_plans),
         ]);
     } catch (Exception $e) {
         error_log('Error en render_circles: ' . $e->getMessage());
