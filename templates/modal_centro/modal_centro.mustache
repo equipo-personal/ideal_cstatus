@@ -1,6 +1,11 @@
 <!-- modal_courses.mustache -->
 <script>
     var learning_plans = {{{template_data}}};
+    var str_completed = `{{#str}}Completed,block_ideal_cstatus{{/str}}`;
+    var str_in_progress = `{{#str}}In_Progress,block_ideal_cstatus{{/str}}`;
+    var str_registered = `{{#str}}registered,block_ideal_cstatus{{/str}}`;
+    var str_not_registered = `{{#str}}not_registered,block_ideal_cstatus{{/str}}`;
+    var str_not_learningP = `{{#str}}not_learning_plan_label,block_ideal_cstatus{{/str}}`;
     var img_help = document.getElementById('img_help_modal');
     var modal_txt_title = `{{#str}}ProgresoAreasParrafo,block_ideal_cstatus{{/str}}`;
     var avanzar_txt = `{{#str}}Avanzar,block_ideal_cstatus{{/str}}`;
@@ -14,11 +19,10 @@
 
         <table id="table_competency">
             <tr style='background:none;'>
-                <th>{{#str}}competency_label,block_ideal_cstatus{{/str}}</th>
-                <th>{{#str}}Complete,block_ideal_cstatus{{/str}}</th>
+                <th>{{#str}}learning_plan_label,block_ideal_cstatus{{/str}}</th>
+                <th class="th_status">{{#str}}Status,block_ideal_cstatus{{/str}}</th>
                 <th class="td_nivel">{{#str}}Level,block_ideal_cstatus{{/str}}</th>
-                <th class="th_matriculado">Matriculado</th>
-
+                <th class="th_matriculado">{{#str}}registered,block_ideal_cstatus{{/str}}</th>
             </tr>
         </table>
         <div id="all_complete">
@@ -68,4 +72,29 @@
     #img_level_O {
         background-color: #c003ff;
     }
+    tr#no_content {
+    width: 100%;
+    height: 50px;
+    color: black;
+    font-weight: 500;
+    margin: 0 auto;
+    text-align: center;
+    transform: translate(10%, 10%);
+}
+td.status_competency {
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+}
+td.td_matriculado {
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+}
+.th_status{
+    text-align: center;
+}
+.th_matriculado{
+    text-align: center;
+}
 </style>

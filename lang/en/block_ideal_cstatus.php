@@ -35,11 +35,15 @@ $string['select_country_first'] = 'Select a country first';
 $string['help_manage_user'] = 'Select a country to filter users';
 //modal center
 $string['course_list'] = 'List of missing competencies and related courses';
-$string['competency_label'] = 'Competency';
-$string['Complete'] = 'Complete';
+$string['learning_plan_label'] = 'Learning plan';
+$string['not_learning_plan_label'] = 'No learning plans available';
+$string['Status'] = 'Status';
 $string['Level'] = 'Level';
+$string['registered'] = 'Enrolled';
+$string['not_registered'] = ' Not enrolled ';
 $string['Ir'] = 'Go to course';
 $string['Completed'] = 'Completed';
+$string['In_Progress'] = 'In Progress';
 $string['Pending'] = 'Pending';
 $string['Close'] = 'Close';
 $string['ProgresoAreasParrafo'] = 'Progress in areas of competence:';

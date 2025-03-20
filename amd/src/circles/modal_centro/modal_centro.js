@@ -56,13 +56,13 @@ function closeModal() {
 
     try {
         modal.style.display = 'none';
-        removeCourses();
+        removetagsModal();
     } catch (error) {
         console.error(error);
     }
 }
 
-function removeCourses() {
+function removetagsModal() {
     let img = document.getElementById('all_competence_complete_img');
     let title_h5 = document.getElementById('title_modal_');
 
@@ -98,9 +98,9 @@ function removeCourses() {
             canvas.style.visibility = 'hidden';
         }
 
-        let lista_cursos_p = Array.prototype.slice.call(document.getElementsByClassName("lista_cursos"), 0);
+        let lista_learning_plans = Array.prototype.slice.call(document.getElementsByClassName("lista_cursos"), 0);
 
-        for (element of lista_cursos_p) {
+        for (element of lista_learning_plans) {
             element.remove();
         }
 
@@ -126,7 +126,12 @@ async function loadLearningsPlans(id) {
 
     try {
         const learning_plans_ = window.learning_plans;
-        let learning_plans = []; // Declarar el array fuera del bucle
+        const str_completed_ = window.str_completed;
+        const str_proccess_ = window.str_in_progress;
+        const str_registered_ = window.str_registered;
+        const str_not_registered_ = window.str_not_registered;
+        const str_not_learningP_ = window.str_not_learningP;
+        let learning_plans = []; 
 
         for (const [key, value] of Object.entries(learning_plans_)) {
             var name_template_lp_l = String(value.templatename);
@@ -137,7 +142,6 @@ async function loadLearningsPlans(id) {
 
             if (id == name_template_lp_lo || id == name_template_lp_se || id == name_template_lp_se2) {
 
-                // Crear un nuevo objeto con los campos deseados
                 let newLearningPlan = {
                     templateid: value.templateid,
                     templatename: value.templatename,
@@ -149,7 +153,6 @@ async function loadLearningsPlans(id) {
                     competency_completed: value.competency_completed,
                 };
 
-                // Agregar el nuevo objeto al array
                 learning_plans.push(newLearningPlan);
             }
         }
@@ -220,9 +223,9 @@ async function loadLearningsPlans(id) {
                         break;
                 }
                 if (parseInt(learningP.num_competencies) === parseInt(learningP.competency_completed)) {
-                    var appro_txt = document.createTextNode(`Completado ` + `${learningP.num_competencies}` + `/` + `${learningP.competency_completed}`);
+                    var appro_txt = document.createTextNode(str_completed_ +" "+ `${learningP.competency_completed}`+'/'+`${learningP.num_competencies}`);
                 } else if (parseInt(learningP.num_competencies) > parseInt(learningP.competency_completed)) {
-                    var appro_txt = document.createTextNode(`En Proceso ` + `${learningP.num_competencies}` + `/` + `${learningP.competency_completed}`);
+                    var appro_txt = document.createTextNode(`${learningP.competency_completed}`+'/'+`${learningP.num_competencies}`);
                 }
 
                 learning_a.style.color = "black";
@@ -286,9 +289,9 @@ async function loadLearningsPlans(id) {
                 tr_4.appendChild(td_matriculado);
                 td_matriculado.className = "td_matriculado";
                 if (`${learningP.matriculado}` == "1") {
-                    var matriculado_txt = document.createTextNode(`Matriculado`);
+                    var matriculado_txt = document.createTextNode(str_registered_);
                 } else {
-                    var matriculado_txt = document.createTextNode(`No Matriculado`);
+                    var matriculado_txt = document.createTextNode(str_not_registered_);
                 }
                 td_matriculado.appendChild(matriculado_txt);
                 tr_3.appendChild(td_matriculado);
@@ -304,7 +307,7 @@ async function loadLearningsPlans(id) {
                     tr_no_content.id = "no_content";
                     const td_no_content = document.createElement('td');
                     td_no_content.colSpan = "3"; // Ajusta el número de columnas según tu tabla
-                    td_no_content.textContent = "No se encontraron learnings plans.";
+                    td_no_content.textContent = str_not_learningP_;
                     tr_no_content.appendChild(td_no_content);
                     table_competency.appendChild(tr_no_content);
                 }
