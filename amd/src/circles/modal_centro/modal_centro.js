@@ -140,7 +140,9 @@ async function loadLearningsPlans(id) {
             var name_template_lp_se2 = name_template_lp_l.slice(1, 2);
 
 
-            if (id == name_template_lp_lo || id == name_template_lp_se || id == name_template_lp_se2) {
+
+
+            if (id == name_template_lp_lo || id == name_template_lp_se || id == name_template_lp_se2 ) {
 
                 let newLearningPlan = {
                     templateid: value.templateid,

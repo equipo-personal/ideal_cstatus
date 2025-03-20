@@ -52,7 +52,7 @@ LEFT JOIN mdl_competency_plan lp ON
 JOIN mdl_competency c ON
     c.idnumber LIKE '$num_circle%'
 LEFT JOIN mdl_competency_usercomp uc ON
-    uc.competencyid = c.id AND uc.userid = lp.userid
+    uc.competencyid = c.id AND uc.userid = $userid
 JOIN mdl_competency_templatecomp ctt ON
     t.id = ctt.templateid AND ctt.competencyid = c.id
 GROUP BY
