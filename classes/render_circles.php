@@ -29,6 +29,7 @@ function get_circle_data($sql, $id_user_search_competence)
             $competencias_user_array[] = $competencia_ok->competencia_ok;
             $ids_number_competences[] = get_idnumber_competence_nivel($competencia_ok->competencia_ok);
         }
+
         // Procesar cabeceras
         $cabeceras_ok = [];
         foreach ($cabeceras as $cabecera) {

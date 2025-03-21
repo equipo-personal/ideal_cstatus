@@ -138,10 +138,6 @@ async function loadLearningsPlans(id) {
             var name_template_lp_lo = name_template_lp_l.slice(0, 1);
             var name_template_lp_se = name_template_lp_l.slice(4, 5);
             var name_template_lp_se2 = name_template_lp_l.slice(1, 2);
-
-
-
-
             if (id == name_template_lp_lo || id == name_template_lp_se || id == name_template_lp_se2 ) {
 
                 let newLearningPlan = {
@@ -169,19 +165,11 @@ async function loadLearningsPlans(id) {
         if (learning_plans) {
 
             for (const [key, learningP] of Object.entries(learning_plans)) {
-                /* console.error(`Key: ${key}, Template ID: ${learningP.templateid}`);
-                 console.error(`Key: ${key}, templatename: ${learningP.templatename}`);
-                 console.error(`Key: ${key}, learningplanid: ${learningP.learningplanid}`);
-                 console.error(`Key: ${key}, learningplanname: ${learningP.learningplanname}`);
-                 console.error(`Key: ${key}, matriculado: ${learningP.matriculado}`);
-                 console.error(`Key: ${key}, num_competencies: ${learningP.num_competencies}`);
-                 console.error(`Key: ${key}, competency_completed: ${learningP.competency_completed}`);
-                 console.error(`Key: ${key}, lvl: ${learningP.lvl}`);
-                 console.log('-----------------------------');*/
                 var level_competency = String(learningP.lvl);
                 var name_template_lp_l = String(learningP.templatename);
                 var name_template_lp_lo = name_template_lp_l.slice(0, 1);
                 var name_template_lp_se = name_template_lp_l.slice(4, 5);
+                console.log(learningP.lvl);
 
                 const learning_a = document.createElement('a');
                 //const course_a = document.createElement('a');
@@ -214,6 +202,13 @@ async function loadLearningsPlans(id) {
                         nivel_div.style.borderRadius = "50%";
                         nivel_div.appendChild(text);
                         break;
+                    case 'AD':
+                            text = document.createTextNode("AD");
+                            nivel_div.id = "img_level_AD";
+                            nivel_div.style.background = "linear-gradient(to right, #0466ff 50%, #ff6601 50%)";
+                            nivel_div.style.borderRadius = "50%";
+                            nivel_div.appendChild(text);
+                            break;
                     case 'O':
                         nivel_div.id = "img_level_" + level_competency;
                         text = document.createTextNode("O");
@@ -224,12 +219,15 @@ async function loadLearningsPlans(id) {
 
                         break;
                 }
+                var appro_txt;
                 if (parseInt(learningP.num_competencies) === parseInt(learningP.competency_completed)) {
-                    var appro_txt = document.createTextNode(str_completed_ +" "+ `${learningP.competency_completed}`+'/'+`${learningP.num_competencies}`);
+                     appro_txt = document.createTextNode(str_completed_ +" "+ `${learningP.competency_completed}`+'/'+`${learningP.num_competencies}`);
                 } else if (parseInt(learningP.num_competencies) > parseInt(learningP.competency_completed)) {
-                    var appro_txt = document.createTextNode(`${learningP.competency_completed}`+'/'+`${learningP.num_competencies}`);
-                }
-
+                     appro_txt = document.createTextNode(`${learningP.competency_completed}`+'/'+`${learningP.num_competencies}`);
+                     if (learningP.matriculado === "1") {
+                         appro_txt = document.createTextNode(str_proccess_+" "+`${learningP.competency_completed}`+'/'+`${learningP.num_competencies}`);
+                    }
+                } 
                 learning_a.style.color = "black";
                 learning_a.target = "_blank";
 
