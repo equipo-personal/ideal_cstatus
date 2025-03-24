@@ -17,7 +17,7 @@ class block_ideal_cstatus extends block_base {
         $this->content->text = '';
         $this->content->footer = '';
         try {
-
+        // Inicia el buffer de salida para capturar la salida generada por la función render_circles().
             ob_start();
             render_circles();
             $rendered_content = ob_get_clean();
@@ -25,6 +25,8 @@ class block_ideal_cstatus extends block_base {
         } catch (Exception $e) {
             $this->content->text = $OUTPUT->notification(get_string('error_rendering', 'block_ideal_cstatus'), 'error');
             error_log('Error rendering circles: ' . $e->getMessage()); 
+            error_log('User ID: ' . $USER->id . ' | Error details: ' . $e->getMessage());
+
         }
         return $this->content;
     }

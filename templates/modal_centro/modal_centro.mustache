@@ -1,0 +1,117 @@
+<!-- modal_courses.mustache -->
+<script>
+    var learning_plans = {{{template_data}}};
+    var str_completed = `{{#str}}Completed,block_ideal_cstatus{{/str}}`;
+    var str_in_progress = `{{#str}}In_Progress,block_ideal_cstatus{{/str}}`;
+    var str_registered = `{{#str}}registered,block_ideal_cstatus{{/str}}`;
+    var str_not_registered = `{{#str}}not_registered,block_ideal_cstatus{{/str}}`;
+    var str_not_learningP = `{{#str}}not_learning_plan_label,block_ideal_cstatus{{/str}}`;
+    var img_help = document.getElementById('img_help_modal');
+    var modal_txt_title = `{{#str}}ProgresoAreasParrafo,block_ideal_cstatus{{/str}}`;
+    var avanzar_txt = `{{#str}}Avanzar,block_ideal_cstatus{{/str}}`;
+</script>
+
+<div id="myModal" class="modal" style="display:none;">
+    <div class="modal-content" id="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h5 id="title_modal_">{{#str}}ProgresoAreasParrafo,block_ideal_cstatus{{/str}}</h5>
+        <h4 class="title_modal"></h4>
+        <table id="table_competency">
+            <tr style='background:none;'>
+                <th>{{#str}}learning_plan_label,block_ideal_cstatus{{/str}}</th>
+                <th class="th_status">{{#str}}Status,block_ideal_cstatus{{/str}}</th>
+                <th class="td_nivel">{{#str}}Level,block_ideal_cstatus{{/str}}</th>
+                <th class="th_matriculado">{{#str}}registered,block_ideal_cstatus{{/str}}</th>
+            </tr>
+        </table>
+        <div id="all_complete">
+            <canvas style="visibility: hidden;" id="confettiCanvas"></canvas>
+        </div>
+        <script src="{{{config.wwwroot}}}/blocks/ideal_cstatus/templates/modal_centro/confetti.js"></script>
+        <button type="button" id="btn_close_modal" onclick="closeModal()">{{#str}}Close,block_ideal_cstatus{{/str}}</button>
+    </div>
+</div>
+
+<style>
+    #confettiCanvas {
+        z-index: 1;
+        position: relative;
+        display: inline-block;
+        width: 22%;
+        margin: 0 auto;
+        padding-top: -10px;
+        transform: translate(10%, 57%);
+    }
+
+    @media (max-width: 700px) {
+        #confettiCanvas {
+            position: relative;
+            display: inline-block;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+            padding-top: 5px;
+            transform: translate(10%, 50%);
+        }
+
+        #btn_close_modal {
+            width: auto;
+            display: inline-flex;
+        }
+    }
+    #img_level_A {
+        background-color: #0466ff;
+        padding: 15px;
+        font-size: 20px;
+    }
+    #img_level_D {
+        background-color: #ff6601;
+        padding: 15px;
+        font-size: 20px;
+    }
+    
+    #img_level_L {
+        background-color: #6603ff;
+        padding: 15px;
+        font-size: 20px;
+    }
+    #img_level_O {
+        background-color: #c003ff;
+        padding: 15px;
+        font-size: 20px;
+    }
+    tr#no_content {
+    width: 100%;
+    height: 50px;
+    color: black;
+    font-weight: 500;
+    margin: 0 auto;
+    text-align: center;
+    transform: translate(10%, 10%);
+}
+td.status_competency {
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+}
+td.td_matriculado {
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+}
+.th_status{
+    text-align: center;
+}
+.th_matriculado{
+    text-align: center;
+}
+#img_level_AD {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    flex-direction: row;
+    font-weight:bold;
+    padding: 15px;
+    
+}
+</style>

@@ -1,6 +1,180 @@
 <?php
+function get_course_for_competenci($competencyid){
+    global $DB;
+    $sql="
+    SELECT
+        cc.courseid,
+        cc.competencyid,
+        c.fullname
+    FROM
+        {competency_coursecomp} cc
+    JOIN {course} c ON
+        c.id = cc.courseid
+    WHERE
+        competencyid = $competencyid AND c.visible = 1;
+    ";
+    try {
+        $course=[];
+        $course=$DB->get_records_sql($sql);
+        return $course;
+    }catch (dml_exception $e) {
+        error_log( $e->getMessage()); 
+        return false; 
+    }
+}
+function list_learning_plans($userid, $num_circle){
+    global $DB;
+    $sql="
+SELECT
+    t.id AS templateid,
+    t.shortname AS templatename,
+    lp.id AS learningplanid,
+    lp.name AS learningplanname,
+    CASE WHEN lp.userid = $userid THEN TRUE ELSE FALSE
+END AS matriculado,
+COUNT(c.id) AS num_competencies,
+COUNT(
+    CASE WHEN uc.proficiency = 1 THEN 1 ELSE NULL
+END
+) AS competency_completed,
+SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(t.shortname, '(',-1),')',1),'-',1 )
+AS LvL,
+SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(t.shortname, '(',-1),')',1),'-',-1 )AS lang_lp
+FROM
+    mdl_competency_template t
+LEFT JOIN mdl_competency_plan lp ON
+    t.id = lp.templateid AND lp.userid = $userid
+JOIN mdl_competency c ON
+    c.idnumber LIKE '$num_circle%'
+LEFT JOIN mdl_competency_usercomp uc ON
+    uc.competencyid = c.id AND uc.userid = $userid
+JOIN mdl_competency_templatecomp ctt ON
+    t.id = ctt.templateid AND ctt.competencyid = c.id
+GROUP BY
+    t.id,
+    lp.id;
+    ";
+    try {
+        $learning_plans=[];
+        $learning_plans=$DB->get_records_sql($sql);
+        return $learning_plans;
+    }catch (dml_exception $e) {
+        error_log( $e->getMessage()); 
+        return false; 
+    }
+}
+function list_courses_avalible($id_user) {
+    $paths_categori = get_competenci_and_id_category_main();
 
+    if (empty($paths_categori)) {
+        echo "No se encontraron categorías o competencias disponibles.";
+        return;
+    }
+    $competenci_proficiency = [];
+    $all_competenci = [];
 
+ // Obtener competencias aprobadas por el usuario por categoría
+    try {
+        foreach ($paths_categori as $path) {
+            $competenci_proficiency[$path->id] = get_competency_aprobadas($path->id, $id_user);
+        }        
+
+        // Obtener todas las competencias disponibles por categoría
+        foreach ($paths_categori as $path) {
+            $all_competenci[$path->id] = get_all_competencies_area($path->id);
+        }
+       //var_dump($all_competenci);
+
+       foreach ($paths_categori as $path) {
+        // Obtener todas las competencias del área
+        $all_competencies = get_all_competencies_area($path->id);
+        
+        foreach ($all_competencies as $competency) {
+            // Verificar si la competencia está aprobada
+            $is_approved = isset($competenci_proficiency[$path->id][$competency->id]);
+    
+            // Crear el arreglo con la estructura deseada
+            $competencies_with_status[$path->id][$competency->id] = [
+                'id' => $competency->id,
+                'shortname' => $competency->shortname,
+                'approved' => $is_approved ? get_string('Completed', 'block_ideal_cstatus') : get_string('Pending', 'block_ideal_cstatus'),
+            ];
+        }
+    }
+
+        return $competencies_with_status;
+    }catch (dml_exception $e) {
+        error_log( $e->getMessage()); 
+        return false; 
+    }  
+}
+//new 19/12
+function get_competenci_and_id_category_main(){
+    global $DB;
+    $sql="
+        SELECT
+            c.id
+        FROM
+            {competency} c
+        WHERE
+        c.path LIKE '/0/' AND c.competencyframeworkid =".get_idnumber_frameword()."
+    ";
+    try {
+        $competency_id=[];
+        $competency_id=$DB->get_records_sql($sql);
+        return $competency_id;
+    } catch (dml_exception $e) {
+        error_log( $e->getMessage()); 
+        return false; 
+    }
+}
+//Usuarios con competencias aprobadas
+function get_competency_aprobadas($path, $id_user) {
+    global $DB;
+    $sql = "
+        SELECT
+            cu.competencyid as id
+        FROM {user} u
+        JOIN {competency_usercomp} cu ON cu.userid = u.id
+        JOIN {competency} c ON cu.competencyid = c.id
+        WHERE c.path LIKE '/0/$path/%' AND u.id = :userid
+    ";
+    try{
+        $params = ['userid' => $id_user];
+        $competences_user_proficiency = $DB->get_records_sql($sql, $params);
+        return $competences_user_proficiency;
+    }catch (dml_exception $e) {
+        error_log( $e->getMessage()); 
+        return false; 
+    }
+}
+function get_all_competencies_area($path){
+    global $DB;
+    // Validamos que el parámetro $path no esté vacío
+    if (empty($path)) {
+        return false; // Retornamos false si el parámetro no es válido.
+    }
+    $sql = "
+        SELECT DISTINCT
+            c.id,
+            c.shortname
+        FROM
+            {competency} c
+        WHERE
+            path LIKE '/0/$path/%' AND path NOT LIKE '/0/';
+    ";
+    try {
+        $competences_for_area = $DB->get_records_sql($sql);
+        if ($competences_for_area === false) {
+            return false;
+        }
+        return $competences_for_area; // Retornamos los registros obtenidos.
+    } catch (dml_exception $e) {
+        error_log( $e->getMessage()); 
+        return false; 
+    }
+}
+// add 19/12
 function get_role_user($id_user) {
     global $DB;
     try {
@@ -44,13 +218,21 @@ function get_list_users(){
 
     try {
         $sql = "
-            SELECT DISTINCT
-                u.firstname, u.lastname, u.id, u.email
-            FROM
-                {user} u
-            JOIN {competency_usercomp} cu ON
-                cu.userid = u.id
-            WHERE cu.proficiency = 1
+SELECT 
+    u.id,
+    u.firstname,
+    u.lastname,
+    u.email,
+    u.country
+FROM
+    {user} u
+JOIN {competency_usercomp} cu ON
+    cu.userid = u.id
+WHERE
+    cu.proficiency = 1
+GROUP BY
+    u.id, u.firstname, u.lastname, u.email
+    ORDER BY `u`.`firstname` ASC;
         ";
 
         // Obtiene los usuarios
@@ -59,18 +241,46 @@ function get_list_users(){
         // Procesamos los usuarios para crear un array de datos adecuados
         $users_ok = [];
         foreach ($users as $user) {
-            // Combina el nombre y apellido en un solo campo para el nombre completo
             $users_ok[] = [
                 'id' => $user->id,
                 'fullname' => fullname($user), // Usamos la función fullname para generar el nombre completo
-                'email' => $user->email
+                'email' => $user->email,
+                'country' => $user->country
             ];
         }
-
         return $users_ok;
 
     } catch (Exception $e) {
         error_log("Error al obtener la lista de usuarios: " . $e->getMessage());
+        return [];
+    }
+}
+
+function get_list_countries(){
+    global $DB;
+
+    try {
+        $sql = "
+SELECT DISTINCT
+    country
+FROM
+    {user}
+WHERE
+    country NOT LIKE ''
+ORDER BY
+    {user}.`country` ASC
+                ";
+    $countries = $DB->get_records_sql($sql);
+    $countries_ok = [];
+
+    foreach ($countries as $country) {
+        $countries_ok[] = $country->country." (".get_string($country->country, 'countries').")";
+    }
+    $countries_ok[] = get_string('all_users', 'block_ideal_cstatus');
+    $countries_ok[] = get_string('users_not_country', 'block_ideal_cstatus');
+    return $countries_ok;
+    } catch (Exception $e) {
+        error_log("Error al obtener la lista de paises: " . $e->getMessage());
         return [];
     }
 }
@@ -134,7 +344,8 @@ function select_user_competence_complete($id_user,$search_admin){
             JOIN {competency_framework} cf ON
                 cf.id = $id_frameword
             WHERE
-                cu.proficiency = 1 AND u.id = $id_user;
+                cu.proficiency = 1 AND u.id = $id_user
+                order by `competencia_ok` ASC;
         ";
         return $sql;
     } catch (Exception $e) {
@@ -224,7 +435,8 @@ function get_competencias_por_area() {
 
             $sub_cabeceras_sql_[$i] = "
                 SELECT DISTINCT
-                    c.id
+                    c.id,
+                    c.shortname
                 FROM
                     {competency} c
                 WHERE
@@ -253,4 +465,116 @@ function get_ids(){
         return [];
     }
 }
+function learning_for_competency($id_competency){
+    global $DB;
+    $sql="
+        SELECT
+            ct.id AS id_template,
+            ct.shortname,
+            cttc.templateid,
+            cttc.competencyid AS id_compe_template
+        FROM
+            {competency_template} ct
+        JOIN {competency_templatecomp} cttc ON
+            ct.id = cttc.templateid
+        WHERE
+            cttc.competencyid = :id_competency
+    ";
+    try {
+        $params = ['id_competency' => $id_competency];
+        $result = $DB->get_records_sql($sql, $params);
+        return $result;
+    } catch (dml_exception $e) {
+        error_log($e->getMessage());
+        return false;
+    }
+}
+
+function get_cohort_per_id_template($id_template_cohort, $lang_profile_user){
+    global $DB;
+    $sql="
+        SELECT
+            ctc.id AS id_template_cohort,
+            ctc.templateid AS id_template_id,
+            ctc.cohortid,
+            c.name,
+            c.idnumber
+        FROM
+            {competency_templatecohort} ctc
+        JOIN {cohort} c ON
+            c.id = ctc.cohortid AND ctc.templateid = :id_template_cohort
+        WHERE
+            c.idnumber LIKE :lang_profile_user
+    ";
+    try {
+        $params = [
+            'id_template_cohort' => $id_template_cohort,
+            'lang_profile_user' => '%' . $lang_profile_user . '%'
+        ];
+        $result = $DB->get_records_sql($sql, $params);
+        return $result;
+    } catch (dml_exception $e) {
+        error_log($e->getMessage());
+        return false;
+    }
+}
+
+function user_in_cohort($id_user, $cohort_id) {
+    global $DB;
+    $sql = "
+        SELECT
+            cohortid
+        FROM
+            {cohort_members}
+        WHERE
+            cohortid = :cohort_id AND userid = :id_user
+    ";
+    try {
+        $params = [
+            'cohort_id' => $cohort_id,
+            'id_user' => $id_user
+        ];
+        $result = $DB->get_records_sql($sql, $params);
+        return $result;
+    } catch (dml_exception $e) {
+        error_log($e->getMessage());
+        return false;
+    }
+}
+
+
+function load_learning_plans_for_circles($id_user, $circle_num) {
+    global $DB;
+    $sql = "
+    SELECT DISTINCT
+        ct.id AS id_learning_plans, -- ID of the learning plan
+        ct.shortname,              -- Short name of the learning plan
+        ctc.templateid,            -- Template ID associated with the competency
+        ctc.id,                    -- ID of the competency-template relationship
+        cth.cohortid,              -- Cohort ID associated with the learning plan
+        c.name                     -- Name of the cohort
+    FROM
+        {competency_template} ct -- Table for competency templates
+    JOIN {competency_templatecomp} ctc ON ctc.templateid = ct.id -- Join with competency-template relationship
+    JOIN {competency_templatecohort} cth ON cth.templateid = ct.id -- Join with template-cohort relationship
+    JOIN {cohort} c ON c.id = cth.cohortid -- Join with cohort table
+    join mdl_user u on u.id=$id_user
+    WHERE
+        ct.shortname LIKE '$circle_num%' -- Filter for learning plans with shortname starting with '3'
+        AND ct.visible = 1;    -- Ensure the learning plan is visible
+";
+    try {
+        $params = [
+            'cohort_id' => $circle_num,
+            'id_user' => $id_user
+        ];
+        $result = $DB->get_records_sql($sql, $params);
+        var_dump($result);
+        return $result;
+    } catch (dml_exception $e) {
+        error_log($e->getMessage());
+        return false;
+    }
+}
+
 ?>
