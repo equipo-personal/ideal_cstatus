@@ -5,7 +5,6 @@ require_once(__DIR__ . '/consultas_db.php');
 function get_circle_data($sql, $id_user_search_competence)
 {
     global $DB, $OUTPUT,$PAGE;
-
     try {
         $all_areas = $DB->get_records_sql($sql);
         if (!$all_areas) {
@@ -30,6 +29,7 @@ function get_circle_data($sql, $id_user_search_competence)
             $competencias_user_array[] = $competencia_ok->competencia_ok;
             $ids_number_competences[] = get_idnumber_competence_nivel($competencia_ok->competencia_ok);
         }
+
         // Procesar cabeceras
         $cabeceras_ok = [];
         foreach ($cabeceras as $cabecera) {
@@ -59,12 +59,18 @@ function get_circle_data($sql, $id_user_search_competence)
 function get_id_user_search_competence_admin()
 {
     global $USER;
-    return $USER->id;
+    try {
+        return $USER->id;
+    } catch (\Throwable $th) {
+        return false;
+    }
 }
 
 function render_circles()
 {
-    global $CFG, $DB;
+    global $CFG, $DB,$PAGE,$USER;
+    //require '../block/ideal_cstatus/circles/modal_centro/modal_centro.js';
+
     require_once($CFG->dirroot . '/user/lib.php');
     global $OUTPUT, $USER;
     try {
@@ -82,7 +88,6 @@ function render_circles()
         try {
             // Obtén los roles del usuario
             $role = get_role_user($id_user_search_competence);
-
             // Asegurar de que el rol 'ideal_manage' existe
             if (isset($role[$rol_admin_id]) && $role[$rol_admin_id]->shortname) {
                 $rol = $role[$rol_admin_id]->shortname;
@@ -93,8 +98,10 @@ function render_circles()
         // Verifica si el usuario es admin o tiene el rol 'ideal_manage'
         if (is_siteadmin() || isset($rol) && $rol == $rol_admin_id) {
             try {
+                $list_countries = get_list_countries();
                 $users_search = get_list_users();
-                $templatecontext = ['users_search' => json_encode($users_search)];
+                $templatecontext = ['users_search' => json_encode($users_search)
+                    , 'list_countries' => json_encode($list_countries)];
 
                 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_user'])) {
                     $id_user_search_competence = $_POST['selected_user'] ?: $USER->id;
@@ -110,7 +117,6 @@ function render_circles()
                 error_log('Error en render_circles: ' . $e->getMessage());
             }
         }
-
 
         for ($i = 0; $i < count($ids); $i++) {
             $circle_key = 'circle' . ($i + 1);
@@ -129,7 +135,13 @@ function render_circles()
 
         $data = ['circles' => $circles_data];
         echo $OUTPUT->render_from_template('block_ideal_cstatus/all_circles', $data);
-
+        #modal centro
+        //$courses=list_courses_avalible($id_user_search_competence);
+        $learning_plans=list_learning_plans($id_user_search_competence,"%");
+        //var_dump($learning_plans);die();
+        echo $OUTPUT->render_from_template('block_ideal_cstatus/modal_centro/modal_centro', [
+            'template_data' => json_encode($learning_plans),
+        ]);
     } catch (Exception $e) {
         error_log('Error en render_circles: ' . $e->getMessage());
     }

@@ -8,24 +8,51 @@ $string['demo_learning_ideal:myaddinstance'] = 'Agregar un nuevo bloque de Estad
 $string['demo_learning_ideal:config'] = 'Configurar el bloque de Estado Ideal';
 $string['error_rendering'] = 'Ocurrió un error al renderizar los círculos.';
 $string['error_render_img'] = 'Ocurrió un error, ¡estamos trabajando en ello!';
-//LEGENGD
+//LEGEND
 $string['str_A'] = 'Conciencia';
 $string['str_D'] = 'Profundización';
 $string['str_L'] = 'Liderazgo';
 $string['str_Soft'] = 'Dominio de Habilidades Blandas';
 $string['str_Ethi'] = 'Dominio de Ciudadanía Ética';
 $string['lvl'] = 'Dominio de Niveles';
+$string['descriptionlegend'] = "El color de cada círculo representa el nivel de dominio de la competencia.";
 //COLORS LVLs
-$string['#0066FF']="#0066FF";
-$string['#FF6600']="#FF6600";
-$string['#6600FF']="#6600FF";
-$string['#C000FF']="#C000FF";
+$string['#0066FF'] = "#0066FF";
+$string['#FF6600'] = "#FF6600";
+$string['#6600FF'] = "#6600FF";
+$string['#C000FF'] = "#C000FF";
 //MANAGE
 $string['search'] = 'Buscar';
-$string['select_user'] = 'Seleccionar un usuario: ';
+$string['select_user'] = 'Seleccionar un usuario';
 $string['user_select'] = 'Usuario seleccionado: ';
-$string['view_profile'] = "Ver el perfil de este usuario ";
+$string['view_profile'] = "Ver el perfil de este usuario";
 $string['user_select_email'] = 'Correo: ';
 $string['is_rol_ok'] = 'ideal_manage';
-
-
+$string['all_users'] = 'Todos los usuarios';
+$string['users_not_country'] = 'Usuarios sin país';
+$string['select_filter_country'] = 'Seleccione un país';
+$string['select_country_first'] = 'Seleccione un país primero';
+$string['help_manage_user'] = 'Seleccione un país para filtrar a los usuarios';
+//modal centro
+$string['course_list'] = 'Lista de competencias faltantes y cursos relacionados';
+$string['learning_plan_label'] = 'Planes de aprendizaje';
+$string['not_learning_plan_label'] = 'No hay learning plans disponibles';
+$string['course_label'] = 'Curso';
+$string['Status'] = 'Estado';
+$string['Level'] = 'Nivel';
+$string['registered'] = 'Registrado';
+$string['not_registered'] = 'No registrado';
+$string['Ir'] = 'Ir al Curso';
+$string['Completed'] = 'Completado';
+$string['In_Progress'] = 'En Progreso';
+$string['Pending'] = 'Pendiente';
+$string['Close'] = 'Cerrar';
+$string['ProgresoAreasParrafo'] = 'Progreso en áreas de competencia: ';
+$string['Avanzar'] = 'Avanzar...';
+//cohort matriculacion
+$string['idcompetencyinvalid'] = 'Id de competencia inválido';
+$string['userincohort'] = 'Usuario en cohorte: ';
+$string['usernotinscrip'] = 'Usuario NO matriculado en: ';
+$string['userininscrip'] = 'Usuario matriculado en: ';
+$string['onemoment'] = 'Espere por favor...';
+$string['cohortnoavalible'] = 'Cohorte no disponible para su matriculación';

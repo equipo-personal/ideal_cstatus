@@ -7,7 +7,6 @@ use plugin_renderer_base;
 use stdClass;
 
 class renderer extends plugin_renderer_base {
-    
     /**
      * Renderiza todos los círculos.
      *
@@ -28,7 +27,6 @@ class renderer extends plugin_renderer_base {
             return $this->render_notification(get_string('renderingerror', 'block_ideal_cstatus') . ': ' . $e->getMessage(), 'notifyproblem');
         }
     }
-
     /**
      * Renderiza una notificación en caso de error o aviso.
      *

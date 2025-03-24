@@ -1,6 +1,5 @@
 function create_circle(ids_numbers, count_cabecera, name_container_principal_1, cabecera0, name_container_padre, name_container_centro, texts, numberOfCircles, competencia_ok_for_user, ids_circles_cambio_color, cabeceras) {
     try {
-
         var name_competencia_cambio_color_A_D_L = [];
         // Cabeceras
         var cabecera_h1 = document.getElementById(cabecera0);
@@ -89,7 +88,13 @@ function create_circle(ids_numbers, count_cabecera, name_container_principal_1, 
             try {
                 var div = document.createElement("div");
                 div.className = "circles_1";
-                div.setAttribute("id", texts[f]);
+                var id_circle_peque= texts[f];
+                //remplazar . por _
+                id_circle_peque= id_circle_peque.replace('.','_')
+                //quitar espacios
+                id_circle_peque=id_circle_peque.replace(/\s+/g, '');
+                id_circle_peque="circle_"+id_circle_peque;
+                div.setAttribute("id", id_circle_peque);
                 for (var k = 0; k < competencia_ok_for_user.length; k++) {
                     if (competencia_ok_for_user[k].slice(0, 3) === texts[f].slice(0, 3)) {
                         ids_circles_cambio_color.push(texts[f]);
@@ -121,11 +126,15 @@ function create_circle(ids_numbers, count_cabecera, name_container_principal_1, 
     } catch (error) {
         console.error("Error in create_circle function:", error);
     }
+
     function pintar(texts, name_container_centro, ids_numbers, name_competencia_cambio_color_A_D_L, ids_circles_cambio_color) {
         try {
             var levels = { "A": 0, "D": 0, "L": 0, "O": 0 };
 
             ids_circles_cambio_color.forEach((id, i) => {
+                id= id.replace('.','_')
+                id="circle_"+id;
+                id= id.replace(/\s+/g, '');
                 var circle_cambio_color = document.getElementById(id);
                 if (circle_cambio_color) {
                     switch (name_competencia_cambio_color_A_D_L[i].slice(3, 4)) {
@@ -164,25 +173,40 @@ window.comprobar_color_circles_peque = function (texts, levels, name_container_c
     try {
         // Obtener el elemento
         var circle_centro_div_white = document.getElementById(name_container_centro);
+
         if (!circle_centro_div_white) {
-            throw new Error("El elemento con id '" + name_container_centro + "' no existe.");
+            throw new Error("Error in element id: " + name_container_centro);
         }
         const colorMap = {
             "A": "#66a3ff", // Azul A
             "D": "#ffa366", // Naranja claro D
             "L": "#a366ff", // Violeta claro L
-            "O": "#d966ff"  // Rosado claro O
+            "O": "#E592FF"  // Rosado claro O
         };
         // Identificar qué nivel aplica
-        var targetLevel = Object.keys(levels).find(level => levels[level] === texts.length);
+        var targetLevel = null;
+
+        if(levels["A"]==texts.length){
+            targetLevel = "A";
+        }
+         if(levels["D"]==texts.length){
+            targetLevel = "D";
+        }
+         if(levels["L"]==texts.length){
+            targetLevel = "L";
+        }
+        if(levels["O"]==texts.length){
+            targetLevel = "O";
+        }
+        
         //OK
         if (targetLevel) {
             circle_centro_div_white.style.backgroundColor = colorMap[targetLevel];
             circle_centro_div_white.style.color = "#FFFFFF";
             circle_centro_div_white.style.opacity = ".9";
             //OPCION POR SI SE AGG UNA IMAGEN AL OBTENER L
-            /*if(targetLevel=='A'){
-               // circle_centro_div_white.style.backgroundImage = "url('" + M.cfg.wwwroot + "/blocks/ideal_cstatus/templates/media/img/L.png')";
+            /*if(targetLevel=='L' || targetLevel=='O'){
+                circle_centro_div_white.style.backgroundImage = "url('" + M.cfg.wwwroot + "/blocks/ideal_cstatus/templates/media/img/b.jpg')";
                 circle_centro_div_white.style.backgroundRepeat = 'no-repeat';
                 circle_centro_div_white.style.backgroundPositionX = 'center';
                 circle_centro_div_white.style.backgroundPositionY = 'center';
@@ -191,14 +215,14 @@ window.comprobar_color_circles_peque = function (texts, levels, name_container_c
             }*/
         }
     } catch (error) {
-        console.error("Error in comprobar_color_circles_peque function:", error);
+        console.error("Error in comprobar_color function:", error);
     }
 };
 
 window.circle_1 = function () {
     try {
         var name_container_padre = window.name_container_padre_1;
-        var name_container_centro = window.name_container_centro_1;
+        var name_container_centro="centro_circle_1";
         var texts = window.texts_1;
         var numberOfCircles = window.numberOfCircles_1;
         var competencia_ok_for_user = window.competencia_ok_for_user_1;
@@ -216,7 +240,7 @@ window.circle_1 = function () {
 window.circle_2 = function () {
     try {
         var name_container_padre = window.name_container_padre_2;
-        var name_container_centro = window.name_container_centro_2;
+        var name_container_centro="centro_circle_2";
         var texts = window.texts_2;
         var numberOfCircles = window.numberOfCircles_2;
         var competencia_ok_for_user = window.competencia_ok_for_user_2;
@@ -234,7 +258,7 @@ window.circle_2 = function () {
 window.circle_3 = function () {
     try {
         var name_container_padre = window.name_container_padre_3;
-        var name_container_centro = window.name_container_centro_3;
+        var name_container_centro="centro_circle_3";
         var texts = window.texts_3;
         var numberOfCircles = window.numberOfCircles_3;
         var competencia_ok_for_user = window.competencia_ok_for_user_3;
@@ -251,7 +275,7 @@ window.circle_3 = function () {
 window.circle_4 = function () {
     try {
         var name_container_padre = window.name_container_padre_4;
-        var name_container_centro = window.name_container_centro_4;
+        var name_container_centro="centro_circle_4";
         var texts = window.texts_4;
         var numberOfCircles = window.numberOfCircles_4;
         var competencia_ok_for_user = window.competencia_ok_for_user_4;
@@ -269,7 +293,7 @@ window.circle_4 = function () {
 window.circle_5 = function () {
     try {
         var name_container_padre = window.name_container_padre_5;
-        var name_container_centro = window.name_container_centro_5;
+        var name_container_centro="centro_circle_5";
         var texts = window.texts_5;
         var numberOfCircles = window.numberOfCircles_5;
         var competencia_ok_for_user = window.competencia_ok_for_user_5;
@@ -287,7 +311,7 @@ window.circle_5 = function () {
 window.circle_6 = function () {
     try {
         var name_container_padre = window.name_container_padre_6;
-        var name_container_centro = window.name_container_centro_6;
+        var name_container_centro="centro_circle_6";
         var texts = window.texts_6;
         var numberOfCircles = window.numberOfCircles_6;
         var competencia_ok_for_user = window.competencia_ok_for_user_6;
@@ -305,7 +329,7 @@ window.circle_6 = function () {
 window.circle_7 = function () {
     try {
         var name_container_padre = window.name_container_padre_7;
-        var name_container_centro = window.name_container_centro_7;
+        var name_container_centro="centro_circle_7";
         var texts = window.texts_7;
         var numberOfCircles = window.numberOfCircles_7;
         var competencia_ok_for_user = window.competencia_ok_for_user_7;
@@ -320,7 +344,7 @@ window.circle_7 = function () {
     }
 };
 
-window.create_legend=function(){
+window.create_legend = function() {
     var levels = window.legend;
     var container = document.getElementById('legend_container');
 
@@ -331,7 +355,7 @@ window.create_legend=function(){
     table.appendChild(headerRow);
 
     // Agrega las filas de datos
-    levels.forEach((level, index) => {
+    levels.slice(0, 3).forEach((level, index) => {
         const row = document.createElement("tr");
         row.className = "level-row";
         row.id = `level-${index}`;
@@ -356,8 +380,62 @@ window.create_legend=function(){
         table.appendChild(row);
     });
 
+    // Combina los últimos dos niveles
+    if (levels.length > 3) {
+        const combinedLevel = {
+            color: levels[3].color,
+            name: levels.slice(3).map(level => level.name).join(' & ')
+        };
+
+        const row = document.createElement("tr");
+        row.className = "level-row";
+        row.id = `level-3`;
+
+        // Celda de color
+        const colorCell = document.createElement("td");
+        const colorBox = document.createElement("div");
+        colorBox.style.width = "20px";
+        colorBox.style.height = "20px";
+        colorBox.style.backgroundColor = combinedLevel.color;
+        colorBox.style.border = "1px solid black";
+        colorBox.style.borderRadius = "50%";
+        colorCell.appendChild(colorBox);
+        row.appendChild(colorCell);
+
+        // Celda de nombre
+        const nameCell = document.createElement("td");
+        nameCell.textContent = combinedLevel.name;
+        row.appendChild(nameCell);
+
+        // Añadir la fila a la tabla
+        table.appendChild(row);
+      
+      /*  var helpWindow = document.getElementById('description_legend');
+        var btn_help = document.getElementById('help_cstatus');
+        btn_help.addEventListener('mouseover', function() {
+            helpWindow.style.border = '1px solid white';
+            helpWindow.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.1)';
+            helpWindow.style.borderRadius = '5px';
+            helpWindow.style.width = '70%';
+            helpWindow.style.padding = '10px';
+            helpWindow.style.color = 'white';
+            helpWindow.style.display = 'block';
+            helpWindow.style.textAlign = 'center';
+            helpWindow.style.margin = '1% 29% -3%';
+        });
+        btn_help.addEventListener('mouseover', function() {
+            helpWindow.style.display = 'none';
+        });
+
+        btn_help.addEventListener('mouseover', function() {
+            var helpWindow = document.getElementById('helpWindow');
+            if (helpWindow) {
+                document.body.removeChild(helpWindow);
+            }
+        });*/
+    }
+
     // Añade la tabla al contenedor
     container.appendChild(table);
 };
-
 create_legend();

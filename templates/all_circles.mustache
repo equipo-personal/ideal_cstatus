@@ -3,14 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../blocks/ideal_cstatus/amd/build/styles.min.css" type="text/css">
-
+    <script src="{{{config.wwwroot}}}/blocks/ideal_cstatus/amd/src/circles/modal_centro/modal_centro.js"></script>
+    <script>
+    //Cargar los estilos de manera dinamica
+        window.onload = function() {
+            var head = document.getElementsByTagName('head')[0]; 
+            if (head) {
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.type = 'text/css';
+                link.href = '{{{config.wwwroot}}}/blocks/ideal_cstatus/amd/build/styles.min.css';
+                head.appendChild(link); 
+            }
+        };
+    </script>
 </head>
-<script>
-</script>
 <div class="container_main" id='container_main'>
     <div class="section_1">
-
         <div class="container_children">
             {{#circles}}
                 {{#circle1}}
@@ -37,10 +46,9 @@
                     {{> block_ideal_cstatus/circles/5_circle}}
                 {{/circle5}}
             {{/circles}}
-    </div>
+        </div>
     </div>
     <div class="section_2" >
-
         <div class="Soft">
             {{#circles}}
                 {{#circle6}}
@@ -48,7 +56,6 @@
                 {{/circle6}}
             {{/circles}}
         </div>
-
         <div class="Ethical">
             {{#circles}}
                 {{#circle7}}
@@ -59,16 +66,16 @@
                     {{#str}} error_render_img, block_ideal_cstatus {{/str}}
                 </div> 
         </div>
-        </div>
-        
-    <div id="legend_container" >
-    <h3>{{#str}} lvl, block_ideal_cstatus {{/str}}</h3>
-
     </div>
-
-
-
+    <div id="legend_container" >
+            <div id="description_legend">
+                {{#str}} descriptionlegend, block_ideal_cstatus {{/str}}
+            </div>
+    <h3>{{#str}} lvl, block_ideal_cstatus {{/str}}
+        <!--<img id="help_cstatus" style="width:25px; height:25px; margin 0 auto;" id="icon_help" src="../blocks/ideal_cstatus/templates/media/img/help.png" title="signo de interrogación iconos" alt="help icon">-->
+    </h3>
+    </div>
+</div>
 </body>
-
 </html>
 
