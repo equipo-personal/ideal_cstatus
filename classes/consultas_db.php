@@ -37,14 +37,9 @@ COUNT(
     CASE WHEN uc.proficiency = 1 THEN 1 ELSE NULL
 END
 ) AS competency_completed,
-
-CASE WHEN t.shortname REGEXP '^.*\\\(A(-.*){0,1}\\\)$' THEN 'A' ELSE CASE WHEN t.shortname REGEXP '^.*\\\(D(-.*){0,1}\\\)$' THEN 'D' ELSE CASE WHEN t.shortname REGEXP '^.*\\\(L(-.*){0,1}\\\)$' THEN 'L' else CASE WHEN t.shortname REGEXP '^.*\\\((AD(-.*){0,1})\\\)$' THEN 'AD' else 'O'
-
-END
-
-END
-END
-END as LvL 
+SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(t.shortname, '(',-1),')',1),'-',1 )
+AS LvL,
+SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(t.shortname, '(',-1),')',1),'-',-1 )AS lang_lp
 FROM
     mdl_competency_template t
 LEFT JOIN mdl_competency_plan lp ON

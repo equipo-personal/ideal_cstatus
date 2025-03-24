@@ -39,6 +39,22 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 1000); // Ajusta el tiempo según lo necesario
 });
 
+
+function filterLanguages(lang_user) {
+    var selectedValue = document.getElementById('list_languages').value;
+    var elements = document.querySelectorAll('.tr_competency');
+    console.warn(lang_user);
+    elements.forEach(function (element) {
+        if (element.id === selectedValue) {
+            element.style.display = 'table-row';
+        } else {
+            element.style.display = 'none';
+        }
+    });
+}
+
+
+
 // Función para abrir el modal 
 function showModal(id) {
     const modal = document.getElementById('myModal');
@@ -149,6 +165,7 @@ async function loadLearningsPlans(id) {
                     learningplanname: value.learningplanname,
                     learningplanid: value.learningplanid,
                     competency_completed: value.competency_completed,
+                    lang_lp: value.lang_lp,
                 };
 
                 learning_plans.push(newLearningPlan);
@@ -169,7 +186,7 @@ async function loadLearningsPlans(id) {
                 var name_template_lp_l = String(learningP.templatename);
                 var name_template_lp_lo = name_template_lp_l.slice(0, 1);
                 var name_template_lp_se = name_template_lp_l.slice(4, 5);
-                console.log(learningP.lvl);
+                
 
                 const learning_a = document.createElement('a');
                 //const course_a = document.createElement('a');
@@ -181,9 +198,8 @@ async function loadLearningsPlans(id) {
                 learning_a.textContent = `${learningP.templatename} `;
                 text = document.createTextNode(`${learningP.lvl} `);
                 nivel_div.className = "img_level";
-
                 //Verificamos que Nivel mantiene A,D,L y O(otros o 6 y 7)
-                switch (level_competency) {
+                switch (learningP.lvl) {
                     case 'A':
                         var text = document.createTextNode("A");
                         nivel_div.id = "img_level_" + level_competency;
@@ -209,15 +225,13 @@ async function loadLearningsPlans(id) {
                             nivel_div.style.borderRadius = "50%";
                             nivel_div.appendChild(text);
                             break;
-                    case 'O':
-                        nivel_div.id = "img_level_" + level_competency;
+                    default:
+                        nivel_div.id = "img_level_O";
                         text = document.createTextNode("O");
                         nivel_div.style.borderRadius = "50%";
                         nivel_div.appendChild(text);
                         break;
-                    default:
-
-                        break;
+   
                 }
                 var appro_txt;
                 if (parseInt(learningP.num_competencies) === parseInt(learningP.competency_completed)) {
@@ -232,7 +246,7 @@ async function loadLearningsPlans(id) {
                 learning_a.target = "_blank";
 
                 const tr_3 = document.createElement('tr');
-                tr_3.id = `${learningP.shortname} `;
+                tr_3.id = `${learningP.lang_lp}`;
                 tr_3.className = "tr_competency";
                 const td_competency = document.createElement('td');
                 const div_icon_compe = document.createElement('div');
