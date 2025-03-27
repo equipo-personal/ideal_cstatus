@@ -48,6 +48,7 @@ $string['Pending'] = 'Pending';
 $string['Close'] = 'Close';
 $string['ProgresoAreasParrafo'] = 'Progress in areas of competence:';
 $string['Avanzar'] = 'Go to...';
+$string["str_filtradolearning"] = "Choose a language to view your learning plans: ";
 //cohort enrollment
 $string['idcompetencyinvalid'] = 'Invalid competency ID';
 $string['userincohort'] = 'User in cohort:';

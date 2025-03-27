@@ -49,6 +49,7 @@ $string['Pending'] = 'Pendiente';
 $string['Close'] = 'Cerrar';
 $string['ProgresoAreasParrafo'] = 'Progreso en áreas de competencia: ';
 $string['Avanzar'] = 'Avanzar...';
+$string["str_filtradolearning"] = "Elige un idioma para visualizar tus planes de aprendizaje: ";
 //cohort matriculacion
 $string['idcompetencyinvalid'] = 'Id de competencia inválido';
 $string['userincohort'] = 'Usuario en cohorte: ';

@@ -375,3 +375,132 @@ a.lista_cursos {
     position: absolute;
     display: contents;
 }
+
+/*Filtrado de idiomas */
+.filter_lang_lp {
+    position: relative;
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: flex-start;
+    flex-direction: row;
+}
+select#list_languages {
+    position: relative;
+    padding: 1px;
+    margin: 1%;
+    border-radius: 6px;
+    background: #004aad45;
+}
+/*Conffeti and lvls colors*/
+#confettiCanvas {
+    z-index: 1;
+    position: relative;
+    display: inline-block;
+    width: 22%;
+    margin: 0 auto;
+    padding-top: -10px;
+    transform: translate(10%, 57%);
+}
+
+@media (max-width: 700px) {
+    #confettiCanvas {
+        position: relative;
+        display: inline-block;
+        width: 150px;
+        height: 150px;
+        margin: 0 auto;
+        padding-top: 5px;
+        transform: translate(10%, 50%);
+    }
+
+    #btn_close_modal {
+        width: auto;
+        display: inline-flex;
+    }
+}
+#img_level_A {
+    background-color: #0466ff;
+    padding: 15px;
+    font-size: 20px;
+}
+#img_level_D {
+    background-color: #ff6601;
+    padding: 15px;
+    font-size: 20px;
+}
+
+#img_level_L {
+    background-color: #6603ff;
+    padding: 15px;
+    font-size: 20px;
+}
+#img_level_O {
+    background-color: #c003ff;
+    padding: 15px;
+    font-size: 20px;
+}
+tr#no_content {
+width: 100%;
+height: 50px;
+color: black;
+font-weight: 500;
+margin: 0 auto;
+text-align: center;
+transform: translate(10%, 10%);
+}
+td.status_competency {
+position: relative;
+margin: 0 auto;
+text-align: center;
+}
+td.td_matriculado {
+position: relative;
+margin: 0 auto;
+text-align: center;
+}
+.th_status{
+text-align: center;
+}
+.th_matriculado{
+text-align: center;
+}
+#img_level_AD {
+position: relative;
+display: inline-flex;
+align-items: center;
+flex-direction: row;
+font-weight:bold;
+padding: 15px;
+
+}
+
+/*TEST borrar*/
+.tooltip {
+    display: inline;
+    position: relative;
+}
+
+.tooltip:hover:after{
+    background: #333;
+    background: rgba(0,0,0,.8);
+    border-radius: 5px;
+    bottom: 26px;
+    color:black;
+    content: attr(title);
+    left: 20%;
+    padding: 5px 15px;
+    position: absolute;
+    z-index: 1;
+    width: 220px;
+}
+
+.tooltip:hover:before{
+    border: solid;
+    border-color: #333 transparent;
+    border-width: 6px 6px 0 6px;
+    bottom: 20px;
+    content: "";
+    left: 50%;
+    position: absolute;
+    z-index: 2;
+}
