@@ -465,6 +465,7 @@ function get_ids(){
         return [];
     }
 }
+//BORRAR?
 function learning_for_competency($id_competency){
     global $DB;
     $sql="
@@ -489,7 +490,39 @@ function learning_for_competency($id_competency){
         return false;
     }
 }
-
+function cohort_for_templates($templateid){
+    global $DB;
+    /*
+    id
+id templateid cohortid shortname name
+7   5         7        1 Professional engagement (AD-en) 1.1 Organizational communication cohorte es
+12  5         19       1 Professional engagement (AD-en) 1.1 Organizational communication cohorte lv
+    */
+    $sql="
+        SELECT
+        ctc.id,
+        ctc.templateid,
+        ctc.cohortid,
+        ct.shortname,
+        c.name
+    FROM
+        {competency_templatecohort} ctc
+    JOIN {competency_template} ct ON
+        ct.id = ctc.templateid
+    join {cohort} c ON
+        ctc.cohortid=c.id
+    WHERE ctc.templateid= :templateid;
+    ";
+    try {
+        $params = ['templateid' => $templateid];
+        $result = $DB->get_records_sql($sql, $params);
+        //var_dump($result);
+        return $result;
+    } catch (dml_exception $e) {
+        error_log($e->getMessage());
+        return false;
+    }
+}
 function get_cohort_per_id_template($id_template_cohort, $lang_profile_user){
     global $DB;
     $sql="
@@ -577,4 +610,14 @@ function load_learning_plans_for_circles($id_user, $circle_num) {
     }
 }
 
+function get_lang_x_user($id_user) {
+    global $DB;
+    try {
+        $lang_for_user_x = $DB->get_field('user', 'lang', ['id' => $id_user]);
+        return $lang_for_user_x ?: null;
+    } catch (dml_exception $e) {
+        error_log("Error retrieving user language: " . $e->getMessage());
+        return null;
+    }
+}
 ?>
