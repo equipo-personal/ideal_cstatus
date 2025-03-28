@@ -11,21 +11,22 @@ global $DB, $USER, $CFG;
 require_once ($CFG->dirroot.'/cohort/lib.php');
 $id_cohort="";
 try {
-    $id_competence = required_param('id', PARAM_INT);
+    $id_template_lp = required_param('id', PARAM_INT);
     //== Ensure $id_competence_for_url is valid
-    if (!$id_competence) {
+    if (!$id_template_lp) {
         throw new Exception(get_string('idcompetencyinvalid','block_ideal_cstatus'));
     }
-    $list_learning_plans_avalible = learning_for_competency($id_competence);
+    //var_dump($id_template_lp);die(); //OK
+    $list_learning_plans_avalible = cohort_for_templates(9);
     if (!empty($list_learning_plans_avalible)) {
-        //== Loop through available learning plans
-        foreach ($list_learning_plans_avalible as $plan) {
-            $list_cohort_for_template_id = get_cohort_per_id_template($plan->id_template, strtolower($USER->country));
             //== Loop through cohorts available for the learning plan template
-            foreach ($list_cohort_for_template_id as $cohor) {
+            foreach ($list_learning_plans_avalible as $cohor) {
                 try {
                     $id_cohort = $cohor->cohortid;
                     $name_cohort = $cohor->name;
+                    echo"</br>";
+                    //var_dump($id_cohort." ".$name_cohort);
+                    echo"</br>";
                     if ($id_cohort) {
                         $user_in_cohor_ = user_in_cohort($USER->id, $id_cohort);
                         //== Check if user is in cohort
@@ -35,9 +36,9 @@ try {
                             echo '<br>' . get_string('userincohort','block_ideal_cstatus') . $name_cohort;
                         } else {
                             echo get_string('usernotinscrip','block_ideal_cstatus') . $name_cohort;
-                            $ultimos_caracteres_name_cohort = substr($name_cohort, -2);
+                            //$ultimos_caracteres_name_cohort = substr($name_cohort, -2);
                             //== Matriculate user in the cohort based on the country in the user's profile
-                            if ($ultimos_caracteres_name_cohort == strtolower($USER->country)) {
+                            if ($id_cohort) {
                                 cohort_add_member($id_cohort, $USER->id);
                                 echo '<br>' . get_string('userininscrip','block_ideal_cstatus'). $name_cohort . get_string('onemoment','block_ideal_cstatus') . '<br>';
                             }
@@ -50,7 +51,7 @@ try {
                     echo 'Error: ' . $e->getMessage();
                 }
             }
-        }
+        
     } 
     if(!$id_cohort){
         echo '<br>' .get_string('cohortnoavalible','block_ideal_cstatus');

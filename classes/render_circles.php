@@ -73,6 +73,8 @@ function render_circles()
 
     require_once($CFG->dirroot . '/user/lib.php');
     global $OUTPUT, $USER;
+    $id_user_search_competence = $USER->id;
+    $lang_user=get_lang_x_user($id_user_search_competence);
     try {
         $ids = get_ids_cabeceras_db(get_cabeceras());
         if (!$ids) {
@@ -82,7 +84,7 @@ function render_circles()
         // Consultas por área
         $consultas = consultas_por_areas($ids);
         $circles_data = [];
-        $id_user_search_competence = $USER->id;
+
         $rol_admin_id = get_string('is_rol_ok', 'block_ideal_cstatus');
         // Si mantiene el rol de ideal_manage podrá acceder
         try {
@@ -105,12 +107,14 @@ function render_circles()
 
                 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_user'])) {
                     $id_user_search_competence = $_POST['selected_user'] ?: $USER->id;
+                    $lang_user = get_lang_x_user($id_user_search_competence);
+
                     $data_user = core_user::get_user($id_user_search_competence);
                     echo "<div style='display: flex; flex-wrap: wrap; align-items: center; gap: 10px;'>";
                     echo "<h2 style='font-size: 1.2em; margin-bottom: 10px;'>" . get_string('user_select', 'block_ideal_cstatus') . "<span style='color:#6398FA;'>" . htmlspecialchars(fullname($data_user)) . "</span></h2>";
                     echo "<h2 style='font-size: 1.2em; margin-bottom: 10px;'>" . get_string('user_select_email', 'block_ideal_cstatus') . "<a href='mailto:" . htmlspecialchars($data_user->email) . "' style='color:blue; text-decoration: underline;'>" . htmlspecialchars($data_user->email) . "</a></h2>";
                     echo "</div>";
-                    echo "<a href='../user/profile.php?id=" . $id_user_search_competence . "' style='display: inline-block; padding: 10px 15px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px; text-align: center;'>" . get_string('view_profile', 'block_ideal_cstatus') . "</a>";
+                    echo "<a href='../user/profile.php?id=" . $id_user_search_competence . "'id=$id_user_search_competence style='display: inline-block; padding: 10px 15px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px; text-align: center;'>" . get_string('view_profile', 'block_ideal_cstatus') . "</a>";
                 }
                 echo $OUTPUT->render_from_template('block_ideal_cstatus/menu_manage', $templatecontext);
             } catch (Exception $e) {
@@ -141,6 +145,7 @@ function render_circles()
         //var_dump($learning_plans);die();
         echo $OUTPUT->render_from_template('block_ideal_cstatus/modal_centro/modal_centro', [
             'template_data' => json_encode($learning_plans),
+            'lang_user' => json_encode($lang_user),
         ]);
     } catch (Exception $e) {
         error_log('Error en render_circles: ' . $e->getMessage());
