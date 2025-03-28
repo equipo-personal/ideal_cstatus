@@ -161,30 +161,38 @@ function filterLanguages() {
 
 function registrar_o_no(str_registered_) {
     const listLanguages = document.getElementById('list_languages');
-    var continue_=0;
-    console.error(listLanguages.value);
+    var count_register=0;
     if (listLanguages) {
         listLanguages.addEventListener('change', function () {
-            const selectedValue = listLanguages.value;
-            console.log('Selected language:', selectedValue);
-            filterLanguages(); // Llama a la función para filtrar las filas según el idioma seleccionado
             const rows = document.querySelectorAll('#table_competency .tr_competency');
+            const selectedValue = listLanguages.value;
+            filterLanguages(); // Llama a la función para filtrar las filas según el idioma seleccionado
             rows.forEach(row => {
                 const tdMatriculado = row.querySelector('.td_matriculado');
-                if (tdMatriculado && tdMatriculado.textContent.trim() !== str_registered_) {
-                    continue_=1;
-                }
-                if(continue_===1){
-                    row.style.display = 'none';
-                    continue_=0;
+                if (tdMatriculado.textContent.trim() === str_registered_) {
+                    //
+                }else{
+                    count_register=+count_register+1;
+                    if(count_register>1){
+                        row.style.display = 'none';
+                    }
                 }
             });
         });
+        if (count_register === 0) {
+            const rows = document.querySelectorAll('#table_competency .tr_competency');
+            rows.forEach((row, index) => {
+                const tdMatriculado = row.querySelector('.td_matriculado');
+                if(tdMatriculado.textContent.trim() !== str_registered_){
+                    if (index !== 0) {
+                        row.style.display = 'none'; // Oculta todos los elementos excepto el primero
+                    }
+                }
+            });
+        }
     } else {
         console.error("'list_languages' element not found.");
     }
-
-
 }
 
 async function loadLearningsPlans(id) {
@@ -209,21 +217,24 @@ async function loadLearningsPlans(id) {
             var name_template_lp_l = String(value.templatename);//nombre de template LP
             var id_compe_relacionadas_template_lp_se = name_template_lp_l.slice(0, 1); //id por el cual se filtrara las competencias
 
-                if (id === id_compe_relacionadas_template_lp_se ) {
-                    let newLearningPlan = {
-                        templateid: value.templateid,
-                        templatename: value.templatename,
-                        num_competencies: value.num_competencies,
-                        matriculado: value.matriculado,
-                        lvl: value.lvl,
-                        learningplanname: value.learningplanname,
-                        learningplanid: value.learningplanid,
-                        competency_completed: value.competency_completed,
-                        lang_lp: value.lang_lp,
-                    };
-                    learning_plans.push(newLearningPlan);
+                if (value.lang_lp === "en" || value.lang_lp===lang_user) {
+                    if(id === id_compe_relacionadas_template_lp_se ){
+                        let newLearningPlan = {
+                            templateid: value.templateid,
+                            templatename: value.templatename,
+                            num_competencies: value.num_competencies,
+                            matriculado: value.matriculado,
+                            lvl: value.lvl,
+                            learningplanname: value.learningplanname,
+                            learningplanid: value.learningplanid,
+                            competency_completed: value.competency_completed,
+                            lang_lp: value.lang_lp,
+                        };
+                        learning_plans.push(newLearningPlan);
+                    }
                 }
         }
+
         if (!learning_plans || typeof learning_plans !== "object") {
             throw new Error("El objeto 'learning_plans' no está definido o no es válido.");
         }
@@ -360,7 +371,7 @@ async function loadLearningsPlans(id) {
             }
         }
         filterLanguages();
-        //registrar_o_no(str_registered_);
+        registrar_o_no(str_registered_);
 
         /*var statusCompetencies = document.querySelectorAll(".status_competency");
          // Obtén el número de elementos
