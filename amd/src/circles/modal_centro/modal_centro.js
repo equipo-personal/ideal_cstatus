@@ -167,7 +167,7 @@ function registrar_o_no(str_registered_) {
         const enlace = row.querySelector(".td_matriculado a"); // Obtiene el <a> dentro de la fila
         if (tdMatriculado.textContent.trim() !== str_registered_ && enlace) {
             if (!hrefAssigned) {
-                enlace.setAttribute("href", `../blocks/ideal_cstatus/classes/learning_cohortes.php?id=${enlace.dataset.templateid}`);
+                //enlace.setAttribute("href", `../blocks/ideal_cstatus/classes/learning_cohortes.php?id=${enlace.dataset.templateid}`); //quitar comentario
                 hrefAssigned = true; // Marca que ya se asignó el href
             } else {
                 enlace.removeAttribute("href"); // Elimina el href de los siguientes elementos
@@ -331,7 +331,7 @@ async function loadLearningsPlans(id) {
                 } else {
                     var matriculado_txt = document.createTextNode(str_not_registered_);
                     a_regitrado.appendChild(matriculado_txt);
-                    a_regitrado.href=`../blocks/ideal_cstatus/classes/learning_cohortes.php?id=${learningP.templateid}`;
+                   // a_regitrado.href=`../blocks/ideal_cstatus/classes/learning_cohortes.php?id=${learningP.templateid}`;//quitar comentario
                 }
                 td_matriculado.appendChild(a_regitrado);
                 tr_3.appendChild(td_matriculado);
