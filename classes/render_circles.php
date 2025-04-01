@@ -4,7 +4,7 @@ require_once(__DIR__ . '/consultas_db.php');
 
 function get_circle_data($sql, $id_user_search_competence)
 {
-    global $DB, $OUTPUT,$PAGE;
+    global $DB;
     try {
         $all_areas = $DB->get_records_sql($sql);
         if (!$all_areas) {
@@ -38,6 +38,7 @@ function get_circle_data($sql, $id_user_search_competence)
                 'cabecera' => $cabecera->cabecera
             ];
         }
+
         return [
             'numberOfCircles' => $numberOfCircles,
             'texts' => json_encode($competencias),

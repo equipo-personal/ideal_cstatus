@@ -52,17 +52,20 @@ JOIN mdl_competency_templatecomp ctt ON
     t.id = ctt.templateid AND ctt.competencyid = c.id
 GROUP BY
     t.id,
-    lp.id;
+    lp.id ORDER BY `templatename` ASC;
     ";
     try {
         $learning_plans=[];
         $learning_plans=$DB->get_records_sql($sql);
+        //var_dump($learning_plans);die();
         return $learning_plans;
+
     }catch (dml_exception $e) {
         error_log( $e->getMessage()); 
         return false; 
     }
 }
+
 function list_courses_avalible($id_user) {
     $paths_categori = get_competenci_and_id_category_main();
 
@@ -103,6 +106,8 @@ function list_courses_avalible($id_user) {
     }
 
         return $competencies_with_status;
+    //var_dump($competencies_with_status);die();
+
     }catch (dml_exception $e) {
         error_log( $e->getMessage()); 
         return false; 
@@ -203,6 +208,7 @@ function get_legend(){
         ['name' => 'str_L', 'color' => '#6600FF'],
         ['name' => 'str_Soft', 'color' => '#C000FF'],
         ['name' => 'str_Ethi', 'color' => '#C000FF'],
+        ['name' => 'str_IA', 'color' => '#C000FF'],
     ];
 
     for ($i = 0; $i < count($legend); $i++) {
@@ -366,7 +372,7 @@ function get_cabeceras(){
             WHERE
                 c.path = '/0/' AND c.competencyframeworkid = $id_frameword
             ORDER BY
-                `c`.`id` ASC
+                `cabecera` ASC
         ";
         return $sql;
     } catch (Exception $e) {
@@ -384,14 +390,10 @@ function get_ids_cabeceras_db($sql){
         foreach ($datos as $dato) {
             $ids[] = $dato->id;
         }
-
+       // var_dump($ids);
         // Invertimos los últimos dos campos por las áreas 7 y 6
         $count = count($ids);
-        if ($count >= 2) {
-            $temp = $ids[$count - 1];
-            $ids[$count - 1] = $ids[$count - 2];
-            $ids[$count - 2] = $temp;
-        }
+
         return $ids;
     } catch (Exception $e) {
         error_log("Error al obtener IDs de cabeceras: " . $e->getMessage());
@@ -516,7 +518,7 @@ id templateid cohortid shortname name
     try {
         $params = ['templateid' => $templateid];
         $result = $DB->get_records_sql($sql, $params);
-        //var_dump($result);
+        //var_dump($result);die();
         return $result;
     } catch (dml_exception $e) {
         error_log($e->getMessage());
@@ -602,7 +604,6 @@ function load_learning_plans_for_circles($id_user, $circle_num) {
             'id_user' => $id_user
         ];
         $result = $DB->get_records_sql($sql, $params);
-        var_dump($result);
         return $result;
     } catch (dml_exception $e) {
         error_log($e->getMessage());

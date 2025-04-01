@@ -160,40 +160,22 @@ function filterLanguages() {
 }
 
 function registrar_o_no(str_registered_) {
-    const listLanguages = document.getElementById('list_languages');
-    var count_register=0;
-    if (listLanguages) {
-        listLanguages.addEventListener('change', function () {
-            const rows = document.querySelectorAll('#table_competency .tr_competency');
-            const selectedValue = listLanguages.value;
-            filterLanguages(); // Llama a la función para filtrar las filas según el idioma seleccionado
-            rows.forEach(row => {
-                const tdMatriculado = row.querySelector('.td_matriculado');
-                if (tdMatriculado.textContent.trim() === str_registered_) {
-                    //
-                }else{
-                    count_register=+count_register+1;
-                    if(count_register>1){
-                        row.style.display = 'none';
-                    }
-                }
-            });
-        });
-        if (count_register === 0) {
-            const rows = document.querySelectorAll('#table_competency .tr_competency');
-            rows.forEach((row, index) => {
-                const tdMatriculado = row.querySelector('.td_matriculado');
-                if(tdMatriculado.textContent.trim() !== str_registered_){
-                    if (index !== 0) {
-                        row.style.display = 'none'; // Oculta todos los elementos excepto el primero
-                    }
-                }
-            });
+    const rows = document.querySelectorAll('#table_competency .tr_competency');
+    let hrefAssigned = false; // Bandera para asignar href solo al primer elemento no registrado
+    rows.forEach(row => {
+        const tdMatriculado = row.querySelector('.td_matriculado');
+        const enlace = row.querySelector(".td_matriculado a"); // Obtiene el <a> dentro de la fila
+        if (tdMatriculado.textContent.trim() !== str_registered_ && enlace) {
+            if (!hrefAssigned) {
+                //enlace.setAttribute("href", `../blocks/ideal_cstatus/classes/learning_cohortes.php?id=${enlace.dataset.templateid}`); //quitar comentario
+                hrefAssigned = true; // Marca que ya se asignó el href
+            } else {
+                enlace.removeAttribute("href"); // Elimina el href de los siguientes elementos
+            }
         }
-    } else {
-        console.error("'list_languages' element not found.");
-    }
+    });
 }
+
 
 async function loadLearningsPlans(id) {
     id = id.slice(-1);
@@ -215,8 +197,7 @@ async function loadLearningsPlans(id) {
 
         for (const [key, value] of Object.entries(learning_plans_)) {
             var name_template_lp_l = String(value.templatename);//nombre de template LP
-            var id_compe_relacionadas_template_lp_se = name_template_lp_l.slice(0, 1); //id por el cual se filtrara las competencias
-
+            var id_compe_relacionadas_template_lp_se = name_template_lp_l.slice(1, 2); //id por el cual se filtrara las competencias
                 if (value.lang_lp === "en" || value.lang_lp===lang_user) {
                     if(id === id_compe_relacionadas_template_lp_se ){
                         let newLearningPlan = {
@@ -234,6 +215,7 @@ async function loadLearningsPlans(id) {
                     }
                 }
         }
+        learning_plans.sort((a, b) => a.templatename.localeCompare(b.templatename)); //ordenado de manera AS
 
         if (!learning_plans || typeof learning_plans !== "object") {
             throw new Error("El objeto 'learning_plans' no está definido o no es válido.");
@@ -342,15 +324,14 @@ async function loadLearningsPlans(id) {
                 tr_4.appendChild(td_matriculado);
                 td_matriculado.className = "td_matriculado";
                 //VOY POR AQUI
-                var a_regitrado=document.createElement("a");
-
+                var a_regitrado=document.createElement("a");                
                 if (`${learningP.matriculado}` == "1") {
                     var matriculado_txt = document.createTextNode(str_registered_);
                     a_regitrado.appendChild(matriculado_txt);
                 } else {
                     var matriculado_txt = document.createTextNode(str_not_registered_);
                     a_regitrado.appendChild(matriculado_txt);
-                    a_regitrado.href=`../blocks/ideal_cstatus/classes/learning_cohortes.php?id=${learningP.templateid}`;
+                   // a_regitrado.href=`../blocks/ideal_cstatus/classes/learning_cohortes.php?id=${learningP.templateid}`;//quitar comentario
                 }
                 td_matriculado.appendChild(a_regitrado);
                 tr_3.appendChild(td_matriculado);
@@ -372,35 +353,10 @@ async function loadLearningsPlans(id) {
         }
         filterLanguages();
         registrar_o_no(str_registered_);
-
-        /*var statusCompetencies = document.querySelectorAll(".status_competency");
-         // Obtén el número de elementos
-         var count = statusCompetencies.length;
-         let status_count=0;
-         try {
-             // Recorre los elementos para obtener el texto de cada uno
-             statusCompetencies.forEach((element, index) => {
-                 let status=`${element.textContent.trim()}`;
-                 if(status=="Completado" || status=="Completed"){
-                     status_count++;
-                 }
-             });
- 
-             if(status_count==count){
-                 const img = document.createElement('img');
-                 img.src = "../blocks/ideal_cstatus/templates/media/img/all_complete_2.png";
-                 img.id = "all_competence_complete_img";
-                 const div_contaimner_canvas = document.getElementById('all_complete');
-                 div_contaimner_canvas.appendChild(img);
-                 const canvas=document.querySelector('#confettiCanvas');
-                 canvas.style.visibility='visible';
-             }
-         } catch (error) {
-             console.error(error);
-         }*/
     } catch (error) {
         console.error('loadLearningsPlans', error);
     }
+
 }
 
 

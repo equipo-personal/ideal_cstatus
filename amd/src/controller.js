@@ -11,14 +11,14 @@ define(['jquery'], function($) {
                     .done(function(script, textStatus) {
                         try {
                             // Llamar a las funciones de los círculos correctamente
-                            circle_1();
-                            circle_2();
-                            circle_3();
-                            circle_4();
-                            circle_5();
-                            circle_6();
-                            circle_7();
-
+                            try { circle_1(); } catch (err) { console.error("Error en circle_1: ", err); }
+                            try { circle_2(); } catch (err) { console.error("Error en circle_2: ", err); }
+                            try { circle_3(); } catch (err) { console.error("Error en circle_3: ", err); }
+                            try { circle_4(); } catch (err) { console.error("Error en circle_4: ", err); }
+                            try { circle_5(); } catch (err) { console.error("Error en circle_5: ", err); }
+                            try { circle_6(); } catch (err) { console.error("Error en circle_6: ", err); }
+                            try { circle_7(); } catch (err) { console.error("Error en circle_7: ", err); }
+                            try { circle_8(); } catch (err) { console.error("Error en circle_8: ", err); }
                         } catch (err) {
                             console.error("Error: ", err);
                             showError();
