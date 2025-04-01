@@ -14,6 +14,7 @@ $string['str_D'] = 'Deepening';
 $string['str_L'] = 'Leadership';
 $string['str_Soft'] = 'Soft Skills Proficiency';
 $string['str_Ethi'] = 'Ethical Citizenship Proficiency';
+$string['str_IA'] = 'Ethical Citizenship Proficiency';
 $string['lvl'] = 'Proficiency Levels';
 $string['descriptionlegend'] = 'The color of each circle represents the proficiency level of the competency.';
 //COLORS LVLs EN TODOS LOS LANG

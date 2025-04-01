@@ -15,7 +15,7 @@ function create_circle(ids_numbers, count_cabecera, name_container_principal_1, 
         container_padre.setAttribute("id", name_container_padre);
         container_principal.appendChild(container_padre);
 
-        if (cabecera0 == 'cabecera_6' || cabecera0 == 'cabecera_7') {
+        if (cabecera0 == 'cabecera_6' || cabecera0 == 'cabecera_7' || cabecera0 == 'cabecera_8') {
             Object.assign(container_padre.style, {
                 background: "black",
                 width: "258px",
@@ -45,7 +45,7 @@ function create_circle(ids_numbers, count_cabecera, name_container_principal_1, 
 
         document.getElementById(name_container_centro).innerHTML = cabecera0.slice(9, 10);
 
-        if (cabecera0 == 'cabecera_6' || cabecera0 == 'cabecera_7') {
+        if (cabecera0 == 'cabecera_6' || cabecera0 == 'cabecera_7' || cabecera0 == 'cabecera_8') {
             Object.assign(container_centro.style, {
                 background: "white",
                 width: "248px",
@@ -316,7 +316,7 @@ window.circle_6 = function () {
         var numberOfCircles = window.numberOfCircles_6;
         var competencia_ok_for_user = window.competencia_ok_for_user_6;
         var ids_circles_cambio_color = [];
-        var cabeceras = window.cabeceras_1[6]['cabecera'];
+        var cabeceras = window.cabeceras_1[5]['cabecera'];
         var cabecera0 = 'cabecera_6';
         var count_cabecera = window.cabeceras_5.length;
         var ids_numbers = window.idnumbers;
@@ -334,13 +334,31 @@ window.circle_7 = function () {
         var numberOfCircles = window.numberOfCircles_7;
         var competencia_ok_for_user = window.competencia_ok_for_user_7;
         var ids_circles_cambio_color = [];
-        var cabeceras = window.cabeceras_1[5]['cabecera'];
+        var cabeceras = window.cabeceras_1[6]['cabecera'];
         var cabecera0 = 'cabecera_7';
-        var count_cabecera = window.cabeceras_5.length;
+        var count_cabecera = window.cabeceras_8.length;
         var ids_numbers = window.idnumbers;
         create_circle(ids_numbers, count_cabecera, name_container_principal_7, cabecera0, name_container_padre, name_container_centro, texts, numberOfCircles, competencia_ok_for_user, ids_circles_cambio_color, cabeceras);
     } catch (error) {
         console.error("Error en circle_7: ", error);
+    }
+};
+
+window.circle_8 = function () {
+    try {
+        var name_container_padre = window.name_container_padre_8;
+        var name_container_centro="centro_circle_8";
+        var texts = window.texts_8;
+        var numberOfCircles = window.numberOfCircles_8;
+        var competencia_ok_for_user = window.competencia_ok_for_user_8;
+        var ids_circles_cambio_color = [];
+        var cabeceras = window.cabeceras_1[7]['cabecera'];
+        var cabecera0 = 'cabecera_8';
+        var count_cabecera = window.cabeceras_8.length;
+        var ids_numbers = window.idnumbers;
+        create_circle(ids_numbers, count_cabecera, name_container_principal_8, cabecera0, name_container_padre, name_container_centro, texts, numberOfCircles, competencia_ok_for_user, ids_circles_cambio_color, cabeceras);
+    } catch (error) {
+        console.error("Error en circle_8: ", error);
     }
 };
 
