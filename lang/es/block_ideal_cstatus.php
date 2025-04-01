@@ -14,6 +14,7 @@ $string['str_D'] = 'Profundización';
 $string['str_L'] = 'Liderazgo';
 $string['str_Soft'] = 'Dominio de Habilidades Blandas';
 $string['str_Ethi'] = 'Dominio de Ciudadanía Ética';
+$string['str_IA'] = 'Artificial Intelligence';
 $string['lvl'] = 'Dominio de Niveles';
 $string['descriptionlegend'] = "El color de cada círculo representa el nivel de dominio de la competencia.";
 //COLORS LVLs

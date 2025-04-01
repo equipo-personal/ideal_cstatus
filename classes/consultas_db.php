@@ -208,6 +208,7 @@ function get_legend(){
         ['name' => 'str_L', 'color' => '#6600FF'],
         ['name' => 'str_Soft', 'color' => '#C000FF'],
         ['name' => 'str_Ethi', 'color' => '#C000FF'],
+        ['name' => 'str_IA', 'color' => '#C000FF'],
     ];
 
     for ($i = 0; $i < count($legend); $i++) {
