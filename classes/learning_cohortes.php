@@ -1,63 +1,81 @@
-<!--
-Para la matriculacion en los cohortes, es necesario asignar dichos cohortes a los learning plans
-si esta agg a un learning plan, se genra una plantilla en mdl_competency_templatecohort que busca su templateid y lo asigna con un cohortid
--->
-
 <?php
 require_once '../classes/consultas_db.php';
 require_once '../../../config.php';
 global $DB, $USER, $CFG;
 
-require_once ($CFG->dirroot.'/cohort/lib.php');
-$id_cohort="";
+require_once($CFG->dirroot . '/cohort/lib.php');
+
+// Mensajes de estado
+$str_enroll_cohorts = json_decode(get_string('str_enroll_in_cohorts', 'block_ideal_cstatus'), true);
+
 try {
+    // Validar el parámetro 'id' del template del learning plan
     $id_template_lp = required_param('id', PARAM_INT);
-    //== Ensure $id_competence_for_url is valid
     if (!$id_template_lp) {
-        throw new Exception(get_string('idcompetencyinvalid','block_ideal_cstatus'));
+        throw new Exception("El ID del template del learning plan no es válido.");
     }
-    //var_dump($id_template_lp);die(); //OK
-    $list_learning_plans_avalible = cohort_for_templates(9);
-    if (!empty($list_learning_plans_avalible)) {
-            //== Loop through cohorts available for the learning plan template
-            foreach ($list_learning_plans_avalible as $cohor) {
-                try {
-                    $id_cohort = $cohor->cohortid;
-                    $name_cohort = $cohor->name;
-                    echo"</br>";
-                    //var_dump($id_cohort." ".$name_cohort);
-                    echo"</br>";
-                    if ($id_cohort) {
-                        $user_in_cohor_ = user_in_cohort($USER->id, $id_cohort);
-                        //== Check if user is in cohort
-                        //print_r($id_cohort);
-                        //== Check if user is already in the cohort
-                        if (isset($user_in_cohor_[$id_cohort]) && $user_in_cohor_[$id_cohort]->cohortid == $id_cohort) {
-                            echo '<br>' . get_string('userincohort','block_ideal_cstatus') . $name_cohort;
-                        } else {
-                            echo get_string('usernotinscrip','block_ideal_cstatus') . $name_cohort;
-                            //$ultimos_caracteres_name_cohort = substr($name_cohort, -2);
-                            //== Matriculate user in the cohort based on the country in the user's profile
-                            if ($id_cohort) {
-                                cohort_add_member($id_cohort, $USER->id);
-                                echo '<br>' . get_string('userininscrip','block_ideal_cstatus'). $name_cohort . get_string('onemoment','block_ideal_cstatus') . '<br>';
-                            }
-                        }
-                    } else {
-                        echo '<br>' .get_string('cohortnoavalible','block_ideal_cstatus');
-                    }
-                } catch (Exception $e) {
-                    //== Handle exceptions and display error message
-                    echo 'Error: ' . $e->getMessage();
-                }
+
+    // Obtener la lista de cohortes disponibles para el template del learning plan
+    $list_learning_plans_avalible = cohort_for_templates($id_template_lp);
+    if (empty($list_learning_plans_avalible)) {
+        throw new Exception("No hay cohortes disponibles para este learning plan.");
+    }
+
+    $total_cohorts = count($list_learning_plans_avalible);
+    $enrolled_count = 0;
+
+    foreach ($list_learning_plans_avalible as $cohort) {
+        try {
+            // Verificar si $cohort es un objeto o un arreglo
+            if (is_object($cohort)) {
+                $id_cohort = $cohort->cohortid;
+                $name_lp = $cohort->shortname;
+            } else {
+                // Si es un arreglo, acceder al índice apropiado
+                $id_cohort = isset($cohort['cohortid']) ? $cohort['cohortid'] : null;
+                $name_lp = isset($cohort['shortname']) ? $cohort['shortname'] : null;
             }
-        
-    } 
-    if(!$id_cohort){
-        echo '<br>' .get_string('cohortnoavalible','block_ideal_cstatus');
+    
+            if (!$id_cohort) {
+                throw new Exception("El ID del cohorte no es válido.");
+            }
+    
+            // Verificar si el usuario ya está matriculado en el cohorte
+            $user_in_cohort = user_in_cohort($USER->id, $id_cohort);
+            if ($user_in_cohort && $user_in_cohort->cohortid == $id_cohort) {
+                $enrolled_count++;
+                continue; // Ya está matriculado, pasar al siguiente cohorte
+            }
+    
+            // Matricular al usuario en el cohorte
+            cohort_add_member($id_cohort, $USER->id);
+            $enrolled_count++;
+    
+            // Mostrar mensaje de éxito para este cohorte
+            echo "<div class='h_result_ok' id='id_result_enroll' style='border-radius: 15px; text-align: center;'>";
+            echo '<h6 style="margin: 0;">' . $str_enroll_cohorts['0'] . "</h6>";
+            echo '<h5 style="background: green; font-weight: bold; margin: 0; text-align: center;">' . $name_lp . "</h5>";
+            echo "</div>";
+        } catch (Exception $e) {
+            // Manejar errores específicos del cohorte
+            echo "<div class='h_result_error' style='border-radius: 15px; text-align: center;'>";
+            echo '<h6 style="margin: 0; color: red;">Error en el cohorte: ' . $e->getMessage() . "</h6>";
+            echo "</div>";
+        }
+    }
+    
+
+    // Verificar si todos los cohortes fueron procesados correctamente
+    if ($enrolled_count === $total_cohorts) {
+        echo "<div class='h_result_ok' id='id_result_enroll' style='border-radius: 15px; text-align: center;'>";
+        echo '<h6 style="margin: 0;">' . $str_enroll_cohorts['2'] . "</h6>";
+        echo "</div>";
     }
 } catch (Exception $e) {
-    //== Handle exceptions and display error message
-    echo 'Error: ' . $e->getMessage();
+    // Manejar errores generales
+    echo "<div class='h_result_error' style='border-radius: 15px; text-align: center;'>";
+    echo '<h6 style="margin: 0; color: red;">Error: ' . $e->getMessage() . "</h6>";
+    echo "</div>";
 }
+echo "AQUI";
 ?>

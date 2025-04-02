@@ -143,13 +143,23 @@ function render_circles()
         #modal centro
         //$courses=list_courses_avalible($id_user_search_competence);
         $learning_plans=list_learning_plans($id_user_search_competence,"%");
-        //var_dump($learning_plans);die();
+
+        $matriz = [];
+        foreach ($learning_plans as $item) {
+            preg_match('/^(\d+)/', $item->templatename, $matches);
+            if (!empty($matches[1])) {
+                $groupKey = (int)$matches[1];
+                $matriz[$groupKey][] = $item;
+            }
+        }
+
         echo $OUTPUT->render_from_template('block_ideal_cstatus/modal_centro/modal_centro', [
-            'template_data' => json_encode($learning_plans),
+            'template_data' => json_encode($matriz),
             'lang_user' => json_encode($lang_user),
         ]);
     } catch (Exception $e) {
         error_log('Error en render_circles: ' . $e->getMessage());
     }
 }
+
 ?>

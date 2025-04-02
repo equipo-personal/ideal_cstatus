@@ -54,6 +54,58 @@ GROUP BY
     t.id,
     lp.id ORDER BY `templatename` ASC;
     ";
+
+
+    $sql_="
+   WITH completed_plans AS (
+    SELECT 
+        t.id AS templateid,
+        t.shortname AS templatename,
+        SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(t.shortname, '(',-1),')',1),'-',1 ) AS LvL,
+        SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(t.shortname, '(',-1),')',1),'-',-1 ) AS lang_lp,
+        u.lang AS user_lang
+    FROM mdl_competency_template t
+    LEFT JOIN mdl_competency_plan lp ON t.id = lp.templateid AND lp.userid =  $userid
+    JOIN mdl_competency_templatecomp ctt ON t.id = ctt.templateid
+    JOIN mdl_competency c ON c.id = ctt.competencyid
+    LEFT JOIN mdl_competency_usercomp uc ON uc.competencyid = c.id AND uc.userid =  $userid
+    JOIN mdl_user u ON u.id =  $userid  -- Se obtiene el idioma del usuario
+    WHERE lp.userid =  $userid
+    GROUP BY t.id, u.lang
+    HAVING COUNT( CASE WHEN uc.proficiency = 1 THEN 1 ELSE NULL END ) = COUNT(c.id)
+)
+
+SELECT 
+    t.id AS templateid, 
+    t.shortname AS templatename, 
+    lp.id AS learningplanid, 
+    lp.name AS learningplanname, 
+    CASE WHEN lp.userid =  $userid THEN TRUE ELSE FALSE END AS matriculado, 
+    COUNT(c.id) AS num_competencies, 
+    COUNT( CASE WHEN uc.proficiency = 1 THEN 1 ELSE NULL END ) AS competency_completed, 
+    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(t.shortname, '(',-1),')',1),'-',1 ) AS LvL, 
+    SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(t.shortname, '(',-1),')',1),'-',-1 ) AS lang_lp,
+    u.lang AS user_lang,
+    CASE 
+        WHEN lp.id IS NULL 
+        AND EXISTS (
+            SELECT 1 FROM completed_plans cp 
+            WHERE cp.templatename LIKE CONCAT('%', SUBSTRING_INDEX(t.shortname, '(', 1), '%')
+            AND cp.user_lang = u.lang  -- Se filtra por el idioma
+        ) 
+        THEN TRUE 
+        ELSE FALSE 
+    END AS can_enroll
+FROM mdl_competency_template t
+LEFT JOIN mdl_competency_plan lp ON t.id = lp.templateid AND lp.userid =  $userid
+JOIN mdl_competency_templatecomp ctt ON t.id = ctt.templateid
+JOIN mdl_competency c ON c.id = ctt.competencyid
+LEFT JOIN mdl_competency_usercomp uc ON uc.competencyid = c.id AND uc.userid =  $userid
+JOIN mdl_user u ON u.id =  $userid  -- Se obtiene el idioma del usuario
+GROUP BY t.id, lp.id, u.lang
+ORDER BY `templatename` ASC;
+    
+    ";
     try {
         $learning_plans=[];
         $learning_plans=$DB->get_records_sql($sql);
@@ -556,6 +608,7 @@ function get_cohort_per_id_template($id_template_cohort, $lang_profile_user){
 
 function user_in_cohort($id_user, $cohort_id) {
     global $DB;
+    $result=[];
     $sql = "
         SELECT
             cohortid
@@ -569,7 +622,7 @@ function user_in_cohort($id_user, $cohort_id) {
             'cohort_id' => $cohort_id,
             'id_user' => $id_user
         ];
-        $result = $DB->get_records_sql($sql, $params);
+        $result = $DB->get_record_sql($sql, $params);
         return $result;
     } catch (dml_exception $e) {
         error_log($e->getMessage());

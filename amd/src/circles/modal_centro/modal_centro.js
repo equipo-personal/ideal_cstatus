@@ -167,14 +167,64 @@ function registrar_o_no(str_registered_) {
         const enlace = row.querySelector(".td_matriculado a"); // Obtiene el <a> dentro de la fila
         if (tdMatriculado.textContent.trim() !== str_registered_ && enlace) {
             if (!hrefAssigned) {
-                //enlace.setAttribute("href", `../blocks/ideal_cstatus/classes/learning_cohortes.php?id=${enlace.dataset.templateid}`); //quitar comentario
+                enlace.setAttribute("href", `../blocks/ideal_cstatus/classes/learning_cohortes.php?id=${enlace.dataset.templateid}`); //quitar comentario
                 hrefAssigned = true; // Marca que ya se asignó el href
+                 
             } else {
                 enlace.removeAttribute("href"); // Elimina el href de los siguientes elementos
             }
         }
     });
 }
+function addEnrollmentStatus(learning_plans) {
+    const groupedByLang = {};
+
+    // Agrupar por idioma
+    learning_plans.forEach(plan => {
+        if (!groupedByLang[plan.lang_lp]) {
+            groupedByLang[plan.lang_lp] = [];
+        }
+        groupedByLang[plan.lang_lp].push(plan);
+    });
+
+    console.log("Agrupado por idioma:", groupedByLang);
+
+    // Definir orden de niveles explícitamente
+    const levelOrder = { "AD": 1, "L": 2 };
+
+    // Procesar cada idioma
+    Object.keys(groupedByLang).forEach(lang => {
+        let plans = groupedByLang[lang];
+        plans.sort((a, b) => levelOrder[a.lvl] - levelOrder[b.lvl]);
+
+        let previousCompleted = false;
+        let anyEnrolled = plans.some(plan => parseInt(plan.matriculado, 10) === 1); // Verificar si hay algún plan matriculado
+
+        // Si no hay ninguno matriculado, permitir inscripción en el primero
+        if (!anyEnrolled) {
+            plans[0].can_enroll = 1;
+        }
+
+        plans.forEach(plan => {
+            plan.can_enroll = plan.can_enroll || 0; // Inicializar si no está definido
+
+            if (previousCompleted) {
+                plan.can_enroll = 1; // Si el nivel anterior se completó, permitir matriculación
+            }
+
+            const isEnrolled = parseInt(plan.matriculado, 10) === 1;
+            const competencies = parseInt(plan.num_competencies, 10);
+            const completed = parseInt(plan.competency_completed, 10);
+
+            if (isEnrolled && competencies === completed) {
+                previousCompleted = true;
+            }
+        });
+    });
+
+    return learning_plans;
+}
+
 
 
 async function loadLearningsPlans(id) {
@@ -184,8 +234,11 @@ async function loadLearningsPlans(id) {
     var text = document.createTextNode(cabecera);
     cabecera_modal.appendChild(text);
 
+
     try {
         const learning_plans_ = window.learning_plans;
+
+        //console.error(learning_plans_);
         var lang_user=window.lang_user_; /*lenguaje del usuario seleccionado*/
         set_lang_filtre_modal(lang_user); /*add option de idiomas learning */
         const str_completed_ = window.str_completed;
@@ -195,7 +248,7 @@ async function loadLearningsPlans(id) {
         const str_not_learningP_ = window.str_not_learningP;
         let learning_plans = []; 
 
-        for (const [key, value] of Object.entries(learning_plans_)) {
+        for (const [key, value] of Object.entries(learning_plans_[id])) {
             var name_template_lp_l = String(value.templatename);//nombre de template LP
             var id_compe_relacionadas_template_lp_se = name_template_lp_l.slice(1, 2); //id por el cual se filtrara las competencias
                 if (value.lang_lp === "en" || value.lang_lp===lang_user) {
@@ -210,12 +263,16 @@ async function loadLearningsPlans(id) {
                             learningplanid: value.learningplanid,
                             competency_completed: value.competency_completed,
                             lang_lp: value.lang_lp,
+                            can_enroll: value.can_enroll,
                         };
                         learning_plans.push(newLearningPlan);
                     }
                 }
         }
         learning_plans.sort((a, b) => a.templatename.localeCompare(b.templatename)); //ordenado de manera AS
+        console.warn(learning_plans);
+        const updatedLearningPlans = addEnrollmentStatus(learning_plans);
+        console.error(updatedLearningPlans);
 
         if (!learning_plans || typeof learning_plans !== "object") {
             throw new Error("El objeto 'learning_plans' no está definido o no es válido.");
@@ -225,9 +282,9 @@ async function loadLearningsPlans(id) {
         if (!div_modal_content) {
             throw new Error("'modal-content' no existe.");
         }
-        if (learning_plans) {
+        if (updatedLearningPlans) {
 
-            for (const [key, learningP] of Object.entries(learning_plans)) {
+            for (const [key, learningP] of Object.entries(updatedLearningPlans)) {
                 var level_competency = String(learningP.lvl);
                 var name_template_lp_l = String(learningP.templatename);
 
@@ -323,6 +380,8 @@ async function loadLearningsPlans(id) {
                 const td_matriculado = document.createElement('td');
                 tr_4.appendChild(td_matriculado);
                 td_matriculado.className = "td_matriculado";
+
+ 
                 //VOY POR AQUI
                 var a_regitrado=document.createElement("a");                
                 if (`${learningP.matriculado}` == "1") {
@@ -331,12 +390,75 @@ async function loadLearningsPlans(id) {
                 } else {
                     var matriculado_txt = document.createTextNode(str_not_registered_);
                     a_regitrado.appendChild(matriculado_txt);
-                   // a_regitrado.href=`../blocks/ideal_cstatus/classes/learning_cohortes.php?id=${learningP.templateid}`;//quitar comentario
                 }
                 td_matriculado.appendChild(a_regitrado);
                 tr_3.appendChild(td_matriculado);
                 table_competency.appendChild(tr_3);
+                if(`${learningP.can_enroll}`==="1"){
+                    td_matriculado.style.color="blue";
+                    a_regitrado.addEventListener('click', async function (event) {
+                        event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+
+                        try {
+                            // Realizar una solicitud fetch para obtener el contenido del curso
+                            if(`${learningP.can_enroll}`==="1"){
+                                const response = await fetch(`../blocks/ideal_cstatus/classes/learning_cohortes.php?id=${learningP.templateid}`);
+                            if (!response.ok) {
+                                throw new Error('Error al cargar el contenido del curso');
+                            }
+                            const courseContent = await response.text();
+
+                            // Crear el modal
+                            const modal = document.createElement('div');
+                            modal.id = 'courseModal';
+                            modal.style.top="-70%";
+                            modal.style.position = 'relative';
+                            modal.style.width = '40%';
+                            modal.style.backgroundColor = '#fff';
+                            modal.style.zIndex = '10000';
+                            modal.style.overflowY = 'auto';
+                            modal.style.borderRadius = '8px';
+                            modal.style.boxShadow = '#6a90b2 0px 4px 8px';
+                            modal.style.padding = '20px';
+                            modal.style.margin = '0 auto';
+                            modal.style.textAlign="center";
+                            modal.style.backgroundColor="#2c576db3";
+
+
+                            // Botón para cerrar el modal
+                            const closeButton = document.createElement('button');
+                            closeButton.textContent = 'X';
+                            closeButton.style.position = 'absolute';
+                            closeButton.style.top = '10px';
+                            closeButton.style.right = '10px';
+                            closeButton.style.padding = '10px 20px';
+                            closeButton.style.backgroundColor = '#ff0000';
+                            closeButton.style.color = '#fff';
+                            closeButton.style.border = 'none';
+                            closeButton.style.borderRadius = '5px';
+                            closeButton.style.cursor = 'pointer';
+                            closeButton.style.zIndex = '10000';
+
+
+                            closeButton.addEventListener('click', function () {
+                                document.body.removeChild(modal);
+                            });
+
+                            // Insertar el contenido del curso en el modal
+                            const contentContainer = document.createElement('div');
+                            contentContainer.innerHTML = courseContent;
+
+                            modal.appendChild(closeButton);
+                            modal.appendChild(contentContainer);
+                            document.body.appendChild(modal);
+                        }
+                        } catch (error) {
+                            console.error('Error al cargar el contenido del curso:', error);
+                        }
+                    });
+                }
             };
+
             if (learning_plans.length === 0) {
                 const table_competency = document.getElementById('table_competency');
                 if (table_competency) {
@@ -352,7 +474,7 @@ async function loadLearningsPlans(id) {
             }
         }
         filterLanguages();
-        registrar_o_no(str_registered_);
+        //registrar_o_no(str_registered_);
     } catch (error) {
         console.error('loadLearningsPlans', error);
     }

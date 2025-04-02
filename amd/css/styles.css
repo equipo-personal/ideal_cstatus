@@ -483,7 +483,12 @@ font-weight:bold;
 padding: 15px;
 
 }
-
+/*MODAL enroll*/
+div#id_result_enroll {
+    position: relative;
+    margin: 0 auto;
+    transform: translate(0%, 5%);
+}
 /*TEST borrar*/
 .tooltip {
     display: inline;
