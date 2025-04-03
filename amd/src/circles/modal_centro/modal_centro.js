@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         try {
             if (centro_circle.length > 0) {
-                // Crear una lista de IDs, utilizacion de var para que la ocupacion de la variable sea de funcion, no de bloque
                 var ids = [];
                 for (var i = 0; i < centro_circle.length; i++) {
                     var id = centro_circle[i].id; // Obtener el ID del elemento
@@ -26,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 let circle_centro_for_id = document.getElementById(id);
                 if (circle_centro_for_id) {
                     circle_centro_for_id.addEventListener('click', function () {
+
                         showModal(id);
                     });
                 } else {
@@ -178,7 +178,7 @@ function addEnrollmentStatus(learning_plans) {
         });
 
         // Definir orden de niveles explícitamente
-        const levelOrder = { "AD": 1, "L": 2, "O": 3 };
+        const levelOrder = { "A": 1, "AD":2, "D": 3, "L": 4,"O":5 };
 
         // Procesar cada idioma
         Object.keys(groupedByLang).forEach(lang => {
@@ -246,10 +246,9 @@ function filtre_lp_lang_area(learning_plans_, id, lang_user) {
         }
 
         var name_template_lp_l = String(value.templatename); // nombre de template LP
-        var id_compe_relacionadas_template_lp_se = name_template_lp_l.slice(1, 2); // id por el cual se filtrará las competencias
-
+        //var id_compe_relacionadas_template_lp_se = name_template_lp_l.slice(1, 2);  // id por el cual se filtrará las competencias
         if (value.lang_lp === "en" || value.lang_lp === lang_user) {
-            if (id === id_compe_relacionadas_template_lp_se) {
+            //if (id === id_compe_relacionadas_template_lp_se) {//quitar 
             let newLearningPlan = {
                 templateid: value.templateid,
                 templatename: value.templatename,
@@ -263,7 +262,7 @@ function filtre_lp_lang_area(learning_plans_, id, lang_user) {
                 can_enroll: value.can_enroll,
             };
             learning_plans.push(newLearningPlan);
-            }
+            //}
         }
         }
         learning_plans.sort((a, b) => a.templatename.localeCompare(b.templatename)); // ordenado de manera AS
@@ -293,8 +292,9 @@ function modal_enrol_in_lp(a_regitrado,lp_enroled,lp_template_id){
             // Crear el modal
             const modal = document.createElement('div');
             modal.id = 'enrollCohortModal';
-            modal.style.top="-70%";
-            modal.style.position = 'relative';
+            modal.style.top="30%";
+            modal.style.left="30%";
+            modal.style.position = 'fixed';
             modal.style.width = '40%';
             modal.style.height="20%";
             modal.style.backgroundColor = '#fff';
@@ -305,7 +305,7 @@ function modal_enrol_in_lp(a_regitrado,lp_enroled,lp_template_id){
             modal.style.padding = '20px';
             modal.style.margin = '0 auto';
             modal.style.textAlign="center";
-            modal.style.backgroundColor="#2c576db3";
+            modal.style.backgroundColor="rgb(198 217 227 / 97%)";
             modal.style.display="flex";
             modal.style.flexDirection="column";
             modal.style.flexWrap="nowarap";
@@ -316,13 +316,14 @@ function modal_enrol_in_lp(a_regitrado,lp_enroled,lp_template_id){
             closeButton.style.position = 'absolute';
             closeButton.style.top = '10px';
             closeButton.style.right = '10px';
-            closeButton.style.padding = '10px 20px';
-            closeButton.style.backgroundColor = '#ff0000';
-            closeButton.style.color = '#fff';
+            closeButton.style.padding = '10px 15px';
+            closeButton.style.backgroundColor = '#77c7e3';
+            closeButton.style.color = 'black';
             closeButton.style.border = 'none';
             closeButton.style.borderRadius = '5px';
             closeButton.style.cursor = 'pointer';
             closeButton.style.zIndex = '10000';
+            closeButton.style.fontWeight = 'bold';
 
 
             closeButton.addEventListener('click', function () {
@@ -462,7 +463,7 @@ async function loadLearningsPlans(id) {
                 tr_4.appendChild(td_matriculado);
                 td_matriculado.className = "td_matriculado"; 
                 var a_regitrado=document.createElement("a");                
-                if (`${learningP.matriculado}` == "1") {
+                if (`${learningP.matriculado}` === "1") {
                     var matriculado_txt = document.createTextNode(str_registered_);
                     a_regitrado.appendChild(matriculado_txt);
                 } else {
