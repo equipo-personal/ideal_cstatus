@@ -59,4 +59,4 @@ $string['userininscrip'] = 'Usuario matriculado en: ';
 $string['onemoment'] = 'Espere por favor...';
 $string['cohortnoavalible'] = 'Cohorte no disponible para su matriculación';
 //new enroll per LP
-$string['str_enroll_in_cohorts']='{"0":"Has sido matriculado en el plan de aprendizaje: ","1":"Ha ocurrido un error durante la matriculacion en el learning plan: ","2":"Ya estas en este learning plan: "}';
+$string['str_enroll_in_cohorts']='{"0":"Has sido matriculado en el plan de aprendizaje: ","1":"Ha ocurrido un error durante la matriculación en el learning plan: ","2":"Ya estas en este plan de aprendizaje: ","3":"La matriculación puede tardar unos minutos en ser efectiva","4":"Consulta con tu coordinador del proyecto.","5":"Error interno"}';

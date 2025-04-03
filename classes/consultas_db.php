@@ -39,7 +39,8 @@ END
 ) AS competency_completed,
 SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(t.shortname, '(',-1),')',1),'-',1 )
 AS LvL,
-SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(t.shortname, '(',-1),')',1),'-',-1 )AS lang_lp
+SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(t.shortname, '(',-1),')',1),'-',-1 )AS lang_lp,
+0 can_enroll
 FROM
     mdl_competency_template t
 LEFT JOIN mdl_competency_plan lp ON
@@ -629,7 +630,29 @@ function user_in_cohort($id_user, $cohort_id) {
         return false;
     }
 }
-
+function user_in_lp_template($id_user, $lp_template_id) {
+    global $DB;
+    $result=[];
+    $sql = "
+        SELECT
+            id
+        FROM
+            {competency_plan}
+        WHERE
+            templateid = :lp_template_id AND userid = :id_user
+    ";
+    try {
+        $params = [
+            'lp_template_id' => $lp_template_id,
+            'id_user' => $id_user
+        ];
+        $result = $DB->get_record_sql($sql, $params);
+        return $result;
+    } catch (dml_exception $e) {
+        error_log($e->getMessage());
+        return false;
+    }
+}
 function name_template_lp($lp_id) {
     global $DB;
     $result=[];

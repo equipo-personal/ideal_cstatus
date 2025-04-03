@@ -489,6 +489,9 @@ div#id_result_enroll {
     margin: 0 auto;
     transform: translate(0%, 5%);
 }
+.lp_name {
+    margin: 4%;
+}
 /*TEST borrar*/
 .tooltip {
     display: inline;
