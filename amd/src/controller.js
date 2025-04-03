@@ -10,7 +10,7 @@ define(['jquery'], function($) {
                 $.getScript(cstatusJsPath)
                     .done(function(script, textStatus) {
                         try {
-                            // Llamar a las funciones de los círculos correctamente
+                            // Llamar a las funciones de los círculos correctamente,si un circulo da algun error no pasara nada y los demas funcionaran
                             try { circle_1(); } catch (err) { console.error("Error en circle_1: ", err); }
                             try { circle_2(); } catch (err) { console.error("Error en circle_2: ", err); }
                             try { circle_3(); } catch (err) { console.error("Error en circle_3: ", err); }
