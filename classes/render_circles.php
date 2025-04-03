@@ -145,14 +145,16 @@ function render_circles()
         $learning_plans=list_learning_plans($id_user_search_competence,"%");
 
         $matriz = [];
-        foreach ($learning_plans as $item) {
+        foreach ($learning_plans as $i=>$item) {
+            //preg_match('/^([^(]*)/', $item->templatename, $matches);//saca el nombre sin lang y nivel
             preg_match('/^(\d+)/', $item->templatename, $matches);
             if (!empty($matches[1])) {
                 $groupKey = (int)$matches[1];
-                $matriz[$groupKey][] = $item;
+                $matriz[$groupKey][] = $item;//por num area
+                //$matriz[$matches[1]][] = $item; //por name area
             }
         }
-
+        //var_dump($matriz);//die();
         echo $OUTPUT->render_from_template('block_ideal_cstatus/modal_centro/modal_centro', [
             'template_data' => json_encode($matriz),
             'lang_user' => json_encode($lang_user),
