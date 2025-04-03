@@ -630,7 +630,28 @@ function user_in_cohort($id_user, $cohort_id) {
     }
 }
 
-
+function name_template_lp($lp_id) {
+    global $DB;
+    $result=[];
+    $sql = "
+        SELECT
+            shortname
+        FROM
+            {competency_template}
+        WHERE
+            id = :lp_id 
+    ";
+    try {
+        $params = [
+            'lp_id' => $lp_id,
+        ];
+        $result = $DB->get_record_sql($sql, $params);
+        return $result;
+    } catch (dml_exception $e) {
+        error_log($e->getMessage());
+        return false;
+    }
+}
 function load_learning_plans_for_circles($id_user, $circle_num) {
     global $DB;
     $sql = "
