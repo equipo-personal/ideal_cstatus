@@ -159,12 +159,15 @@ function filterLanguages() {
 }
 
 function addEnrollmentStatus(learning_plans) {
+
     try {
         if (!Array.isArray(learning_plans)) {
             throw new Error("El parámetro 'learning_plans' no es un array válido.");
         }
 
         const groupedByLang = {};
+        const levelOrder = { "A": 1, "AD": 2, "D": 3, "L": 4, "O": 5 };
+
         // Agrupar por idioma
         learning_plans.forEach(plan => {
             if (!plan || typeof plan !== "object") {
@@ -177,32 +180,33 @@ function addEnrollmentStatus(learning_plans) {
             groupedByLang[plan.lang_lp].push(plan);
         });
 
-        // Definir orden de niveles explícitamente
-        const levelOrder = { "A": 1, "AD":2, "D": 3, "L": 4,"O":5 };
+        // Aplicar lógica dentro de cada idioma
+        //console.warn(groupedByLang);
 
-        // Procesar cada idioma
         Object.keys(groupedByLang).forEach(lang => {
             let plans = groupedByLang[lang];
+
+            // Ordenar por nivel según levelOrder
             plans.sort((a, b) => {
-                if (!levelOrder[a.lvl] || !levelOrder[b.lvl]) {
-                    console.warn("Nivel desconocido encontrado:", a.lvl, b.lvl);
-                }
                 return (levelOrder[a.lvl] || 999) - (levelOrder[b.lvl] || 999);
             });
+            let previousCompleted = true;
+            let anyEnrolled = plans.some(plan => parseInt(plan.matriculado, 10) === 1);
 
-            let previousCompleted = false;
-            let anyEnrolled = plans.some(plan => parseInt(plan.matriculado, 10) === 1); // Verificar si hay algún plan matriculado
-
-            // Si no hay ninguno matriculado, permitir inscripción en el primero
+            // Si no hay matriculados, permitir inscripción en el primero
             if (!anyEnrolled && plans.length > 0) {
                 plans[0].can_enroll = 1;
             }
+            console.log(plans);
 
             plans.forEach(plan => {
-                plan.can_enroll = plan.can_enroll || 0; // Inicializar si no está definido
+                plan.can_enroll = plan.can_enroll || 0;
 
                 if (previousCompleted) {
-                    plan.can_enroll = 1; // Si el nivel anterior se completó, permitir matriculación
+                    plan.can_enroll = 1;
+                }else{
+                    plan.can_enroll = 0;
+                    return;
                 }
 
                 const isEnrolled = parseInt(plan.matriculado, 10) === 1;
@@ -212,19 +216,33 @@ function addEnrollmentStatus(learning_plans) {
                 if (isNaN(competencies) || isNaN(completed)) {
                     console.warn("Datos inválidos en el plan:", plan);
                 }
-
-                if (isEnrolled && competencies === completed) {
-                    previousCompleted = true;
+                console.log(plan.templatename);
+                console.warn("is_enroll: "+isEnrolled  +"  competencies: "+competencies +" completed: "+completed);
+                previousCompleted=true;                
+                if (!isEnrolled || completed!==competencies ) {
+                    previousCompleted = false;
+                    return;
                 }
+                console.log(previousCompleted);
             });
         });
 
-        return learning_plans;
+        //  rsultado final ordenado por idioma y nivel
+        const orderedFlatArray = [];
+        Object.keys(groupedByLang)
+            .sort() // orden alfabético de idiomas
+            .forEach(lang => {
+                orderedFlatArray.push(...groupedByLang[lang]);
+            });
+
+        return orderedFlatArray;
+
     } catch (error) {
         console.error("Error en 'addEnrollmentStatus':", error);
         return [];
     }
 }
+
 
 function filtre_lp_lang_area(learning_plans_, id, lang_user) {
     try {
@@ -362,9 +380,17 @@ async function loadLearningsPlans(id) {
         //console.warn(learning_plans); //traza
         //ordenamineto lp y filtrado por idioma del usuario
         learning_plans=filtre_lp_lang_area(learning_plans_,id,lang_user)
-        //console.warn(learning_plans);//traza
+        //console.error(learning_plans);//traza
+
         const updatedLearningPlans = addEnrollmentStatus(learning_plans);
-        // console.error(updatedLearningPlans); //traza
+        
+        // updatedLearningPlans.sort((a, b) => {
+        //     if (a.lang_lp === b.lang_lp) {
+        //         return a.templatename.localeCompare(b.templatename);
+        //     }
+        //     return a.lang_lp.localeCompare(b.lang_lp);
+        // });
+         //console.log(updatedLearningPlans); //traza
         if (!learning_plans || typeof learning_plans !== "object") {
             throw new Error("El objeto 'learning_plans' no está definido o no es válido.");
         }
@@ -484,18 +510,24 @@ async function loadLearningsPlans(id) {
                     modal_enrol_in_lp(a_regitrado,`${learningP.can_enroll}`,`${learningP.templateid}`)
                 }
             };
-            if (learning_plans.length === 0) {
-                const table_competency = document.getElementById('table_competency');
-                if (table_competency) {
-                    const tr_no_content = document.createElement('tr');
-                    tr_no_content.className = "no_content";
-                    tr_no_content.id = "no_content";
-                    const td_no_content = document.createElement('td');
-                    td_no_content.colSpan = "3"; // Ajusta el número de columnas según tu tabla
-                    td_no_content.textContent = str_not_learningP_;
-                    tr_no_content.appendChild(td_no_content);
-                    table_competency.appendChild(tr_no_content);
+            //VOY POR AQUI
+            if (learning_plans.length === 0 ) {
+                const table_competency = document.getElementById('table_competency tr');
+                console.log(table_competency);
+
+                if (table_competency.rows.length === 1 ) {
+                    console.error("AQUI");
+                        const tr_no_content = document.createElement('tr');
+                        tr_no_content.className = "no_content";
+                        tr_no_content.id = "no_content";
+                        const td_no_content = document.createElement('td');
+                        td_no_content.colSpan = "3"; // Ajusta el número de columnas según tu tabla
+                        td_no_content.textContent = str_not_learningP_;
+                        tr_no_content.appendChild(td_no_content);
+                        table_competency.appendChild(tr_no_content);
+                    
                 }
+
             }
         }
         filterLanguages();
