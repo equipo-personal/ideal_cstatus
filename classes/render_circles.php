@@ -150,11 +150,27 @@ function render_circles()
             preg_match('/^(\d+)/', $item->templatename, $matches);
             if (!empty($matches[1])) {
                 $groupKey = (int)$matches[1];
+                //print_r((int)$matches[1]);
                 $matriz[$groupKey][] = $item;//por num area
                 //$matriz[$matches[1]][] = $item; //por name area
             }
         }
-        //var_dump($matriz);//die();
+        // foreach ($learning_plans as $item) {
+        //     // Captura número decimal o entero al principio (4, 4.1, 5.2)
+        //     if (preg_match('/^(\d+(?:\.\d+)?)/', $item->templatename, $matches)) {
+        //         $fullArea = $matches[1]; //"4", "4.1"
+        //         $parts = explode('.', $fullArea);
+        //         $mainArea = (int)$parts[0]; // solo el número entero (ej: 4)
+        
+        //         if (count($parts) === 1) {
+        //             // Es un área principal (ej: 4)
+        //             $matriz[$mainArea]['main'][] = $item;
+        //         } else {
+        //             $matriz[$mainArea][$fullArea][] = $item;
+        //         }
+        //     }
+        // }
+        //var_dump($matriz);die();
         echo $OUTPUT->render_from_template('block_ideal_cstatus/modal_centro/modal_centro', [
             'template_data' => json_encode($matriz),
             'lang_user' => json_encode($lang_user),
