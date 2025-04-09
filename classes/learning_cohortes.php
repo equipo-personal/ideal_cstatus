@@ -15,11 +15,21 @@ $id_cohort;
 $name_lp = "";
 try {
     $id_template_lp = required_param('id', PARAM_INT);
+    $id_user=required_param('userid', PARAM_INT);
+
+    if($USER->id!=$id_user){
+        echo "<div class='h_result_ok' id='id_result_enroll';> ";
+        echo '<h4 >' . $str_enroll_cohorts['6']. '</h4>';  
+        echo "<h5 class='lp_name' style='border-radius: 25px;  background: yellow; font-weight: bold';>" . get_string('isadminuser','block_ideal_cstatus') . "</h5>";                                                 
+        echo "</div>";
+        return;
+    }
     $learningplan = name_template_lp($id_template_lp);
     //== Ensure $id_competence_for_url is valid
     if (!$id_template_lp) {
         throw new Exception("error in id");
     }
+   
     //echo $id_template_lp ."</br>";
     $list_learning_plans_avalible = cohort_for_templates($id_template_lp);
     $user_in_lp_template =user_in_lp_template($USER->id,$id_template_lp);

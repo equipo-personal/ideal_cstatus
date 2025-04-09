@@ -25,7 +25,7 @@ $string['#C000FF'] = '#C000FF';
 //MANAGE
 $string['search'] = 'Search';
 $string['select_user'] = 'Select a user';
-$string['user_select'] = 'Selected user:';
+$string['user_select'] = 'Selected user: ';
 $string['view_profile'] = "View this user's profile";
 $string['user_select_email'] = 'Email:';
 $string['is_rol_ok'] = 'ideal_manage';
@@ -58,5 +58,15 @@ $string['userininscrip'] = 'User enrolled in:';
 $string['onemoment'] = 'Please wait...';
 $string['cohortnoavalible'] = 'Cohort not available for enrollment';
 //new enroll per LP
-$string['str_enroll_in_cohorts']='{"0":"You have been enrolled in the learning plan: ","1":"An error occurred during enrollment in the learning plan: ","2":"You are already in this learning plan: ","3":"Enrollment may take a few minutes to become effective","4":"Consult with your project coordinator.","5":"Internal error"}';
+$string['str_enroll_in_cohorts']='{"0":"You have been enrolled in the learning plan: ","1":"An error occurred during enrollment in the learning plan: ","2":"You are already in this learning plan: ","3":"Enrollment may take a few minutes to become effective","4":"Consult with your project coordinator.","5":"Internal error","6":"Non-enrolled user."}';
+$string['isadminuser'] = 'Each user must enroll under their own responsibility';
+//tooltips
+$string['btn_borrado_filtros'] = "Remove the selected filters. ";
+$string['btn_reload_page'] = "Reload the page with the selected user. ";
+$string['btn_search'] = "Apply the selected filters. ";
+$string['url_enrolled'] = "Click to enroll in this learning plan. ";
+//competencias strs
+
+
+
 ?>

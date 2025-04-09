@@ -50,9 +50,9 @@ function showModal(id) {
     }
 }
 function closeModal() {
-    const modal = document.getElementById('myModal');
+    const modal_centro = document.getElementById('myModal');
     try {
-        modal.style.display = 'none';
+        modal_centro.style.display = 'none';
         removetagsModal();
     } catch (error) {
         console.error(error);
@@ -191,13 +191,14 @@ function addEnrollmentStatus(learning_plans) {
                 return (levelOrder[a.lvl] || 999) - (levelOrder[b.lvl] || 999);
             });
             let previousCompleted = true;
+
             let anyEnrolled = plans.some(plan => parseInt(plan.matriculado, 10) === 1);
 
             // Si no hay matriculados, permitir inscripción en el primero
             if (!anyEnrolled && plans.length > 0) {
                 plans[0].can_enroll = 1;
             }
-            console.log(plans);
+            //console.log(plans);
 
             plans.forEach(plan => {
                 plan.can_enroll = plan.can_enroll || 0;
@@ -216,14 +217,14 @@ function addEnrollmentStatus(learning_plans) {
                 if (isNaN(competencies) || isNaN(completed)) {
                     console.warn("Datos inválidos en el plan:", plan);
                 }
-                console.log(plan.templatename);
-                console.warn("is_enroll: "+isEnrolled  +"  competencies: "+competencies +" completed: "+completed);
+                //console.log(plan.templatename);
+                //console.warn("is_enroll: "+isEnrolled  +"  competencies: "+competencies +" completed: "+completed);
                 previousCompleted=true;                
                 if (!isEnrolled || completed!==competencies ) {
                     previousCompleted = false;
                     return;
                 }
-                console.log(previousCompleted);
+                //console.log(previousCompleted);
             });
         });
 
@@ -291,7 +292,7 @@ function filtre_lp_lang_area(learning_plans_, id, lang_user) {
     }
 }
 
-function modal_enrol_in_lp(a_regitrado,lp_enroled,lp_template_id){
+function modal_enrol_in_lp(a_regitrado,lp_enroled,lp_template_id,id_user_search_competence_){
     a_regitrado.addEventListener('click', async function (event) {
         event.preventDefault(); // Evita el comportamiento predeterminado del enlace
         // Verificar si el modal ya existe
@@ -302,7 +303,7 @@ function modal_enrol_in_lp(a_regitrado,lp_enroled,lp_template_id){
         try {
             // Realizar una solicitud fetch para obtener el contenido del curso
             if(lp_enroled==="1"){//lp_enroled
-                const response = await fetch(`../blocks/ideal_cstatus/classes/learning_cohortes.php?id=${lp_template_id}`);//lp_template_id
+                const response = await fetch(`../blocks/ideal_cstatus/classes/learning_cohortes.php?id=${lp_template_id}&userid=${id_user_search_competence_}`);//lp_template_id
             if (!response.ok) {
                 throw new Error('Error al cargar el contenido');
             }
@@ -343,9 +344,20 @@ function modal_enrol_in_lp(a_regitrado,lp_enroled,lp_template_id){
             closeButton.style.zIndex = '10000';
             closeButton.style.fontWeight = 'bold';
 
-
             closeButton.addEventListener('click', function () {
                 document.body.removeChild(modal);
+            });
+            document.addEventListener('click', function (event) {
+                try {
+                    const modalBehind = document.getElementById('myModal');
+                    if (!modalBehind || modalBehind.style.display === 'none') {
+                        if (event.target.id !== 'enrollCohortModal' && !document.getElementById('enrollCohortModal').contains(event.target)) {
+                            document.body.removeChild(modal);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error in click event listener:', error);
+                }
             });
             // Insertar el contenido del curso en el modal
             const contentContainer = document.createElement('div');
@@ -367,7 +379,9 @@ async function loadLearningsPlans(id) {
     var text = document.createTextNode(cabecera);
     cabecera_modal.appendChild(text);
     try {
+        var id_user_search_competence_=window.user_id_search_;
         const learning_plans_ = window.learning_plans;
+        const is_admin=window.isadmin_;
         //console.error(learning_plans_); //traza
         var lang_user=window.lang_user_; /*lenguaje del usuario seleccionado*/
         set_lang_filtre_modal(lang_user); /*add option de idiomas learning */
@@ -376,6 +390,7 @@ async function loadLearningsPlans(id) {
         const str_registered_ = window.str_registered;
         const str_not_registered_ = window.str_not_registered;
         const str_not_learningP_ = window.str_not_learningP;
+        const tr_not_learningP_tooltip_ = window.tr_not_learningP_tooltip;
         let learning_plans = []; 
         //console.warn(learning_plans); //traza
         //ordenamineto lp y filtrado por idioma del usuario
@@ -497,6 +512,13 @@ async function loadLearningsPlans(id) {
                     a_regitrado.appendChild(matriculado_txt);
                     if(`${learningP.can_enroll}`==="1"){
                         a_regitrado.style.color="blue";
+                        a_regitrado.className="tooltip";
+                        var span_tooltip=document.createElement('span');
+                        var txt_span_tooltip=tr_not_learningP_tooltip_;
+                        var tooltipText = document.createTextNode(txt_span_tooltip);
+                        span_tooltip.appendChild(tooltipText);
+                        span_tooltip.className = "tooltiptext";
+                        a_regitrado.appendChild(span_tooltip);
                     }else{
                         //console.error("QUITADO HREF");//traza
                         a_regitrado.removeAttribute("href");
@@ -507,7 +529,7 @@ async function loadLearningsPlans(id) {
                 tr_3.appendChild(td_matriculado);
                 table_competency.appendChild(tr_3);
                 if(`${learningP.can_enroll}`==="1"){//set href in lp not enroll
-                    modal_enrol_in_lp(a_regitrado,`${learningP.can_enroll}`,`${learningP.templateid}`)
+                    modal_enrol_in_lp(a_regitrado,`${learningP.can_enroll}`,`${learningP.templateid}`,id_user_search_competence_)
                 }
             };
             //VOY POR AQUI

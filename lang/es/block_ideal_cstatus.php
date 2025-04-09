@@ -59,4 +59,13 @@ $string['userininscrip'] = 'Usuario matriculado en: ';
 $string['onemoment'] = 'Espere por favor...';
 $string['cohortnoavalible'] = 'Cohorte no disponible para su matriculación';
 //new enroll per LP
-$string['str_enroll_in_cohorts']='{"0":"Has sido matriculado en el plan de aprendizaje: ","1":"Ha ocurrido un error durante la matriculación en el plan de aprendizaje: ","2":"Ya estas en este plan de aprendizaje: ","3":"La matriculación puede tardar unos minutos en ser efectiva","4":"Consulta con tu coordinador del proyecto.","5":"Error interno"}';
+$string['str_enroll_in_cohorts']='{"0":"Has sido matriculado en el plan de aprendizaje: ","1":"Ha ocurrido un error durante la matriculación en el plan de aprendizaje: ","2":"Ya estas en este plan de aprendizaje: ","3":"La matriculación puede tardar unos minutos en ser efectiva","4":"Consulta con tu coordinador del proyecto.","5":"Error interno","6":"Usuario no matriculado."}';
+$string['isadminuser']="Cada usuario tiene que matricularse bajo su propia responsabilidad";
+//tooltips
+$string['btn_borrado_filtros'] = "Elimina los filtros seleccionados.";
+$string['btn_reload_page'] = "Recarga la página con el usuario seleccionado.";
+$string['btn_search'] = "Aplica los filtros seleccionados.";
+$string['url_enrolled'] = "Haz clic para matricularte en este plan de aprendizaje.";
+
+
+
