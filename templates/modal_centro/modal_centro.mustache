@@ -2,15 +2,19 @@
 <script>
     var learning_plans = {{{template_data}}};
     var lang_user_ = {{{lang_user}}};
+    var user_id_search_={{{user_id_search}}};
     var str_completed = `{{#str}}Completed,block_ideal_cstatus{{/str}}`;
     var str_in_progress = `{{#str}}In_Progress,block_ideal_cstatus{{/str}}`;
     var str_registered = `{{#str}}registered,block_ideal_cstatus{{/str}}`;
     var str_not_registered = `{{#str}}not_registered,block_ideal_cstatus{{/str}}`;
     var str_not_learningP = `{{#str}}not_learning_plan_label,block_ideal_cstatus{{/str}}`;
+    var tr_not_learningP_tooltip = `{{#str}}url_enrolled,block_ideal_cstatus{{/str}}`;
     var img_help = document.getElementById('img_help_modal');
     var modal_txt_title = `{{#str}}ProgresoAreasParrafo,block_ideal_cstatus{{/str}}`;
     var avanzar_txt = `{{#str}}Avanzar,block_ideal_cstatus{{/str}}`;
+    var user_name_search_ = {{{user_name_search}}};
 </script>
+ <meta http-equiv=”Content-Type” content=”text/html; charset=UTF-8″ />
 <div id="myModal" class="modal" style="display:none;">
     <div class="modal-content" id="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
@@ -20,7 +24,10 @@
             <h6>{{#str}}str_filtradolearning,block_ideal_cstatus{{/str}}</h6>
             <select id="list_languages" style="visibility:hidden" onchange="filterLanguages(lang_user_)">
             </select>
+            <h2 style='font-size: 1.2em; margin-bottom: 10px;'>{{#str}}user_select, block_ideal_cstatus{{/str}}<span style='color:#6398FA;'>{{{user_name_search}}}</span></h2>
+
         </div>
+
         <table id="table_competency">
             <tr style='background:none;'>
                 <th>{{#str}}learning_plan_label,block_ideal_cstatus{{/str}}</th>
