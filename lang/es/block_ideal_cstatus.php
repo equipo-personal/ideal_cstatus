@@ -50,6 +50,7 @@ $string['Pending'] = 'Pendiente';
 $string['Close'] = 'Cerrar';
 $string['ProgresoAreasParrafo'] = 'Progreso en áreas de competencia: ';
 $string['Avanzar'] = 'Avanzar...';
+//POR QUI xlsx
 $string["str_filtradolearning"] = "Elige un idioma para visualizar tus planes de aprendizaje: ";
 //cohort matriculacion
 $string['idcompetencyinvalid'] = 'Id de competencia inválido';
@@ -66,6 +67,15 @@ $string['btn_borrado_filtros'] = "Elimina los filtros seleccionados.";
 $string['btn_reload_page'] = "Recarga la página con el usuario seleccionado.";
 $string['btn_search'] = "Aplica los filtros seleccionados.";
 $string['url_enrolled'] = "Haz clic para matricularte en este plan de aprendizaje.";
+//compentecies
+$string['1. Professional engagement'] = '1. Compromiso profesional';
+$string['2. Digital resources'] = '2. Recursos digitales';
+$string['3. Teaching and learning'] = '3. Enseñanza y aprendizaje';
+$string['4. Assessment'] = '4. Evaluación';
+$string['5. Empowering learners'] = '5. Empoderamiento de los estudiantes';
+$string['6. Soft Skills'] = '6. Habilidades blandas';
+$string['7. Ethical Citizenship'] = '7. Ciudadanía ética';
+$string['8. Artificial Intelligence'] = '8. Inteligencia Artificial';
 
 
 

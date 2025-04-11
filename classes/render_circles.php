@@ -33,9 +33,10 @@ function get_circle_data($sql, $id_user_search_competence)
         // Procesar cabeceras
         $cabeceras_ok = [];
         foreach ($cabeceras as $cabecera) {
+            //var_dump(get_string($cabecera->cabecera,'block_ideal_cstatus'));
             $cabeceras_ok[] = [
                 'id' => $cabecera->id,
-                'cabecera' => $cabecera->cabecera
+                'cabecera' => get_string($cabecera->cabecera,'block_ideal_cstatus') //cabeceras por lang
             ];
         }
 

@@ -107,6 +107,8 @@ function removetagsModal() {
     }
 }
 
+
+
 function set_lang_filtre_modal(lang_user) {
     try {
         var list_languages = document.getElementById('list_languages');
@@ -134,6 +136,8 @@ function set_lang_filtre_modal(lang_user) {
 
 function filterLanguages() {
     try {
+
+
         var listLanguagesElement = document.getElementById('list_languages');
         if (!listLanguagesElement) {
             throw new Error("'list_languages' element not found.");
@@ -143,7 +147,6 @@ function filterLanguages() {
         var elements = document.querySelectorAll('.tr_competency');
         if (!elements || elements.length === 0) {
             console.warn("No elements with class 'tr_competency' found.");
-            return;
         }
 
         elements.forEach(function (element) {
@@ -267,7 +270,6 @@ function filtre_lp_lang_area(learning_plans_, id, lang_user) {
         var name_template_lp_l = String(value.templatename); // nombre de template LP
         //var id_compe_relacionadas_template_lp_se = name_template_lp_l.slice(1, 2);  // id por el cual se filtrará las competencias
         if (value.lang_lp === "en" || value.lang_lp === lang_user) {
-            //if (id === id_compe_relacionadas_template_lp_se) {//quitar 
             let newLearningPlan = {
                 templateid: value.templateid,
                 templatename: value.templatename,
@@ -281,7 +283,6 @@ function filtre_lp_lang_area(learning_plans_, id, lang_user) {
                 can_enroll: value.can_enroll,
             };
             learning_plans.push(newLearningPlan);
-            //}
         }
         }
         learning_plans.sort((a, b) => a.templatename.localeCompare(b.templatename)); // ordenado de manera AS
@@ -399,12 +400,7 @@ async function loadLearningsPlans(id) {
 
         const updatedLearningPlans = addEnrollmentStatus(learning_plans);
         
-        // updatedLearningPlans.sort((a, b) => {
-        //     if (a.lang_lp === b.lang_lp) {
-        //         return a.templatename.localeCompare(b.templatename);
-        //     }
-        //     return a.lang_lp.localeCompare(b.lang_lp);
-        // });
+
          //console.log(updatedLearningPlans); //traza
         if (!learning_plans || typeof learning_plans !== "object") {
             throw new Error("El objeto 'learning_plans' no está definido o no es válido.");

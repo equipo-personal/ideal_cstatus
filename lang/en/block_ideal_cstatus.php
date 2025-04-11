@@ -49,12 +49,13 @@ $string['Pending'] = 'Pending';
 $string['Close'] = 'Close';
 $string['ProgresoAreasParrafo'] = 'Progress in areas of competence:';
 $string['Avanzar'] = 'Go to...';
+//POR QUI xlsx
 $string["str_filtradolearning"] = "Choose a language to view your learning plans: ";
 //cohort enrollment
 $string['idcompetencyinvalid'] = 'Invalid competency ID';
 $string['userincohort'] = 'User in cohort:';
 $string['usernotinscrip'] = 'User NOT enrolled in:';
-$string['userininscrip'] = 'User enrolled in:';
+$string['userininscrip'] = 'User enrolled in: ';
 $string['onemoment'] = 'Please wait...';
 $string['cohortnoavalible'] = 'Cohort not available for enrollment';
 //new enroll per LP
@@ -66,7 +67,13 @@ $string['btn_reload_page'] = "Reload the page with the selected user. ";
 $string['btn_search'] = "Apply the selected filters. ";
 $string['url_enrolled'] = "Click to enroll in this learning plan. ";
 //competencias strs
-
-
+$string['1. Professional engagement'] = '1. Professional engagement';
+$string['2. Digital resources'] = '2. Digital resources';
+$string['3. Teaching and learning'] = '3. Teaching and learning';
+$string['4. Assessment'] = '4. Assessment';
+$string['5. Empowering learners'] = '5. Empowering learners';
+$string['6. Soft Skills'] = '6. Soft Skills';
+$string['7. Ethical Citizenship'] = '7. Ethical Citizenship';
+$string['8. Artificial Intelligence'] = '8. Artificial Intelligence';
 
 ?>
