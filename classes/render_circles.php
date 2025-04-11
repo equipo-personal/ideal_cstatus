@@ -33,9 +33,10 @@ function get_circle_data($sql, $id_user_search_competence)
         // Procesar cabeceras
         $cabeceras_ok = [];
         foreach ($cabeceras as $cabecera) {
+            //var_dump(get_string($cabecera->cabecera,'block_ideal_cstatus'));
             $cabeceras_ok[] = [
                 'id' => $cabecera->id,
-                'cabecera' => $cabecera->cabecera
+                'cabecera' => get_string($cabecera->cabecera,'block_ideal_cstatus') //cabeceras por lang
             ];
         }
 
@@ -75,6 +76,7 @@ function render_circles()
     require_once($CFG->dirroot . '/user/lib.php');
     global $OUTPUT, $USER;
     $id_user_search_competence = $USER->id;
+    $name_user_search_competence=$USER->username;
     $lang_user=get_lang_x_user($id_user_search_competence);
     try {
         $ids = get_ids_cabeceras_db(get_cabeceras());
@@ -109,13 +111,26 @@ function render_circles()
                 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_user'])) {
                     $id_user_search_competence = $_POST['selected_user'] ?: $USER->id;
                     $lang_user = get_lang_x_user($id_user_search_competence);
-
                     $data_user = core_user::get_user($id_user_search_competence);
-                    echo "<div style='display: flex; flex-wrap: wrap; align-items: center; gap: 10px;'>";
-                    echo "<h2 style='font-size: 1.2em; margin-bottom: 10px;'>" . get_string('user_select', 'block_ideal_cstatus') . "<span style='color:#6398FA;'>" . htmlspecialchars(fullname($data_user)) . "</span></h2>";
-                    echo "<h2 style='font-size: 1.2em; margin-bottom: 10px;'>" . get_string('user_select_email', 'block_ideal_cstatus') . "<a href='mailto:" . htmlspecialchars($data_user->email) . "' style='color:blue; text-decoration: underline;'>" . htmlspecialchars($data_user->email) . "</a></h2>";
+                    $name_user_search_competence = htmlspecialchars(fullname($data_user), ENT_QUOTES, 'UTF-8');
+                    echo "<div class='container_limpiar'>";
+
+                    //echo "<div style='display: flex; flex-wrap: wrap; align-items: center; gap: 10px;'>";
+                       echo "<h2 class='item_clear'  style='font-size: 1.2em; margin-bottom: 10px; '>" . get_string('user_select', 'block_ideal_cstatus') ."<a  href='../user/profile.php?id=" . $id_user_search_competence . "' target= '_blank''> <span style='color:#6398FA; '>" . fullname($data_user) . "</span></a></h2>";
+                    //echo "</div>";
+                    
+                        // Botón para limpiar contenido seleccionado
+                        echo "<form class='item_clear tooltip' method='POST' style='margin-top: 10px;'>";
+                          echo "<button type='submit' name='clear_selection' style=' border: none; border-radius: 5px; cursor: pointer;'>" ."<img style='width:32px' src='../blocks/ideal_cstatus/templates/media/img/borrado.png'> ". "<span class='tooltiptext'>".get_string('btn_borrado_filtros','block_ideal_cstatus') ."</span> </button>";
+                        echo "</form>";
+
+                        // Botón para refrescar la página con los datos del mismo usuario
+                        echo "<form class='item_clear tooltip' method='POST' style='margin-top: 10px;'>";
+                           echo "<input type='hidden' name='selected_user' value='" . $id_user_search_competence . "'>";
+                           echo "<button  type='submit' style='  border: none; border-radius: 5px; cursor: pointer;'>" ."<img style='transform: translate(2px, 4px);  width:40px; margin-top:1%;' src='../blocks/ideal_cstatus/templates/media/img/reload.png'> " ."<span class='tooltiptext'>".get_string('btn_reload_page','block_ideal_cstatus') ."</span></button>";
+                        echo "</form>";
                     echo "</div>";
-                    echo "<a href='../user/profile.php?id=" . $id_user_search_competence . "'id=$id_user_search_competence style='display: inline-block; padding: 10px 15px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px; text-align: center;'>" . get_string('view_profile', 'block_ideal_cstatus') . "</a>";
+
                 }
                 echo $OUTPUT->render_from_template('block_ideal_cstatus/menu_manage', $templatecontext);
             } catch (Exception $e) {
@@ -141,7 +156,6 @@ function render_circles()
         $data = ['circles' => $circles_data];
         echo $OUTPUT->render_from_template('block_ideal_cstatus/all_circles', $data);
         #modal centro
-        //$courses=list_courses_avalible($id_user_search_competence);
         $learning_plans=list_learning_plans($id_user_search_competence,"%");
 
         $matriz = [];
@@ -171,9 +185,13 @@ function render_circles()
         //     }
         // }
         //var_dump($matriz);die();
+        //var_dump($name_user_search_competence);//die();
+
         echo $OUTPUT->render_from_template('block_ideal_cstatus/modal_centro/modal_centro', [
             'template_data' => json_encode($matriz),
             'lang_user' => json_encode($lang_user),
+            'user_id_search'=>json_encode($id_user_search_competence),
+            'user_name_search'=>json_encode($name_user_search_competence,JSON_UNESCAPED_UNICODE),
         ]);
     } catch (Exception $e) {
         error_log('Error en render_circles: ' . $e->getMessage());

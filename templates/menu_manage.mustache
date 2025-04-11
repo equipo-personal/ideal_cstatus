@@ -7,13 +7,17 @@
             <option value="" disabled selected ></option>
     </select>
     <br>
-
     <label id="label_form_manage_user" for="menu_manage">{{#str}} select_user, block_ideal_cstatus {{/str}}</label>
     <select id="menu_manage" name="selected_user" disabled>
         <option value="">{{#str}} select_country_first, block_ideal_cstatus {{/str}} </option>
     </select>
-    <button id="Btn_seearsh_user" type="submit" disabled>{{#str}} search, block_ideal_cstatus {{/str}}</button>
+    <div class="tooltip">
+        <button id="Btn_seearsh_user" type="submit" disabled>{{#str}} search, block_ideal_cstatus {{/str}}
+            <span class="tooltiptext">{{#str}} btn_search, block_ideal_cstatus {{/str}}</span>
+        </button>
+    </div>
 </form>
+
 
 <script>
     const form_manage = document.getElementById('form_manage_user');
