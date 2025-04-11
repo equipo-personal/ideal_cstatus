@@ -76,6 +76,8 @@ $string['5. Empowering learners'] = '5. Empoderamiento de los estudiantes';
 $string['6. Soft Skills'] = '6. Habilidades blandas';
 $string['7. Ethical Citizenship'] = '7. Ciudadanía ética';
 $string['8. Artificial Intelligence'] = '8. Inteligencia Artificial';
-
+//btns modal
+$string['limpiar_filtros'] = 'Limpiar filtros';
+$string['regargar'] = 'Recargar …';
 
 

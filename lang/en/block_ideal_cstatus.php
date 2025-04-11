@@ -1,5 +1,5 @@
 <?php
-$string['pluginname'] = 'Personal Status Competencies';
+$string['pluginname'] = "Personal Competencies' Status";
 $string['pluginname-short'] = 'Ideal CStatus';
 $string['nocircles'] = 'No circles available to display.'; 
 $string['renderingerror'] = 'An error occurred while rendering the circles.'; 
@@ -75,5 +75,7 @@ $string['5. Empowering learners'] = '5. Empowering learners';
 $string['6. Soft Skills'] = '6. Soft Skills';
 $string['7. Ethical Citizenship'] = '7. Ethical Citizenship';
 $string['8. Artificial Intelligence'] = '8. Artificial Intelligence';
-
+//btns modal
+$string['limpiar_filtros'] = 'Clear filters';
+$string['regargar'] = 'Reload …';
 ?>

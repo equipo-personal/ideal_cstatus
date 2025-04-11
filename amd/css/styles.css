@@ -32,10 +32,13 @@ h5#title_modal_ {
 
 #Btn_seearsh_user {
     background-color: #007bff;
-    color: white;
+    color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    height: 26px;
+    font-weight: bold;
+    width: auto;
 }
 
 #form_manage_user {
@@ -424,8 +427,10 @@ select#list_languages {
     background: #007bff;
     margin-left: 7px;
     position: relative;
-    width: 50px;
-    height: 45px;
+    width: auto;
+    height: 26px;
+    color: white;
+    font-weight: bold;
 }
 @media (max-width: 700px) {
     #confettiCanvas {
@@ -533,3 +538,18 @@ div#id_result_enroll {
   .tooltip:hover .tooltiptext {
     visibility: visible;
   }
+
+  /* .title_modal {
+    color: #fff;
+    text-shadow: 0 0 5px #ff005e, 0 0 10px #ff005e, 0 0 20px #ff005e, 0 0 40px #ff005e, 0 0 80px #ff005e;
+    animation: glow 2.5s infinite alternate;
+}
+
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 2px #0e4eaf, 0 0 4px #0e4eaf, 0 0 8px #0e4eaf, 0 0 16px #0e4eaf, 0 0 32px #0e4eaf;
+    }
+    100% {
+        text-shadow: 0 0 5px #9aabbb, 0 0 10px #9aabbb, 0 0 20px #9aabbb, 0 0 40px #9aabbb, 0 0 80px #9aabbb;
+    }
+} */

@@ -121,13 +121,13 @@ function render_circles()
                     
                         // Botón para limpiar contenido seleccionado
                         echo "<form class='item_clear tooltip' method='POST' style='margin-top: 10px;'>";
-                          echo "<button type='submit' name='clear_selection' style=' border: none; border-radius: 5px; cursor: pointer;'>" ."<img style='width:32px' src='../blocks/ideal_cstatus/templates/media/img/borrado.png'> ". "<span class='tooltiptext'>".get_string('btn_borrado_filtros','block_ideal_cstatus') ."</span> </button>";
+                          echo "<button type='submit' name='clear_selection' style=' border: none; border-radius: 5px; cursor: pointer;'>" ."<a>".get_string('limpiar_filtros','block_ideal_cstatus')." </a> " . "<span class='tooltiptext'>".get_string('btn_borrado_filtros','block_ideal_cstatus') ."</span> </button>";
                         echo "</form>";
 
                         // Botón para refrescar la página con los datos del mismo usuario
                         echo "<form class='item_clear tooltip' method='POST' style='margin-top: 10px;'>";
                            echo "<input type='hidden' name='selected_user' value='" . $id_user_search_competence . "'>";
-                           echo "<button  type='submit' style='  border: none; border-radius: 5px; cursor: pointer;'>" ."<img style='transform: translate(2px, 4px);  width:40px; margin-top:1%;' src='../blocks/ideal_cstatus/templates/media/img/reload.png'> " ."<span class='tooltiptext'>".get_string('btn_reload_page','block_ideal_cstatus') ."</span></button>";
+                           echo "<button  type='submit' style='  border: none; border-radius: 5px; cursor: pointer;'>" ."<a>".get_string('regargar','block_ideal_cstatus')." </a> " ."<span class='tooltiptext'>".get_string('btn_reload_page','block_ideal_cstatus') ."</span></button>";
                         echo "</form>";
                     echo "</div>";
 

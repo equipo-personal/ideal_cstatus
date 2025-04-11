@@ -123,6 +123,7 @@ function create_circle(ids_numbers, count_cabecera, name_container_principal_1, 
             }
         }
         pintar(texts, name_container_centro, ids_numbers, name_competencia_cambio_color_A_D_L, ids_circles_cambio_color);
+
     } catch (error) {
         console.error("Error in create_circle function:", error);
     }
@@ -163,6 +164,7 @@ function create_circle(ids_numbers, count_cabecera, name_container_principal_1, 
                 }
             });
             comprobar_color_circles_peque(texts, levels, name_container_centro);
+
         } catch (error) {
             console.error("Error in pintar function:", error);
         }
@@ -456,4 +458,5 @@ window.create_legend = function() {
     // Añade la tabla al contenedor
     container.appendChild(table);
 };
+
 create_legend();

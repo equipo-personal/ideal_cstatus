@@ -1,14 +1,14 @@
-
-document.addEventListener('DOMContentLoaded', function () {
-    setTimeout(function () {
+function get_modal() {
+//document.addEventListener('DOMContentLoaded', function () {
+    //setTimeout(function () {
         const centro_circle = document.getElementsByClassName('circle_center_modal');
+        var ids = [];
         if (!centro_circle) {
             console.error("Missing 'circle_center_modal'.");
             return;
         }
         try {
             if (centro_circle.length > 0) {
-                var ids = [];
                 for (var i = 0; i < centro_circle.length; i++) {
                     var id = centro_circle[i].id; // Obtener el ID del elemento
                     if (id) {
@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 let circle_centro_for_id = document.getElementById(id);
                 if (circle_centro_for_id) {
                     circle_centro_for_id.addEventListener('click', function () {
-
                         showModal(id);
                     });
                 } else {
@@ -35,8 +34,8 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (error) {
             console.error(error);
         }
-    }, 1000); // Ajusta el tiempo según lo necesario
-});
+   // }//, 300); // Ajusta el tiempo según lo necesario
+}//);
 
 // Función para abrir el modal 
 function showModal(id) {
@@ -289,7 +288,7 @@ function filtre_lp_lang_area(learning_plans_, id, lang_user) {
         return learning_plans;
     } catch (error) {
         console.error(error); 
-        return [];
+        return learning_plans;
     }
 }
 
@@ -330,6 +329,8 @@ function modal_enrol_in_lp(a_regitrado,lp_enroled,lp_template_id,id_user_search_
             modal.style.flexDirection="column";
             modal.style.flexWrap="nowarap";
             modal.style.justifyContent="center";
+            modal.style.minHeight="140px";
+
             // Botón para cerrar el modal
             const closeButton = document.createElement('button');
             closeButton.textContent = 'X';
@@ -395,7 +396,7 @@ async function loadLearningsPlans(id) {
         let learning_plans = []; 
         //console.warn(learning_plans); //traza
         //ordenamineto lp y filtrado por idioma del usuario
-        learning_plans=filtre_lp_lang_area(learning_plans_,id,lang_user)
+        learning_plans=filtre_lp_lang_area(learning_plans_,id,lang_user);
         //console.error(learning_plans);//traza
 
         const updatedLearningPlans = addEnrollmentStatus(learning_plans);
@@ -529,11 +530,11 @@ async function loadLearningsPlans(id) {
                 }
             };
             //VOY POR AQUI
-            if (learning_plans.length === 0 ) {
+            if (learning_plans.length < 1 ) {
                 const table_competency = document.getElementById('table_competency tr');
                 console.log(table_competency);
 
-                if (table_competency.rows.length === 1 ) {
+                if (table_competency.length === 1 ) {
                     console.error("AQUI");
                         const tr_no_content = document.createElement('tr');
                         tr_no_content.className = "no_content";
@@ -547,6 +548,8 @@ async function loadLearningsPlans(id) {
                 }
 
             }
+        }else{
+            console.log("nada");
         }
         filterLanguages();
     } catch (error) {
