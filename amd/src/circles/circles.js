@@ -123,6 +123,7 @@ function create_circle(ids_numbers, count_cabecera, name_container_principal_1, 
             }
         }
         pintar(texts, name_container_centro, ids_numbers, name_competencia_cambio_color_A_D_L, ids_circles_cambio_color);
+
     } catch (error) {
         console.error("Error in create_circle function:", error);
     }
@@ -163,6 +164,7 @@ function create_circle(ids_numbers, count_cabecera, name_container_principal_1, 
                 }
             });
             comprobar_color_circles_peque(texts, levels, name_container_centro);
+
         } catch (error) {
             console.error("Error in pintar function:", error);
         }
@@ -199,21 +201,6 @@ window.comprobar_color_circles_peque = function (texts, levels, name_container_c
             targetLevel = "O";
         }
         
-        //OK
-        if (targetLevel) {
-            circle_centro_div_white.style.backgroundColor = colorMap[targetLevel];
-            circle_centro_div_white.style.color = "#FFFFFF";
-            circle_centro_div_white.style.opacity = ".9";
-            //OPCION POR SI SE AGG UNA IMAGEN AL OBTENER L
-            /*if(targetLevel=='L' || targetLevel=='O'){
-                circle_centro_div_white.style.backgroundImage = "url('" + M.cfg.wwwroot + "/blocks/ideal_cstatus/templates/media/img/b.jpg')";
-                circle_centro_div_white.style.backgroundRepeat = 'no-repeat';
-                circle_centro_div_white.style.backgroundPositionX = 'center';
-                circle_centro_div_white.style.backgroundPositionY = 'center';
-                circle_centro_div_white.style.backgroundSize = '50px';
-                console.error('paso');
-            }*/
-        }
     } catch (error) {
         console.error("Error in comprobar_color function:", error);
     }
@@ -362,6 +349,7 @@ window.circle_8 = function () {
     }
 };
 
+// Función para crear la leyenda de las areas
 window.create_legend = function() {
     var levels = window.legend;
     var container = document.getElementById('legend_container');
@@ -393,7 +381,6 @@ window.create_legend = function() {
         const nameCell = document.createElement("td");
         nameCell.textContent = level.name;
         row.appendChild(nameCell);
-
         // Añadir la fila a la tabla
         table.appendChild(row);
     });
@@ -408,7 +395,6 @@ window.create_legend = function() {
         const row = document.createElement("tr");
         row.className = "level-row";
         row.id = `level-3`;
-
         // Celda de color
         const colorCell = document.createElement("td");
         const colorBox = document.createElement("div");
@@ -424,36 +410,11 @@ window.create_legend = function() {
         const nameCell = document.createElement("td");
         nameCell.textContent = combinedLevel.name;
         row.appendChild(nameCell);
-
         // Añadir la fila a la tabla
         table.appendChild(row);
-      
-      /*  var helpWindow = document.getElementById('description_legend');
-        var btn_help = document.getElementById('help_cstatus');
-        btn_help.addEventListener('mouseover', function() {
-            helpWindow.style.border = '1px solid white';
-            helpWindow.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.1)';
-            helpWindow.style.borderRadius = '5px';
-            helpWindow.style.width = '70%';
-            helpWindow.style.padding = '10px';
-            helpWindow.style.color = 'white';
-            helpWindow.style.display = 'block';
-            helpWindow.style.textAlign = 'center';
-            helpWindow.style.margin = '1% 29% -3%';
-        });
-        btn_help.addEventListener('mouseover', function() {
-            helpWindow.style.display = 'none';
-        });
-
-        btn_help.addEventListener('mouseover', function() {
-            var helpWindow = document.getElementById('helpWindow');
-            if (helpWindow) {
-                document.body.removeChild(helpWindow);
-            }
-        });*/
     }
-
     // Añade la tabla al contenedor
     container.appendChild(table);
 };
+
 create_legend();
