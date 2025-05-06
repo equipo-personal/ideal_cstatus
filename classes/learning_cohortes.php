@@ -36,7 +36,6 @@ try {
     $lenght_list_lp = count($list_learning_plans_avalible);
     $count_lp = 0;
     $count_cohort = 0;
-    //var_dump( $list_learning_plans_avalible);
 
     if ($list_learning_plans_avalible) {
 
@@ -51,8 +50,6 @@ try {
 
                     $user_in_cohor_[$id_cohort] = user_in_cohort($USER->id, $id_cohort);
 
-                    //== Check if user is already in the cohort
-                    //if ($user_in_cohor_[$id_cohort] && $user_in_cohor_[$id_cohort]->cohortid == $id_cohort && $user_in_lp_template) {
                     if ($user_in_cohor_[$id_cohort]->cohortid === $id_cohort && $user_in_lp_template) {
           
                         $count_lp++;
@@ -102,6 +99,5 @@ try {
     echo '<h6 >' . $str_enroll_cohorts['4']. '</h6>'; 
 
     echo "</div>";
-    //== Handle exceptions and display error message
 }
 ?>

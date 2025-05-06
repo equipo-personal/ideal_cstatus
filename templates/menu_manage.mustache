@@ -64,6 +64,7 @@
         var users_not_country_str = "{{#str}} users_not_country, block_ideal_cstatus {{/str}}";
         // Create the list of countries
         var json_country_list = JSON.parse(JSON.stringify(search_country_));
+        //console.log('json_country_list', json_country_list);
         var countrySelect = document.getElementById('menu_countries');
 
         json_country_list.forEach(function(country) {

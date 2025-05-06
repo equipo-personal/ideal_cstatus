@@ -25,41 +25,40 @@ function get_course_for_competenci($competencyid){
 function list_learning_plans($userid, $num_circle){
     global $DB;
     $sql="
-SELECT
-    t.id AS templateid,
-    t.shortname AS templatename,
-    lp.id AS learningplanid,
-    lp.name AS learningplanname,
-    CASE WHEN lp.userid = $userid THEN TRUE ELSE FALSE
-END AS matriculado,
-COUNT(c.id) AS num_competencies,
-COUNT(
-    CASE WHEN uc.proficiency = 1 THEN 1 ELSE NULL
-END
-) AS competency_completed,
-SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(t.shortname, '(',-1),')',1),'-',1 )
-AS LvL,
-SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(t.shortname, '(',-1),')',1),'-',-1 )AS lang_lp,
-0 can_enroll
-FROM
-    mdl_competency_template t
-LEFT JOIN mdl_competency_plan lp ON
-    t.id = lp.templateid AND lp.userid = $userid
-JOIN mdl_competency c ON
-    c.idnumber LIKE '$num_circle%'
-LEFT JOIN mdl_competency_usercomp uc ON
-    uc.competencyid = c.id AND uc.userid = $userid
-JOIN mdl_competency_templatecomp ctt ON
-    t.id = ctt.templateid AND ctt.competencyid = c.id
-GROUP BY
-    t.id,
-    lp.id ORDER BY `templatename` ASC;
+            SELECT
+                t.id AS templateid,
+                t.shortname AS templatename,
+                lp.id AS learningplanid,
+                lp.name AS learningplanname,
+                CASE WHEN lp.userid = $userid THEN TRUE ELSE FALSE
+            END AS matriculado,
+            COUNT(c.id) AS num_competencies,
+            COUNT(
+                CASE WHEN uc.proficiency = 1 THEN 1 ELSE NULL
+            END
+            ) AS competency_completed,
+            SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(t.shortname, '(',-1),')',1),'-',1 )
+            AS LvL,
+            SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(t.shortname, '(',-1),')',1),'-',-1 )AS lang_lp,
+            0 can_enroll
+            FROM
+                {competency_template} t
+            LEFT JOIN {competency_plan} lp ON
+                t.id = lp.templateid AND lp.userid = $userid
+            JOIN {competency} c ON
+                c.idnumber LIKE '$num_circle%'
+            LEFT JOIN {competency_usercomp} uc ON
+                uc.competencyid = c.id AND uc.userid = $userid
+            JOIN {competency_templatecomp} ctt ON
+                t.id = ctt.templateid AND ctt.competencyid = c.id
+            GROUP BY
+                t.id,
+                lp.id ORDER BY `templatename` ASC;
     ";
 
     try {
         $learning_plans=[];
         $learning_plans=$DB->get_records_sql($sql);
-        //var_dump($learning_plans);die();
         return $learning_plans;
 
     }catch (dml_exception $e) {
@@ -267,24 +266,25 @@ function get_list_countries(){
 
     try {
         $sql = "
-SELECT DISTINCT
-    country
-FROM
-    {user}
-WHERE
-    country NOT LIKE ''
-ORDER BY
-    {user}.`country` ASC
-                ";
-    $countries = $DB->get_records_sql($sql);
-    $countries_ok = [];
+            SELECT DISTINCT
+                country
+            FROM
+                {user}
+            WHERE
+                country NOT LIKE ''
+            ORDER BY
+                {user}.`country` ASC
+        ";
+        $countries = $DB->get_records_sql($sql);
+        $countries_ok = [];
 
-    foreach ($countries as $country) {
-        $countries_ok[] = $country->country." (".get_string($country->country, 'countries').")";
-    }
-    $countries_ok[] = get_string('all_users', 'block_ideal_cstatus');
-    $countries_ok[] = get_string('users_not_country', 'block_ideal_cstatus');
-    return $countries_ok;
+        foreach ($countries as $country) {
+            $countries_ok[] = strtoupper($country->country)." (".get_string(strtoupper($country->country), 'countries').")";
+        }
+        //var_dump($countries_ok);
+        $countries_ok[] = get_string('all_users', 'block_ideal_cstatus');
+        $countries_ok[] = get_string('users_not_country', 'block_ideal_cstatus');
+        return $countries_ok;
     } catch (Exception $e) {
         error_log("Error al obtener la lista de paises: " . $e->getMessage());
         return [];
@@ -637,7 +637,7 @@ function load_learning_plans_for_circles($id_user, $circle_num) {
     JOIN {competency_templatecomp} ctc ON ctc.templateid = ct.id -- Join with competency-template relationship
     JOIN {competency_templatecohort} cth ON cth.templateid = ct.id -- Join with template-cohort relationship
     JOIN {cohort} c ON c.id = cth.cohortid -- Join with cohort table
-    join mdl_user u on u.id=$id_user
+    join {user} u on u.id=$id_user
     WHERE
         ct.shortname LIKE '$circle_num%' -- Filter for learning plans with shortname starting with '3'
         AND ct.visible = 1;    -- Ensure the learning plan is visible

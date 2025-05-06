@@ -32,10 +32,13 @@ h5#title_modal_ {
 
 #Btn_seearsh_user {
     background-color: #007bff;
-    color: white;
+    color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    height: 26px;
+    font-weight: bold;
+    width: auto;
 }
 
 #form_manage_user {
@@ -89,6 +92,15 @@ h5#title_modal_ {
     align-self: center;
     justify-content: center;
     margin: auto;
+}
+.mark_c {
+    position: relative;
+    left: 95%;
+    width: 40px;
+    height: 40px;
+    opacity: .03;
+    z-index: 1;
+    cursor: none;
 }
 
 .container_circles {
@@ -401,16 +413,7 @@ select#list_languages {
     border-radius: 6px;
     background: #004aad45;
 }
-/*Conffeti and lvls colors*/
-#confettiCanvas {
-    z-index: 1;
-    position: relative;
-    display: inline-block;
-    width: 22%;
-    margin: 0 auto;
-    padding-top: -10px;
-    transform: translate(10%, 57%);
-}
+
 /*reload,delete*/
 .item_clear {
     position: relative;
@@ -424,24 +427,10 @@ select#list_languages {
     background: #007bff;
     margin-left: 7px;
     position: relative;
-    width: 50px;
-    height: 45px;
-}
-@media (max-width: 700px) {
-    #confettiCanvas {
-        position: relative;
-        display: inline-block;
-        width: 150px;
-        height: 150px;
-        margin: 0 auto;
-        padding-top: 5px;
-        transform: translate(10%, 50%);
-    }
-
-    #btn_close_modal {
-        width: auto;
-        display: inline-flex;
-    }
+    width: auto;
+    height: 26px;
+    color: white;
+    font-weight: bold;
 }
 #img_level_A {
     background-color: #0466ff;
@@ -466,12 +455,11 @@ select#list_languages {
 }
 tr#no_content {
 width: 100%;
-height: 50px;
 color: black;
 font-weight: 500;
 margin: 0 auto;
 text-align: center;
-transform: translate(10%, 10%);
+transform: translate(15%, 15%);
 }
 td.status_competency {
 position: relative;
@@ -533,3 +521,19 @@ div#id_result_enroll {
   .tooltip:hover .tooltiptext {
     visibility: visible;
   }
+
+  /* .title_modal {
+    color: #fff;
+    text-shadow: 0 0 5px #ff005e, 0 0 10px #ff005e, 0 0 20px #ff005e, 0 0 40px #ff005e, 0 0 80px #ff005e;
+    animation: glow 2.5s infinite alternate;
+}
+
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 2px #0e4eaf, 0 0 4px #0e4eaf, 0 0 8px #0e4eaf, 0 0 16px #0e4eaf, 0 0 32px #0e4eaf;
+    }
+    100% {
+        text-shadow: 0 0 5px #9aabbb, 0 0 10px #9aabbb, 0 0 20px #9aabbb, 0 0 40px #9aabbb, 0 0 80px #9aabbb;
+    }
+} */
+
