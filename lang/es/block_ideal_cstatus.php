@@ -37,7 +37,7 @@ $string['help_manage_user'] = 'Seleccione un país para filtrar a los usuarios';
 //modal centro
 $string['course_list'] = 'Lista de competencias faltantes y cursos relacionados';
 $string['learning_plan_label'] = 'Planes de aprendizaje';
-$string['not_learning_plan_label'] = 'No hay learning plans disponibles';
+$string['not_learning_plan_label'] = 'No hay Planes de aprendizaje disponibles';
 $string['course_label'] = 'Curso';
 $string['Status'] = 'Estado';
 $string['Level'] = 'Nivel';

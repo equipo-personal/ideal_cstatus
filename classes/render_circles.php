@@ -6,7 +6,9 @@ function get_circle_data($sql, $id_user_search_competence)
 {
     global $DB;
     try {
-        $all_areas = $DB->get_records_sql($sql);
+        //print_r($sql); //traza sql
+        $all_areas = $DB->get_records_sql($sql);//for id
+        //print_r(value: $all_areas);
         if (!$all_areas) {
             throw new Exception("No se encontraron áreas en la consulta SQL.");
         }
@@ -160,32 +162,13 @@ function render_circles()
 
         $matriz = [];
         foreach ($learning_plans as $i=>$item) {
-            //preg_match('/^([^(]*)/', $item->templatename, $matches);//saca el nombre sin lang y nivel
-            preg_match('/^(\d+)/', $item->templatename, $matches);
+            //preg_match busquedas por medio de expreciones regulares 
+            preg_match('/^(\d+)/', $item->templatename, $matches);//La expresión \d+ significa "una o más cifras numéricas"
             if (!empty($matches[1])) {
                 $groupKey = (int)$matches[1];
-                //print_r((int)$matches[1]);
                 $matriz[$groupKey][] = $item;//por num area
-                //$matriz[$matches[1]][] = $item; //por name area
             }
         }
-        // foreach ($learning_plans as $item) {
-        //     // Captura número decimal o entero al principio (4, 4.1, 5.2)
-        //     if (preg_match('/^(\d+(?:\.\d+)?)/', $item->templatename, $matches)) {
-        //         $fullArea = $matches[1]; //"4", "4.1"
-        //         $parts = explode('.', $fullArea);
-        //         $mainArea = (int)$parts[0]; // solo el número entero (ej: 4)
-        
-        //         if (count($parts) === 1) {
-        //             // Es un área principal (ej: 4)
-        //             $matriz[$mainArea]['main'][] = $item;
-        //         } else {
-        //             $matriz[$mainArea][$fullArea][] = $item;
-        //         }
-        //     }
-        // }
-        //var_dump($matriz);die();
-        //var_dump($name_user_search_competence);//die();
 
         echo $OUTPUT->render_from_template('block_ideal_cstatus/modal_centro/modal_centro', [
             'template_data' => json_encode($matriz),

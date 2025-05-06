@@ -19,7 +19,7 @@ define(['jquery'], function($) {
                             try { circle_6(); } catch (err) { console.error("Error en circle_6: ", err); }
                             try { circle_7(); } catch (err) { console.error("Error en circle_7: ", err); }
                             try { circle_8(); } catch (err) { console.error("Error en circle_8: ", err); }
-                            try { get_modal(); } catch (err) { console.error("Error en modal: ", err); }
+                            try { get_modal(); } catch (err) { console.error("Error en get_modal: ", err); }
                         } catch (err) {
                             console.error("Error: ", err);
                             showError();
