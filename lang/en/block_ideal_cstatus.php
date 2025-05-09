@@ -78,4 +78,7 @@ $string['8. Artificial Intelligence'] = '8. Artificial Intelligence';
 //btns modal
 $string['limpiar_filtros'] = 'Clear filters';
 $string['regargar'] = 'Reload …';
+//ocultar categorias
+$string['competence_OK'] = 'You have been awarded with competencies: ';
+
 ?>
