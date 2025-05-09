@@ -79,5 +79,6 @@ $string['8. Artificial Intelligence'] = '8. Inteligencia Artificial';
 //btns modal
 $string['limpiar_filtros'] = 'Limpiar filtros';
 $string['regargar'] = 'Recargar …';
-
+//ocultar categorias
+$string['competence_OK'] = 'Se le han otorgado competencias: ';
 

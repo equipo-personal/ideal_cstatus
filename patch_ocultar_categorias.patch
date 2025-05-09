@@ -1,0 +1,96 @@
+diff --git a/mod/quiz/view.php b/mod/quiz/view.php
+index e598dc0d6ef..b72725fd642 100644
+--- a/mod/quiz/view.php
++++ b/mod/quiz/view.php
+@@ -28,7 +28,6 @@ use mod_quiz\output\renderer;
+ use mod_quiz\output\view_page;
+ use mod_quiz\quiz_attempt;
+ use mod_quiz\quiz_settings;
+-
+ require_once(__DIR__ . '/../../config.php');
+ require_once($CFG->libdir.'/gradelib.php');
+ require_once($CFG->dirroot.'/mod/quiz/locallib.php');
+@@ -46,12 +45,57 @@ if ($id) {
+ $quiz = $quizobj->get_quiz();
+ $cm = $quizobj->get_cm();
+ $course = $quizobj->get_course();
++//cambio 07/04/2025 --ocultar calificaciones X categoria IDEAL
++$category_to_hide=[54];
++
++$competencies = $DB->get_records_sql("
++    SELECT c.*
++    FROM {competency} c
++    JOIN {competency_modulecomp} cmc ON cmc.competencyid = c.id
++    WHERE cmc.cmid = :cmid
++", ['cmid' => $cm->id]);
++
++$category=$DB->get_record_sql("
++    SELECT c.*
++    FROM {course_categories} c
++    WHERE c.id = :category_id
++", ['category_id' => $course->category]);
++
++$paths_clean= explode('/', $category->path);
++
++$hide_points=false;
+ 
++foreach($category_to_hide as $category_id){
++
++    if(in_array($category_id, $paths_clean)){
++        $hide_points=true;
++    }
++}
++$show_competency=false;
++
++if($hide_points){
++    $status_quiz =$DB->get_record_sql("
++    SELECT c.*
++    FROM {course_modules_completion} c
++    WHERE c.coursemoduleid = :cmid
++    AND c.userid = :userid
++", ['cmid' => $cm->id,'userid' => $USER->id]);
++
++    if($status_quiz && $status_quiz->completionstate==2){
++        $show_competency=true;
++    }
++}
++
++$name_competency=[];
++foreach ($competencies as $competency) {
++    $name_competency[]= $competency->shortname;
++}
++
++//cambio 07/04/2025 --ocultar calificaciones X categoria IDEAL
+ // Check login and get context.
+ require_login($course, false, $cm);
+ $context = $quizobj->get_context();
+ require_capability('mod/quiz:view', $context);
+-
+ // Cache some other capabilities we use several times.
+ $canattempt = has_capability('mod/quiz:attempt', $context);
+ $canreviewmine = has_capability('mod/quiz:reviewmyattempts', $context);
+@@ -85,6 +129,7 @@ if ($unfinishedattempt = quiz_get_user_attempt_unfinished($quiz->id, $USER->id))
+     // We want the student notified in this case.
+     $quizobj->create_attempt_object($unfinishedattempt)->handle_if_time_expired(time(), false);
+ 
++
+     $unfinished = $unfinishedattempt->state == quiz_attempt::IN_PROGRESS ||
+             $unfinishedattempt->state == quiz_attempt::OVERDUE;
+     if (!$unfinished) {
+@@ -202,7 +247,15 @@ if ($gradeitem && grade_floats_different($gradeitem->gradepass, 0)) {
+     $a = new stdClass();
+     $a->grade = quiz_format_grade($quiz, $gradeitem->gradepass);
+     $a->maxgrade = quiz_format_grade($quiz, $quiz->grade);
+-    $viewobj->infomessages[] = get_string('gradetopassoutof', 'quiz', $a);
++    //cambio 07/04/2025 --ocultar calificaciones X categoria IDEAL 
++    if($hide_points){
++        if($show_competency){
++            $viewobj->infomessages[] =get_string('competence_OK','block_ideal_cstatus').  implode('   ', $name_competency);  
++        }
++    }else{
++        $viewobj->infomessages[] = get_string('gradetopassoutof', 'quiz', $a);
++    }
++    //cambio 07/04/2025 --ocultar calificaciones X categoria IDEAL 
+ }
+ 
+ // Determine whether a start attempt button should be displayed.
