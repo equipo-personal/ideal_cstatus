@@ -1,5 +1,4 @@
 function create_circle(ids_numbers, count_cabecera, name_container_principal_1, cabecera0, name_container_padre, name_container_centro, texts, numberOfCircles, competencia_ok_for_user, ids_circles_cambio_color, cabeceras) {
-
     try {
         var name_competencia_cambio_color_A_D_L = [];
         // Cabeceras

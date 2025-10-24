@@ -1,6 +1,6 @@
 <?php
 namespace block_ideal_cstatus\output;
-global $PAGE,$OUTPUT;
+
 defined('MOODLE_INTERNAL') || die();
 
 use plugin_renderer_base;
