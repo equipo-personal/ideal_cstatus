@@ -1,4 +1,52 @@
 <?php
+
+function get_competencies_for_user_and_status($userid){
+    global $DB;
+    $sql="
+        SELECT
+            c.id,
+            c.shortname,
+            /*c.description,*/
+            CASE c.parentid
+                WHEN 0 THEN 1
+                ELSE 0
+            END AS is_title_area,
+            CASE cu.status
+                WHEN 0 THEN 'in progress'
+                ELSE '-'
+            END AS estado,
+            CASE cu.proficiency
+                WHEN 1 THEN 'approved'
+                ELSE '-'
+            END AS competency_proficiency,
+            CASE SUBSTRING(c.shortname, 4, 1)
+                WHEN 'A' THEN '#0066FF'
+                WHEN 'D' THEN '#FF6600'
+                WHEN 'L' THEN '#6600FF'
+                ELSE 'title'
+            END AS STR_lvl,
+            CASE SUBSTRING(c.shortname, 1, 1)
+                WHEN '6' THEN '#C000FF'
+                WHEN '7' THEN '#C000FF'
+                WHEN '8' THEN '#C000FF'
+                ELSE 'other'
+            END AS more_lvl
+        FROM {competency} c
+        LEFT JOIN {competency_usercomp} cu
+            ON cu.competencyid = c.id and cu.userid=$userid
+        WHERE c.path LIKE '%/0/%' and c.competencyframeworkid =".get_idnumber_frameword()." ORDER BY c.shortname ASC;
+            ";
+    try {
+        $competency_status=[];
+        $competency_status=$DB->get_records_sql($sql);
+        // echo"<pre>";var_dump($competency_status);echo"</pre>";
+        return $competency_status;
+    }catch (dml_exception $e) {
+        error_log( $e->getMessage()); 
+        return false; 
+    }
+}
+
 function get_course_for_competenci($competencyid){
     global $DB;
     $sql="
@@ -411,7 +459,11 @@ function consultas_por_areas($id_parentid){
             $consultas['consulta' . $i] = "
                 SELECT DISTINCT
                     c.id,
-                    LEFT(c.shortname, 4) AS competenciaa
+                    c.shortname,
+                    LEFT(c.shortname, 4) AS competenciaa,
+                    c.idnumber as id_numbers_competencias_,
+                    c.path,
+                    c.parentid
                 FROM
                     {competency} c
                 WHERE
@@ -663,6 +715,31 @@ function get_lang_x_user($id_user) {
     } catch (dml_exception $e) {
         error_log("Error retrieving user language: " . $e->getMessage());
         return null;
+    }
+}
+function get_cohort($name_cohort,$user_id){
+    global $DB;
+    $sql="
+        SELECT DISTINCT
+            c.id,
+            c.name,
+            c.idnumber,
+            CASE 
+                WHEN cm.cohortid IS NOT NULL THEN 1
+                ELSE 0
+            END AS matriculado
+        FROM mdl_cohort c
+        LEFT JOIN mdl_cohort_members cm 
+            ON cm.cohortid = c.id 
+            AND cm.userid = $user_id
+        WHERE c.name LIKE '".$name_cohort."%';
+    ";
+    try {
+        $result = $DB->get_records_sql($sql);
+        return $result;
+    } catch (dml_exception $e) {
+        error_log($e->getMessage());
+        return false;
     }
 }
 ?>

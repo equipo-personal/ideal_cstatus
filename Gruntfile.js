@@ -10,7 +10,8 @@ module.exports = function(grunt) {
             },
             my_target: {
                 files: {
-                    '<%= process.cwd() %>/amd/build/controller.min.js': ['<%= process.cwd() %>/amd/src/controller.js']
+                    '<%= process.cwd() %>/amd/build/controller.min.js': ['<%= process.cwd() %>/amd/src/controller.js'],
+                    '<%= process.cwd() %>/amd/build/controller_list.min.js': ['<%= process.cwd() %>/amd/src/controller_list.js'],
                 }
             }
         },

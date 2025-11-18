@@ -16,6 +16,12 @@ function get_circle_data($sql, $id_user_search_competence)
         $competencias = [];
         $ids_number_competences = [];
         $competencias_user_array = [];
+        $idnumbers_competencias_db = [];
+        $id_competencia_area = [];
+        $path_competenci_area = [];
+        $sub_areas_competency = [];
+        $shornames_areas_competency = [];
+
         // Obtenemos las cabeceras de las áreas
         $sql_cabeceras_areas = get_cabeceras();
         $cabeceras = $DB->get_records_sql($sql_cabeceras_areas);
@@ -25,8 +31,19 @@ function get_circle_data($sql, $id_user_search_competence)
 
         $competencia_ok_for_user = $DB->get_records_sql(select_user_competence_complete($id_user_search_competence, 0));
         foreach ($all_areas as $area) {
+            $sql="
+                SELECT id,shortname,parentid,path 
+                    FROM `mdl_competency` 
+                where path like '%/$area->id/%';
+            ";
             $competencias[] = $area->competenciaa;
+            $idnumbers_competencias_db[] = $area->id_numbers_competencias_;
+            $id_competencia_area[]=$area->id;
+            $path_competenci_area[]=$area->path;
+            $shornames_areas_competency[]=$area->shortname;
+            $sub_areas_competency[]=$DB->get_records_sql($sql);
         }
+
         foreach ($competencia_ok_for_user as $competencia_ok) {
             $competencias_user_array[] = $competencia_ok->competencia_ok;
             $ids_number_competences[] = get_idnumber_competence_nivel($competencia_ok->competencia_ok);
@@ -51,6 +68,11 @@ function get_circle_data($sql, $id_user_search_competence)
             'cabeceras' => json_encode($cabeceras_ok),
             'id_number_competences' => json_encode($ids_number_competences),
             'legend' => get_legend(),
+            'id_numbers_competencias_db'=>json_encode($idnumbers_competencias_db),
+            'id_competencia_area'=>json_encode($id_competencia_area),
+            'sub_areas_competency'=>json_encode($sub_areas_competency),
+            'path_competenci_area'=>json_encode($path_competenci_area),
+            'shornames_areas_competency'=>json_encode($shornames_areas_competency)
         ];
     } catch (Exception $e) {
         error_log('Error en get_circle_data: ' . $e->getMessage());
@@ -70,7 +92,7 @@ function get_id_user_search_competence_admin()
     }
 }
 
-function render_circles()
+function render_circles($mode_view)
 {
     global $CFG, $DB,$PAGE,$USER;
     //require '../block/ideal_cstatus/circles/modal_centro/modal_centro.js';
@@ -79,7 +101,7 @@ function render_circles()
     global $OUTPUT, $USER;
     $id_user_search_competence = $USER->id;
     $name_user_search_competence=$USER->username;
-    $lang_user=get_lang_x_user($id_user_search_competence);
+    $lang_user=get_lang_x_user(id_user: $id_user_search_competence);
     try {
         $ids = get_ids_cabeceras_db(get_cabeceras());
         if (!$ids) {
@@ -102,43 +124,6 @@ function render_circles()
         } catch (Exception $e) {
             error_log('Error en render_circles: ' . $e->getMessage());
         }
-        // Verifica si el usuario es admin o tiene el rol 'ideal_manage'
-        if (is_siteadmin() || isset($rol) && $rol == $rol_admin_id) {
-            try {
-                $list_countries = get_list_countries();
-                $users_search = get_list_users();
-                $templatecontext = ['users_search' => json_encode($users_search)
-                    , 'list_countries' => json_encode($list_countries)];
-
-                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_user'])) {
-                    $id_user_search_competence = $_POST['selected_user'] ?: $USER->id;
-                    $lang_user = get_lang_x_user($id_user_search_competence);
-                    $data_user = core_user::get_user($id_user_search_competence);
-                    $name_user_search_competence = htmlspecialchars(fullname($data_user), ENT_QUOTES, 'UTF-8');
-                    echo "<div class='container_limpiar'>";
-
-                    //echo "<div style='display: flex; flex-wrap: wrap; align-items: center; gap: 10px;'>";
-                       echo "<h2 class='item_clear'  style='font-size: 1.2em; margin-bottom: 10px; '>" . get_string('user_select', 'block_ideal_cstatus') ."<a  href='../user/profile.php?id=" . $id_user_search_competence . "' target= '_blank''> <span style='color:#6398FA; '>" . fullname($data_user) . "</span></a></h2>";
-                    //echo "</div>";
-                    
-                        // Botón para limpiar contenido seleccionado
-                        echo "<form class='item_clear tooltip' method='POST' style='margin-top: 10px;'>";
-                          echo "<button type='submit' name='clear_selection' style=' border: none; border-radius: 5px; cursor: pointer;'>" ."<a>".get_string('limpiar_filtros','block_ideal_cstatus')." </a> " . "<span class='tooltiptext'>".get_string('btn_borrado_filtros','block_ideal_cstatus') ."</span> </button>";
-                        echo "</form>";
-
-                        // Botón para refrescar la página con los datos del mismo usuario
-                        echo "<form class='item_clear tooltip' method='POST' style='margin-top: 10px;'>";
-                           echo "<input type='hidden' name='selected_user' value='" . $id_user_search_competence . "'>";
-                           echo "<button  type='submit' style='  border: none; border-radius: 5px; cursor: pointer;'>" ."<a>".get_string('regargar','block_ideal_cstatus')." </a> " ."<span class='tooltiptext'>".get_string('btn_reload_page','block_ideal_cstatus') ."</span></button>";
-                        echo "</form>";
-                    echo "</div>";
-
-                }
-                echo $OUTPUT->render_from_template('block_ideal_cstatus/menu_manage', $templatecontext);
-            } catch (Exception $e) {
-                error_log('Error en render_circles: ' . $e->getMessage());
-            }
-        }
 
         for ($i = 0; $i < count($ids); $i++) {
             $circle_key = 'circle' . ($i + 1);
@@ -156,26 +141,33 @@ function render_circles()
         }
 
         $data = ['circles' => $circles_data];
-        echo $OUTPUT->render_from_template('block_ideal_cstatus/all_circles', $data);
-        #modal centro
-        $learning_plans=list_learning_plans($id_user_search_competence,"%");
+        // $data["view_mode"]=$mode_view;
+        if($mode_view=="circles"){
+            echo $OUTPUT->render_from_template('block_ideal_cstatus/all_circles', $data);
 
-        $matriz = [];
-        foreach ($learning_plans as $i=>$item) {
-            //preg_match busquedas por medio de expreciones regulares 
-            preg_match('/^(\d+)/', $item->templatename, $matches);//La expresión \d+ significa "una o más cifras numéricas"
-            if (!empty($matches[1])) {
-                $groupKey = (int)$matches[1];
-                $matriz[$groupKey][] = $item;//por num area
+             #modal centro
+            $learning_plans=list_learning_plans($id_user_search_competence,"%");
+
+            $matriz = [];
+            foreach ($learning_plans as $i=>$item) {
+                //preg_match busquedas por medio de expreciones regulares 
+                preg_match('/^(\d+)/', $item->templatename, $matches);//La expresión \d+ significa "una o más cifras numéricas"
+                if (!empty($matches[1])) {
+                    $groupKey = (int)$matches[1];
+                    $matriz[$groupKey][] = $item;//por num area
+                }
             }
-        }
 
-        echo $OUTPUT->render_from_template('block_ideal_cstatus/modal_centro/modal_centro', [
-            'template_data' => json_encode($matriz),
-            'lang_user' => json_encode($lang_user),
-            'user_id_search'=>json_encode($id_user_search_competence),
-            'user_name_search'=>json_encode($name_user_search_competence,JSON_UNESCAPED_UNICODE),
-        ]);
+            echo $OUTPUT->render_from_template('block_ideal_cstatus/modal_centro/modal_centro', [
+                'template_data' => json_encode($matriz),
+                'lang_user' => json_encode($lang_user),
+                'user_id_search'=>json_encode($id_user_search_competence),
+                'user_name_search'=>json_encode($name_user_search_competence,JSON_UNESCAPED_UNICODE),
+            ]);
+        }else{
+            echo $OUTPUT->render_from_template('block_ideal_cstatus/all_list', $data);
+        }
+       
     } catch (Exception $e) {
         error_log('Error en render_circles: ' . $e->getMessage());
     }
