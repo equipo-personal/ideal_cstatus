@@ -1,50 +1,55 @@
 function get_modal() {
-        const centro_circle = document.getElementsByClassName('circle_center_modal');
-        var ids = [];
-        if (!centro_circle) {
-            console.error("Missing 'circle_center_modal'.");
-            return;
-        }
-        try {
-            if (centro_circle.length > 0) {
-                for (var i = 0; i < centro_circle.length; i++) {
-                    var id = centro_circle[i].id; // Obtener el ID del elemento
-                    if (id) {
-                        ids.push(id); // Añadir el ID a la lista si existe
-                    }
+    const centro_circle = document.getElementsByClassName('circle_center_modal');
+    var ids = [];
+    if (!centro_circle) {
+        console.error("Missing 'circle_center_modal'.");
+        return;
+    }
+    try {
+        if (centro_circle.length > 0) {
+            for (var i = 0; i < centro_circle.length; i++) {
+                var id = centro_circle[i].id; // Obtener el ID del elemento
+                if (id) {
+                    ids.push(id); // Añadir el ID a la lista si existe
                 }
             }
-        } catch (error) {
-            console.error(error);
         }
-        try {
-            for (var i = 0; i < ids.length; i++) {
-                let id = ids[i]; // Usa `let` para que el alcance sea de bloque
-                let circle_centro_for_id = document.getElementById(id);
-                if (circle_centro_for_id) {
-                    circle_centro_for_id.addEventListener('click', function () {
-                        showModal(id);
-                    });
-                } else {
-                    console.error("Elemento con ID " + id + " no encontrado.");
-                }
+    } catch (error) {
+        console.error(error);
+    }
+    try {
+        for (var i = 0; i < ids.length; i++) {
+            let id = ids[i]; // Usa `let` para que el alcance sea de bloque
+            let circle_centro_for_id = document.getElementById(id);
+            if (circle_centro_for_id) {
+                circle_centro_for_id.addEventListener('click', function () {
+                    showModal(id);
+                });
+            } else {
+                console.error("Elemento con ID " + id + " no encontrado.");
             }
-        } catch (error) {
-            console.error(error);
         }
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 // Función para abrir el modal 
-function showModal(id) {
-    const modal = document.getElementById('myModal');
-    try {
-        modal.style.display = 'block';
-        loadLearningsPlans(id);
-    } catch (error) {
-        console.error(error);
-        closeModal();
-    }
+function showModal(id) { 
+    const modal = document.getElementById('myModal'); 
+    if (!modal) { 
+        console.error('Modal no encontrado'); 
+        return; 
+    } 
+        try { 
+            modal.style.display = 'block'; 
+            loadLearningsPlans(id); 
+        } catch (error) { 
+            console.error(error); 
+            closeModal(); 
+        } 
 }
+
 function closeModal() {
     const modal_centro = document.getElementById('myModal');
     try {
@@ -113,7 +118,7 @@ function set_lang_filtre_modal(lang_user) {
             list_languages.removeChild(list_languages.firstChild);
         }
         // Add language options
-        var languages = lang_user === "en" ? ["en"] : [lang_user,"en"];
+        var languages = lang_user === "en" ? ["en"] : [lang_user, "en"];
         languages.forEach(function (lang) {
             var option = document.createElement("option");
             option.id = lang;
@@ -148,7 +153,7 @@ function filterLanguages(lang_user) {
         var count_lang_user_en = 0;
 
         elements.forEach(function (element) {
-             // Logs the number of child elements
+            // Logs the number of child elements
             if (element.id === selectedValue) {
                 count_lang_user++;
                 element.style.display = 'table-row';
@@ -161,7 +166,7 @@ function filterLanguages(lang_user) {
                 element.style.display = 'none';
             }
         });
-        if(count_lang_user <1 && selectedValue === lang_user){
+        if (count_lang_user < 1 && selectedValue === lang_user) {
             not_learning_plans();
         }
     } catch (error) {
@@ -213,7 +218,7 @@ function addEnrollmentStatus(learning_plans) {
 
                 if (previousCompleted) {
                     plan.can_enroll = 1;
-                }else{
+                } else {
                     plan.can_enroll = 0;
                     return;
                 }
@@ -226,8 +231,8 @@ function addEnrollmentStatus(learning_plans) {
                     console.warn("Datos inválidos en el plan:", plan);
                 }
                 //console.warn("is_enroll: "+isEnrolled  +"  competencies: "+competencies +" completed: "+completed);
-                previousCompleted=true;                
-                if (!isEnrolled || completed!==competencies ) {
+                previousCompleted = true;
+                if (!isEnrolled || completed !== competencies) {
                     previousCompleted = false;
                     return;
                 }
@@ -254,13 +259,13 @@ function filtre_lp_lang_area(learning_plans_, id, lang_user) {
 
     try {
         if (!learning_plans_ || typeof learning_plans_ !== "object") {
-        throw new Error("error in objet");
+            throw new Error("error in objet");
         }
         if (!id || typeof id !== "string") {
-        throw new Error("El parámetro 'id' no está definido o no es válido.");
+            throw new Error("El parámetro 'id' no está definido o no es válido.");
         }
         if (!lang_user || typeof lang_user !== "string") {
-        throw new Error("El parámetro 'lang_user' no está definido o no es válido.");
+            throw new Error("El parámetro 'lang_user' no está definido o no es válido.");
         }
 
         const plans_by_id = learning_plans_[id];
@@ -295,13 +300,13 @@ function filtre_lp_lang_area(learning_plans_, id, lang_user) {
         learning_plans.sort((a, b) => a.templatename.localeCompare(b.templatename)); // ordenado de manera ASc
         return learning_plans;
     } catch (error) {
-        console.error(error); 
+        console.error(error);
         return learning_plans["--"];
     }
 }
 
 // Función para mostrar el modal de inscripción en el plan de aprendizaje
-function modal_enrol_in_lp(a_regitrado,lp_enroled,lp_template_id,id_user_search_competence_){
+function modal_enrol_in_lp(a_regitrado, lp_enroled, lp_template_id, id_user_search_competence_) {
     a_regitrado.addEventListener('click', async function (event) {
         event.preventDefault(); // Evita el comportamiento predeterminado del enlace
         // Verificar si el modal ya existe
@@ -310,72 +315,72 @@ function modal_enrol_in_lp(a_regitrado,lp_enroled,lp_template_id,id_user_search_
         }
         try {
             // Realizar una solicitud fetch para obtener el contenido del curso
-            if(lp_enroled==="1"){//lp_enroled
+            if (lp_enroled === "1") {//lp_enroled
                 const response = await fetch(`../blocks/ideal_cstatus/classes/learning_cohortes.php?id=${lp_template_id}&userid=${id_user_search_competence_}`);//lp_template_id
-            if (!response.ok) {
-                throw new Error('Error al cargar el contenido');
-            }
-            const courseContent = await response.text();
-            // Crear el modal
-            const modal = document.createElement('div');
-            modal.id = 'enrollCohortModal';
-            modal.style.top="30%";
-            modal.style.left="30%";
-            modal.style.position = 'fixed';
-            modal.style.width = '40%';
-            modal.style.height="20%";
-            modal.style.backgroundColor = '#fff';
-            modal.style.zIndex = '100000';
-            modal.style.overflowY = 'auto';
-            modal.style.borderRadius = '8px';
-            modal.style.boxShadow = '#6a90b2 0px 4px 8px';
-            modal.style.padding = '20px';
-            modal.style.margin = '0 auto';
-            modal.style.textAlign="center";
-            modal.style.backgroundColor="rgb(198 217 227 / 97%)";
-            modal.style.display="flex";
-            modal.style.flexDirection="column";
-            modal.style.flexWrap="nowarap";
-            modal.style.justifyContent="center";
-            modal.style.minHeight="140px";
-
-            // Botón para cerrar el modal
-            const closeButton = document.createElement('button');
-            closeButton.textContent = 'X';
-            closeButton.style.position = 'absolute';
-            closeButton.style.top = '10px';
-            closeButton.style.right = '10px';
-            closeButton.style.padding = '10px 15px';
-            closeButton.style.backgroundColor = '#77c7e3';
-            closeButton.style.color = 'black';
-            closeButton.style.border = 'none';
-            closeButton.style.borderRadius = '5px';
-            closeButton.style.cursor = 'pointer';
-            closeButton.style.zIndex = '10000';
-            closeButton.style.fontWeight = 'bold';
-
-            closeButton.addEventListener('click', function () {
-                document.body.removeChild(modal);
-            });
-            document.addEventListener('click', function (event) {
-                try {
-                    const modalBehind = document.getElementById('myModal');
-                    if (!modalBehind || modalBehind.style.display === 'none') {
-                        if (event.target.id !== 'enrollCohortModal' && !document.getElementById('enrollCohortModal').contains(event.target)) {
-                            document.body.removeChild(modal);
-                        }
-                    }
-                } catch (error) {
-                    console.error('Error in click event listener:', error);
+                if (!response.ok) {
+                    throw new Error('Error al cargar el contenido');
                 }
-            });
-            // Insertar el contenido de los lp en modal
-            const contentContainer = document.createElement('div');
-            contentContainer.innerHTML = courseContent;
-            modal.appendChild(closeButton);
-            modal.appendChild(contentContainer);
-            document.body.appendChild(modal);
-        }
+                const courseContent = await response.text();
+                // Crear el modal
+                const modal = document.createElement('div');
+                modal.id = 'enrollCohortModal';
+                modal.style.top = "30%";
+                modal.style.left = "30%";
+                modal.style.position = 'fixed';
+                modal.style.width = '40%';
+                modal.style.height = "20%";
+                modal.style.backgroundColor = '#fff';
+                modal.style.zIndex = '100000';
+                modal.style.overflowY = 'auto';
+                modal.style.borderRadius = '8px';
+                modal.style.boxShadow = '#6a90b2 0px 4px 8px';
+                modal.style.padding = '20px';
+                modal.style.margin = '0 auto';
+                modal.style.textAlign = "center";
+                modal.style.backgroundColor = "rgb(198 217 227 / 97%)";
+                modal.style.display = "flex";
+                modal.style.flexDirection = "column";
+                modal.style.flexWrap = "nowarap";
+                modal.style.justifyContent = "center";
+                modal.style.minHeight = "140px";
+
+                // Botón para cerrar el modal
+                const closeButton = document.createElement('button');
+                closeButton.textContent = 'X';
+                closeButton.style.position = 'absolute';
+                closeButton.style.top = '10px';
+                closeButton.style.right = '10px';
+                closeButton.style.padding = '10px 15px';
+                closeButton.style.backgroundColor = '#77c7e3';
+                closeButton.style.color = 'black';
+                closeButton.style.border = 'none';
+                closeButton.style.borderRadius = '5px';
+                closeButton.style.cursor = 'pointer';
+                closeButton.style.zIndex = '10000';
+                closeButton.style.fontWeight = 'bold';
+
+                closeButton.addEventListener('click', function () {
+                    document.body.removeChild(modal);
+                });
+                document.addEventListener('click', function (event) {
+                    try {
+                        const modalBehind = document.getElementById('myModal');
+                        if (!modalBehind || modalBehind.style.display === 'none') {
+                            if (event.target.id !== 'enrollCohortModal' && !document.getElementById('enrollCohortModal').contains(event.target)) {
+                                document.body.removeChild(modal);
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Error in click event listener:', error);
+                    }
+                });
+                // Insertar el contenido de los lp en modal
+                const contentContainer = document.createElement('div');
+                contentContainer.innerHTML = courseContent;
+                modal.appendChild(closeButton);
+                modal.appendChild(contentContainer);
+                document.body.appendChild(modal);
+            }
         } catch (error) {
             console.error('Error al cargar el contenido del curso:', error);
         }
@@ -389,10 +394,10 @@ async function loadLearningsPlans(id) {
     var text = document.createTextNode(cabecera);
     cabecera_modal.appendChild(text);//add nombre de area en modals
     try {
-        var id_user_search_competence_=window.user_id_search_; //variable del renderer
+        var id_user_search_competence_ = window.user_id_search_; //variable del renderer
         const learning_plans_ = window.learning_plans;//variable del renderer
-        var lang_user=window.lang_user_; /*lenguaje del usuario seleccionado*/
-        try { set_lang_filtre_modal(lang_user);  } catch (err) { console.error("Error set_lang_filtre_modal: ", err); }
+        var lang_user = window.lang_user_; /*lenguaje del usuario seleccionado*/
+        try { set_lang_filtre_modal(lang_user); } catch (err) { console.error("Error set_lang_filtre_modal: ", err); }
 
         //set_lang_filtre_modal(lang_user); /*add option de idiomas learning */
         const str_completed_ = window.str_completed;
@@ -400,10 +405,10 @@ async function loadLearningsPlans(id) {
         const str_registered_ = window.str_registered;
         const str_not_registered_ = window.str_not_registered;
         const tr_not_learningP_tooltip_ = window.tr_not_learningP_tooltip;
-        let learning_plans = []; 
-        learning_plans=filtre_lp_lang_area(learning_plans_,id,lang_user);
+        let learning_plans = [];
+        learning_plans = filtre_lp_lang_area(learning_plans_, id, lang_user);
         const updatedLearningPlans = addEnrollmentStatus(learning_plans);
-   
+
         if (!learning_plans || typeof learning_plans !== "object") {
             throw new Error("El objeto 'learning_plans' no está definido o no es válido.");
         }
@@ -455,19 +460,19 @@ async function loadLearningsPlans(id) {
                         nivel_div.style.borderRadius = "50%";
                         nivel_div.appendChild(text);
                         break;
-   
+
                 }
                 var appro_txt;
                 if (parseInt(learningP.num_competencies) === parseInt(learningP.competency_completed)) {
-                    if(learningP.matriculado === "1"){
-                     appro_txt = document.createTextNode(str_completed_ +" "+ `${learningP.competency_completed}`+'/'+`${learningP.num_competencies}`);
-                    }else {
-                        appro_txt = document.createTextNode( `${learningP.competency_completed}`+'/'+`${learningP.num_competencies}`);
+                    if (learningP.matriculado === "1") {
+                        appro_txt = document.createTextNode(str_completed_ + " " + `${learningP.competency_completed}` + '/' + `${learningP.num_competencies}`);
+                    } else {
+                        appro_txt = document.createTextNode(`${learningP.competency_completed}` + '/' + `${learningP.num_competencies}`);
                     }
                 } else if (parseInt(learningP.num_competencies) > parseInt(learningP.competency_completed)) {
-                     appro_txt = document.createTextNode(`${learningP.competency_completed}`+'/'+`${learningP.num_competencies}`);
-                     if (learningP.matriculado === "1") {
-                        appro_txt = document.createTextNode(str_proccess_+" "+`${learningP.competency_completed}`+'/'+`${learningP.num_competencies}`);
+                    appro_txt = document.createTextNode(`${learningP.competency_completed}` + '/' + `${learningP.num_competencies}`);
+                    if (learningP.matriculado === "1") {
+                        appro_txt = document.createTextNode(str_proccess_ + " " + `${learningP.competency_completed}` + '/' + `${learningP.num_competencies}`);
                     }
                 }
                 learning_a.style.color = "black";
@@ -496,33 +501,33 @@ async function loadLearningsPlans(id) {
                 tr_4.className = "tr_matriculado";
                 const td_matriculado = document.createElement('td');
                 tr_4.appendChild(td_matriculado);
-                td_matriculado.className = "td_matriculado"; 
-                var a_regitrado=document.createElement("a");                
+                td_matriculado.className = "td_matriculado";
+                var a_regitrado = document.createElement("a");
                 if (`${learningP.matriculado}` === "1") {
                     var matriculado_txt = document.createTextNode(str_registered_);
                     a_regitrado.appendChild(matriculado_txt);
                 } else {
                     var matriculado_txt = document.createTextNode(str_not_registered_);
                     a_regitrado.appendChild(matriculado_txt);
-                    if(`${learningP.can_enroll}`==="1"){
-                        a_regitrado.style.color="blue";
-                        a_regitrado.className="tooltip";
-                        var span_tooltip=document.createElement('span');
-                        var txt_span_tooltip=tr_not_learningP_tooltip_;
+                    if (`${learningP.can_enroll}` === "1") {
+                        a_regitrado.style.color = "blue";
+                        a_regitrado.className = "tooltip";
+                        var span_tooltip = document.createElement('span');
+                        var txt_span_tooltip = tr_not_learningP_tooltip_;
                         var tooltipText = document.createTextNode(txt_span_tooltip);
                         span_tooltip.appendChild(tooltipText);
                         span_tooltip.className = "tooltiptext";
                         a_regitrado.appendChild(span_tooltip);
-                    }else{
+                    } else {
                         a_regitrado.removeAttribute("href");
-                        a_regitrado.style.cursor = "default"; 
+                        a_regitrado.style.cursor = "default";
                     }
                 }
                 td_matriculado.appendChild(a_regitrado);
                 tr_3.appendChild(td_matriculado);
                 table_competency.appendChild(tr_3);
-                if(`${learningP.can_enroll}`==="1"){//set href in lp not enroll
-                    modal_enrol_in_lp(a_regitrado,`${learningP.can_enroll}`,`${learningP.templateid}`,id_user_search_competence_)
+                if (`${learningP.can_enroll}` === "1") {//set href in lp not enroll
+                    modal_enrol_in_lp(a_regitrado, `${learningP.can_enroll}`, `${learningP.templateid}`, id_user_search_competence_)
                 }
             };
             filterLanguages(lang_user);
@@ -546,7 +551,7 @@ function not_learning_plans() {
             console.warn("The 'no_content' message is already displayed.");
             return;
         }
-        const tr_no_content = document.createElement('tr');    
+        const tr_no_content = document.createElement('tr');
         tr_no_content.className = "no_content";
         tr_no_content.id = "no_content";
         const td_no_content = document.createElement('td');

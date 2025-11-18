@@ -19,7 +19,7 @@ class block_ideal_cstatus extends block_base {
         try {
         // Inicia el buffer de salida para capturar la salida generada por la función render_circles().
             ob_start();
-            render_circles();
+            render_circles("circles");
             $rendered_content = ob_get_clean();
             $this->content->text = $rendered_content;
         } catch (Exception $e) {
