@@ -278,11 +278,11 @@ require_once($CFG->dirroot . '/cohort/lib.php');
                     echo "<li>" . htmlspecialchars($cohort->name) . "</li>";
                 }
             }
+            echo "<div class='container_btns' style='margin:0 auto;'>";
             if ($has_available) {
-                echo "</ul></div>";
+                echo "</ul>";
             }
 
-            echo "<div style='text-align:right; margin-top:15px;'>";
             if($has_available){
                 echo "<button class='btn btn-primary' id='confirmEnroll' style='margin-right:8px;' onclick='confirmEnroll(".intval($USER->id).",".json_encode($strs_msj).")'>
                     ".get_string('confirm','core')."
