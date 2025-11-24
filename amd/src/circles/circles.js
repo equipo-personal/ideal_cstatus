@@ -130,8 +130,7 @@ function create_circle(ids_numbers, count_cabecera, name_container_principal_1, 
 
     function pintar(texts, name_container_centro, ids_numbers, name_competencia_cambio_color_A_D_L, ids_circles_cambio_color) {
         try {
-            var levels = { "A": 0, "D": 0, "L": 0, "O": 0 };
-
+            let levels = { "A": 0, "D": 0, "L": 0, "O": 0 };
             ids_circles_cambio_color.forEach((id, i) => {
                 id= id.replace('.','_')
                 id="circle_"+id;
@@ -256,7 +255,6 @@ window.comprobar_color_circles_peque = function (texts, levels, name_container_c
     try {
         // Obtener el elemento
         var circle_centro_div_white = document.getElementById(name_container_centro);
-
         if (!circle_centro_div_white) {
             throw new Error("Error in element id: " + name_container_centro);
         }
@@ -271,15 +269,19 @@ window.comprobar_color_circles_peque = function (texts, levels, name_container_c
 
         if(levels["A"]==texts.length){
             targetLevel = "A";
+            circle_centro_div_white.style.backgroundColor=colorMap[targetLevel];
         }
          if(levels["D"]==texts.length){
             targetLevel = "D";
+            circle_centro_div_white.style.backgroundColor=colorMap[targetLevel];
         }
          if(levels["L"]==texts.length){
             targetLevel = "L";
+            circle_centro_div_white.style.backgroundColor=colorMap[targetLevel];
         }
         if(levels["O"]==texts.length){
             targetLevel = "O";
+            circle_centro_div_white.style.backgroundColor=colorMap[targetLevel];
         }
         
     } catch (error) {

@@ -92,7 +92,7 @@ function get_id_user_search_competence_admin()
     }
 }
 
-function render_circles($mode_view)
+function render_circles()
 {
     global $CFG, $DB,$PAGE,$USER;
     //require '../block/ideal_cstatus/circles/modal_centro/modal_centro.js';
@@ -124,6 +124,43 @@ function render_circles($mode_view)
         } catch (Exception $e) {
             error_log('Error en render_circles: ' . $e->getMessage());
         }
+                // Verifica si el usuario es admin o tiene el rol 'ideal_manage'
+        if (is_siteadmin() || isset($rol) && $rol == $rol_admin_id) {
+            try {
+                $list_countries = get_list_countries();
+                $users_search = get_list_users();
+                $templatecontext = ['users_search' => json_encode($users_search)
+                    , 'list_countries' => json_encode($list_countries)];
+
+                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_user'])) {
+                    $id_user_search_competence = $_POST['selected_user'] ?: $USER->id;
+                    $lang_user = get_lang_x_user($id_user_search_competence);
+                    $data_user = core_user::get_user($id_user_search_competence);
+                    $name_user_search_competence = htmlspecialchars(fullname($data_user), ENT_QUOTES, 'UTF-8');
+                    echo "<div class='container_limpiar'>";
+
+                    //echo "<div style='display: flex; flex-wrap: wrap; align-items: center; gap: 10px;'>";
+                       echo "<h2 class='item_clear'  style='font-size: 1.2em; margin-bottom: 10px; '>" . get_string('user_select', 'block_ideal_cstatus') ."<a  href='../user/profile.php?id=" . $id_user_search_competence . "' target= '_blank''> <span style='color:#6398FA; '>" . fullname($data_user) . "</span></a></h2>";
+                    //echo "</div>";
+                    
+                        // Botón para limpiar contenido seleccionado
+                        echo "<form class='item_clear tooltip' method='POST' style='margin-top: 10px;'>";
+                          echo "<button type='submit' name='clear_selection' style=' border: none; border-radius: 5px; cursor: pointer;'>" ."<a>".get_string('limpiar_filtros','block_ideal_cstatus')." </a> " . "<span class='tooltiptext'>".get_string('btn_borrado_filtros','block_ideal_cstatus') ."</span> </button>";
+                        echo "</form>";
+
+                        // Botón para refrescar la página con los datos del mismo usuario
+                        echo "<form class='item_clear tooltip' method='POST' style='margin-top: 10px;'>";
+                           echo "<input type='hidden' name='selected_user' value='" . $id_user_search_competence . "'>";
+                           echo "<button  type='submit' style='  border: none; border-radius: 5px; cursor: pointer;'>" ."<a>".get_string('regargar','block_ideal_cstatus')." </a> " ."<span class='tooltiptext'>".get_string('btn_reload_page','block_ideal_cstatus') ."</span></button>";
+                        echo "</form>";
+                    echo "</div>";
+
+                }
+                echo $OUTPUT->render_from_template('block_ideal_cstatus/menu_manage', $templatecontext);
+            } catch (Exception $e) {
+                error_log('Error en render_circles: ' . $e->getMessage());
+            }
+        }
 
         for ($i = 0; $i < count($ids); $i++) {
             $circle_key = 'circle' . ($i + 1);
@@ -141,8 +178,6 @@ function render_circles($mode_view)
         }
 
         $data = ['circles' => $circles_data];
-        // $data["view_mode"]=$mode_view;
-        if($mode_view=="circles"){
             echo $OUTPUT->render_from_template('block_ideal_cstatus/all_circles', $data);
 
              #modal centro
@@ -164,9 +199,6 @@ function render_circles($mode_view)
                 'user_id_search'=>json_encode($id_user_search_competence),
                 'user_name_search'=>json_encode($name_user_search_competence,JSON_UNESCAPED_UNICODE),
             ]);
-        }else{
-            echo $OUTPUT->render_from_template('block_ideal_cstatus/all_list', $data);
-        }
        
     } catch (Exception $e) {
         error_log('Error en render_circles: ' . $e->getMessage());
