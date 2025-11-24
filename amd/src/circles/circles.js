@@ -169,74 +169,6 @@ function create_circle(ids_numbers, count_cabecera, name_container_principal_1, 
         }
     }
 };
-function create_list_view
-    (name_container_principal_,
-    ids_numbers, count_cabecera, name_container_padre,
-    cabecera0, name_container_padre, name_container_centro, texts,
-    numberOfCircles, competencia_ok_for_user, ids_circles_cambio_color,
-    cabeceras, id_numbers_competencias_, sub_areas, areas) 
-{
-
-    // console.table({name_container_principal_,
-    // ids_numbers, count_cabecera, name_container_padre,
-    // cabecera0, name_container_padre, name_container_centro, texts,
-    // numberOfCircles, competencia_ok_for_user, ids_circles_cambio_color,
-    // cabeceras, id_numbers_competencias_, sub_areas, areas});
-    //console.log(name_container_principal_);
-// Crear contenedor principal
-    const contenedor_plantilla=document.getElementById("container_list");
-    const div_container=document.createElement("div");
-    div_container.setAttribute("class","container");
-    contenedor_plantilla.appendChild(div_container);
-//titulo
-    var title=document.createElement("h4");
-    title.innerHTML=cabeceras;
-    title.setAttribute("class","area-title");
-    div_container.appendChild(title);
-//Areas and sub_areas
-    const container_area=document.createElement("div");
-    container_area.setAttribute("class","area-level");
-
-    for(var i=0; i<areas.length;i++){
-        container_area.appendChild(create_area(areas[i],sub_areas[i]));
-    }
-    div_container.appendChild(container_area);
-}
-
-function create_area(title,sub_area){
-    var area=document.createElement("div");
-
-    //sub area
-    const lista = Object.values(sub_area);//crear lista
-
-    area.innerHTML=title;
-    area.setAttribute("id",title.slice(0,3));
-    area.setAttribute("class","area green");
-    //container_subareeas
-    var subarea_level=document.createElement("div");
-    var subarea_class= title.slice(0,3).replace('.','_');//clñase subarea
-    subarea_level.setAttribute("class","subarea-level "+subarea_class);//container_subareas
-
-
-    for (const key in lista) {
-        const item = lista[key];
-        var name_sub_area=item.shortname;
-        if(name_sub_area.slice(0,3)==title.slice(0,3)){
-            var sub_area=create_sub_area(name_sub_area);
-            subarea_level.appendChild(sub_area);
-            area.appendChild(subarea_level);
-        }
-        // console.log(`Clave: ${key} → ${item.id  } - ${item.shortname}`);
-    }
-        
-        area.addEventListener("click", function() {
-            const subareas = document.getElementsByClassName(subarea_class);
-            for (const el of subareas) {
-                el.style.display = (el.style.display === 'none') ? 'block' : 'none';
-            }
-        });
-    return area;
-}
 
 function create_sub_area(title){
     var subarea_class= title.slice(0,3).replace('.','_');
@@ -286,34 +218,6 @@ window.comprobar_color_circles_peque = function (texts, levels, name_container_c
         
     } catch (error) {
         console.error("Error in comprobar_color function:", error);
-    }
-};
-
-window.list_1 = function () {
-    try {
-        var name_container_padre = window.name_container_padre_1;
-        var name_container_centro = "centro_circle_1";
-        var texts = window.texts;
-        var numberOfCircles = window.numberOfCircles;
-        var competencia_ok_for_user = window.competencia_ok_for_user_1;
-        var ids_numbers = window.idnumbers;
-        var ids_circles_cambio_color = window.competencia_ok_for_user;
-        var cabeceras = window.cabeceras_1[0]['cabecera'];
-        var cabecera0 = 'cabecera_1';
-        var count_cabecera = window.cabeceras_1.length;
-        var id_numbers_competencias_ = window.id_numbers_competencias_;
-        var shornames_areas_competency_ = window.shornames_areas_competency_;
-        var sub_areas = window.sub_areas;
-        console.log(texts);
-        create_list_view(name_container_principal_1,
-            ids_numbers, count_cabecera, name_container_padre, 
-            cabecera0, name_container_padre, name_container_centro, texts, 
-            numberOfCircles, competencia_ok_for_user, ids_circles_cambio_color, 
-            cabeceras,id_numbers_competencias_,sub_areas,shornames_areas_competency_
-        );
-
-    } catch (error) {
-        console.error("Error en list_1: ", error);
     }
 };
 

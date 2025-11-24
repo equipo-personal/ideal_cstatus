@@ -314,14 +314,17 @@ function get_list_countries(){
 
     try {
         $sql = "
-            SELECT DISTINCT
-                country
+            SELECT 
+                u.country,
+                count(u.id) as n_users
             FROM
-                {user}
+                {user} as u
             WHERE
-                country NOT LIKE ''
-            ORDER BY
-                {user}.`country` ASC
+                u.country <> ''
+            GROUP BY
+                u.country
+            HAVING
+                count(u.id)>1
         ";
         $countries = $DB->get_records_sql($sql);
         $countries_ok = [];
@@ -329,7 +332,7 @@ function get_list_countries(){
         foreach ($countries as $country) {
             $countries_ok[] = strtoupper($country->country)." (".get_string(strtoupper($country->country), 'countries').")";
         }
-        //var_dump($countries_ok);
+        // var_dump($countries);
         $countries_ok[] = get_string('all_users', 'block_ideal_cstatus');
         $countries_ok[] = get_string('users_not_country', 'block_ideal_cstatus');
         return $countries_ok;
