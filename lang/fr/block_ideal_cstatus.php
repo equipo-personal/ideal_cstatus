@@ -151,11 +151,10 @@ $string['8.3 Algorithmic thinking '] = '8.3 Pensée algorithmique ';
 $string['8.4 Risk assessment '] = '8.4 Évaluation des risques ';
 $string['8.5 Human-Computer Interaction & Prompt Engineering'] = '8.5 Interaction humain-ordinateur & Ingénierie des prompts';
 //certificate new view
-$string['enroll_cohort_cert'] = 'Obtenez votre certificat';
-$string['cerft_AD_title'] = 'Formateur numérique certifié européen';
-$string['cerft_L_title'] = 'Responsable pédagogique numérique certifié européen';
+$string['cerft_AD_title'] = 'Certificat européen de leader pédagogique numérique';
+$string['cerft_L_title'] = 'Certificat Européen de Leader en éducation numérique';
+$string['enroll_cohort_cert'] = 'Inscrivez-vous pour obtenir ce certificat';
 $string['certificate_title'] = 'Parcours de certification';
-//modal cerft
-$string['subtitle_modal_enroll_ECDE'] = 'Vous serez inscrit aux cours avec les compétences Awareness et Deepening correspondant à la certification.';
-$string['select_cert_cohort'] = 'Sélectionnez la langue dans laquelle vous souhaitez être inscrit :';
-$string['already_enrolled_in'] = 'Vous êtes déjà inscrit sur: ';
+$string['subtitle_modal_enroll_ECDE'] = 'Vous allez vous inscrire à tous les cours correspondant à ce certificat.';
+$string['select_cert_cohort'] = 'Sélectionnez la langue dans laquelle vous souhaitez vous inscrire aux cours :';
+$string['already_enrolled_in'] = 'Vous êtes déjà inscrit à :';

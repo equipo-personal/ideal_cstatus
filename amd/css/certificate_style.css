@@ -6,7 +6,7 @@
     min-width: 750px !important;
 }
 
-.table_certificate, td {
+.table_certificate td {
     border: 1px solid black;
     border-collapse: collapse;
 }
@@ -81,4 +81,11 @@
 }
 h2.title-moda-cerf {
     text-align: center;
+}
+
+p.msj_cert {
+    background: #f5d1848c;
+    border-radius: 20px;
+    padding: 5px;
+    text-align: -webkit-left;
 }

@@ -1,12 +1,25 @@
 <?php
- 
+    global $PAGE, $OUTPUT;
 require_once('../../config.php');
 require_once('classes/renderer.php');
 require_once('classes/consultas_db.php');
 require_once($CFG->dirroot . '/cohort/lib.php');
 
     require_login();
+    // $PAGE->set_context(context_system::instance());
+
+    // Define the page URL
+    $url = new moodle_url('/blocks/ideal_cstatus/certificate_view.php');
+
+    // Set the URL for the page
+    $PAGE->set_url($url);
+
+    // Continue with the rest of the page setup
     $PAGE->set_context(context_system::instance());
+
+    // Render the page header
+    echo $OUTPUT->header();
+
     echo "<head>
         <title>".get_string('certificate_title', 'block_ideal_cstatus')."</title>
         <link rel='stylesheet' type='text/css' href='amd/css/certificate_style.css'>
@@ -15,12 +28,10 @@ require_once($CFG->dirroot . '/cohort/lib.php');
     $id_user=$USER->id;
     //lenguaje del usuario
     $lang_user=$USER->lang;
-    $renderer = $PAGE->get_renderer('block_ideal_cstatus');
+    // $renderer = $PAGE->get_renderer('block_ideal_cstatus');
     // Renderizar la plantilla usando el renderer.
-    echo $OUTPUT->header();//header menus
     try{
         $data_renderer=get_competencies_for_user_and_status($id_user);
-    //  echo"<pre>";var_dump($cohorts_ECDE);echo"</pre>";
         $aux=1;
         $lvl_color="";
         $cohorts_ECDPL=get_cohort("ECDPL-",$id_user);
@@ -45,11 +56,11 @@ require_once($CFG->dirroot . '/cohort/lib.php');
         // echo "<head><tr><th colspan='10'>".get_string('certificate_title', 'block_ideal_cstatus')."</th></tr></head>";
         echo "<head><tr><th colspan='10' style='margin:0 auto; text-align:center; padding:5px'>".get_string('cerft_AD_title','block_ideal_cstatus')."</th></tr></head>";
         $class_to_change_color="";
+        $aux_stop="";
         // echo"<pre>";var_dump($data_renderer);echo"</pre>";
             foreach($data_renderer as $data){
                 if($aux_stop!=$aux){//cerrar area
                     echo"</tr>";}
-
                         if($data->is_title_area=="1"){//es un titulo de area
                             $aux_stop=$data->shortname[0];
                             
@@ -88,7 +99,7 @@ require_once($CFG->dirroot . '/cohort/lib.php');
         <div id='enrollModal' style='display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.5);'>
             <div style='background:#fff; margin:8% auto; padding:20px; border-radius:6px; width:90%; max-width:480px; box-shadow:0 2px 10px rgba(0,0,0,0.3);'>
             <h2 class='title-moda-cerf'>".get_string('cerft_AD_title','block_ideal_cstatus')."</h2>"."
-            <p style='margin-top:0;'>".get_string('subtitle_modal_enroll_ECDE','block_ideal_cstatus')."</p>";
+            <p class='msj_cert' style='margin-top:0;'>".get_string('subtitle_modal_enroll_ECDE','block_ideal_cstatus')."</p>";
             $has_available = false;
 
             // Primero comprobamos si hay cohortes disponibles
@@ -101,7 +112,7 @@ require_once($CFG->dirroot . '/cohort/lib.php');
 
             if ($has_available) {
                 echo "<p>" . get_string('select_cert_cohort','block_ideal_cstatus') . "</p>";
-                echo "<select class='select_to_cohot_certf'>";
+                echo "<select class='select_to_cohot_certf_1'>";
                 foreach ($cohorts_ECDE as $cohort) {
                     if ($cohort->matriculado == 0) {
                         echo "<option value='" . htmlspecialchars($cohort->id) . "'>" .
@@ -241,9 +252,8 @@ require_once($CFG->dirroot . '/cohort/lib.php');
         <div id='enrollModal2' style='display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.5);'>
             <div style='background:#fff; margin:8% auto; padding:20px; border-radius:6px; width:90%; max-width:480px; box-shadow:0 2px 10px rgba(0,0,0,0.3);'>
             <h2 class='title-moda-cerf'>".get_string('cerft_L_title','block_ideal_cstatus')."</h2>"."
-            <p style='margin-top:0;'>".get_string('subtitle_modal_enroll_ECDE','block_ideal_cstatus')."</p>";
+            <p class='msj_cert' style='margin-top:0;'>".get_string('subtitle_modal_enroll_ECDE','block_ideal_cstatus')."</p>";
             $has_available = false;
-
             // Primero comprobamos si hay cohortes disponibles
             foreach ($cohorts_ECDPL as $cohort) {
                 if ($cohort->matriculado == 0) {
@@ -254,7 +264,7 @@ require_once($CFG->dirroot . '/cohort/lib.php');
 
             if ($has_available) {
                 echo "<p>" . get_string('select_cert_cohort','block_ideal_cstatus') . "</p>";
-                echo "<select class='select_to_cohot_certf'>";
+                echo "<select class='select_to_cohot_certf_2'>";
                 foreach ($cohorts_ECDPL as $cohort) {
                     if ($cohort->matriculado == 0) {
                         echo "<option value='" . htmlspecialchars($cohort->id) . "'>" .
@@ -284,7 +294,7 @@ require_once($CFG->dirroot . '/cohort/lib.php');
             }
 
             if($has_available){
-                echo "<button class='btn btn-primary' id='confirmEnroll' style='margin-right:8px;' onclick='confirmEnroll(".intval($USER->id).",".json_encode($strs_msj).")'>
+                echo "<button class='btn btn-primary' id='confirmEnroll2' style='margin-right:8px;' onclick='confirmEnroll(".intval($USER->id).",".json_encode($strs_msj).")'>
                     ".get_string('confirm','core')."
                 </button>";
             }
@@ -300,7 +310,7 @@ require_once($CFG->dirroot . '/cohort/lib.php');
                     var openBtn = document.getElementById('enroll_cohort_L');
                     var modal = document.getElementById('enrollModal2');
                     var cancel = document.getElementById('cancelEnroll2');
-                    var confirmBtn = document.getElementById('confirmEnroll');
+                    var confirmBtn = document.getElementById('confirmEnroll2');
                    
 
                     if(openBtn){
@@ -360,22 +370,17 @@ require_once($CFG->dirroot . '/cohort/lib.php');
 
         //=========================================================
     }catch(Exception $e){
-        $this->content->text = $OUTPUT->notification(get_string('error_rendering', 'block_ideal_cstatus'), 'error');
+        echo $OUTPUT->notification('error render cerft');
     }
         $PAGE->requires->js_call_amd('block_ideal_cstatus/controller_list', 'init');
 
         try {
-        // Inicia el buffer de salida para capturar la salida generada por la función render_circles().
             ob_start();
 
         } catch (Exception $e) {
-            $this->content->text = $OUTPUT->notification(get_string('error_rendering', 'block_ideal_cstatus'), 'error');
+            echo $OUTPUT->notification('error render cerft');
             error_log('Error rendering circles: ' . $e->getMessage()); 
             error_log('User ID: ' . $USER->id . ' | Error details: ' . $e->getMessage());
         }
 
 echo $OUTPUT->footer();
-
-
-
-

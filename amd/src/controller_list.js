@@ -77,16 +77,23 @@ define(['jquery'], function($) {
 
 function confirmEnroll(userid,strs) {
     var modal = document.getElementById('enrollModal');
+
     var confirmBtn = document.getElementById('confirmEnroll');
+    if(!confirmBtn){
+       var confirmBtn = document.getElementById('confirmEnroll2'); 
+    }
     
     // Deshabilitar botón y mostrar mensaje de procesamiento
     confirmBtn.disabled = true;
     confirmBtn.textContent = strs[0];
 
     // Obtener el cohorte seleccionado
-    var select = document.querySelector('.select_to_cohot_certf');
+    var select = document.querySelector('.select_to_cohot_certf_1');
+    if(!select){
+        select = document.querySelector('.select_to_cohot_certf_2');
+    }
     var cohort_id = select.value;
-    var cohort_name   = select.options[select.selectedIndex].text; // Texto → "ECDE-fr"
+    var cohort_name   = select.options[select.selectedIndex].text; 
 
     // Función para mostrar modal de mensaje dinámico
     function showMessageModal(message, success = true) {
@@ -148,7 +155,7 @@ function confirmEnroll(userid,strs) {
     })
     .catch(err => {
         console.error(err);
-        showMessageModal('Ocurrió un error de conexión.', false);
+        showMessageModal('Error 500', false);
     })
     .finally(() => {
         confirmBtn.disabled = false;
