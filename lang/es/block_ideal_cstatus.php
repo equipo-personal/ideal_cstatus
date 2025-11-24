@@ -173,14 +173,10 @@ $string['8.4 Risk assessment '] = '8.4 Evaluación de riesgos ';
 $string['8.5 Human-Computer Interaction & Prompt Engineering'] = '8.5 Interacción humano-computadora e Ingeniería de prompts';
 
 //certificate new view
-$string['enroll_cohort_cert'] = 'Obten tu certificado';
-$string['cerft_AD_title'] = 'Educador Digital Certificado Europeo';
-$string['cerft_L_title'] = 'Líder Pedagógico Digital Certificado Europeo';
-$string['certificate_title'] = 'Vías de certificación';
-//modal cerft
-$string['subtitle_modal_enroll_ECDE'] = 'Serás inscrito en los cursos con las competencias Conciencia y Profundización correspondientes a la certificación.';
-$string['select_cert_cohort'] = 'Selecciona el idioma en el que deseas ser inscrito:';
-$string['already_enrolled_in'] = 'Ya estás inscrito en: ';
-$string['processing'] = 'Procesando ';
-
-
+$string['cerft_AD_title'] = 'Certificado de Líder Pedagógico Digital Europeo';
+$string['cerft_L_title'] = 'Certificado de Líder Educativo Digital Europeo';
+$string['enroll_cohort_cert'] = 'Matriculate para conseguir este certificado';
+$string['certificate_title'] = 'Itinerarios de certificación';
+$string['subtitle_modal_enroll_ECDE'] = 'Te vas a inscribir en todos los cursos correspondientes a este certificado.';
+$string['select_cert_cohort'] = 'Selecciona el idioma en el que deseas matricularte en los cursos:';
+$string['already_enrolled_in'] = 'Ya estás inscrito en:';

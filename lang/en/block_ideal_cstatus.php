@@ -170,17 +170,12 @@ $string['8.3 Algorithmic thinking '] = '8.3 Algorithmic thinking ';
 $string['8.4 Risk assessment '] = '8.4 Risk assessment ';
 $string['8.5 Human-Computer Interaction & Prompt Engineering'] = '8.5 Human-Computer Interaction & Prompt Engineering';
 //certificate new view
-$string['enroll_cohort_cert'] = 'Get your certificate';
-$string['cerft_AD_title'] = 'European Certified Digital Educator';
-$string['cerft_L_title'] = 'European Certified Digital Pedagogical leader';
-$string['certificate_title'] = 'Certification pathways';
-//modal cerft
-$string['subtitle_modal_enroll_ECDE'] = 'You will be enrolled in the courses with the Awareness and Deepening competencies corresponding to the certification.';
-$string['select_cert_cohort'] = 'Select the language in which you want to be enrolled:';
-$string['already_enrolled_in'] = 'You are already enrolled in: ';
-$string['processing'] = 'processing ';
-
-
-
+$string['cerft_AD_title'] = 'European Digital Pedagogical Leader Certificate';
+$string['cerft_L_title'] = 'European Digital Educational Leader Certificate';
+$string['enroll_cohort_cert'] = 'Enrol to obtain this certificate';
+$string['certificate_title'] = 'Certificate pathways';
+$string['subtitle_modal_enroll_ECDE'] = 'You are going to enrol in all the courses corresponding to this certificate.';
+$string['select_cert_cohort'] = 'Select the language in which you wish to enrol in the courses:';
+$string['already_enrolled_in'] = 'Select the language in which you wish to enrol in the courses:'; // ⚠ Revisar, parece un error
 ?>
 
