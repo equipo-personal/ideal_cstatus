@@ -26,8 +26,12 @@ require_once($CFG->dirroot . '/cohort/lib.php');
     </head>";
     // Obtener el ID del usuario actual.
     $id_user=$USER->id;
-    //lenguaje del usuario
-    $lang_user=$USER->lang;
+    $languages=[
+        'en'=>'English (en)',
+        'es'=>'Español (es)',
+        'fr'=>'Français (fr)',
+        'lv'=>'Latviešu (lv)',
+    ];
     // $renderer = $PAGE->get_renderer('block_ideal_cstatus');
     // Renderizar la plantilla usando el renderer.
     try{
@@ -49,7 +53,7 @@ require_once($CFG->dirroot . '/cohort/lib.php');
             $cohort_enrol_user_ECDE[]=user_in_cohort($id_user,$cohorts_->id);
         }
 //==========================TABLA 1===============================
-        echo "<h2><img style='width:40px' src='templates/media/img/certificate.png'>".get_string('certificate_title', 'block_ideal_cstatus')."</h2>";
+        echo "<h2><img style='width:40px' src='templates/media/img/certificate.png'>    ".get_string('certificate_title', 'block_ideal_cstatus')."</h2>";
         echo "<div class='certificate_container'>";
         echo "<table class='table_certificate'>";
         echo "<tbody >";
@@ -57,7 +61,8 @@ require_once($CFG->dirroot . '/cohort/lib.php');
         echo "<head><tr><th colspan='10' style='margin:0 auto; text-align:center; padding:5px'>".get_string('cerft_AD_title','block_ideal_cstatus')."</th></tr></head>";
         $class_to_change_color="";
         $aux_stop="";
-        // echo"<pre>";var_dump($data_renderer);echo"</pre>";
+        $competencies_AD_pss=0;
+        $competencies_AD_pss_avalible_for_user=0;
             foreach($data_renderer as $data){
                 if($aux_stop!=$aux){//cerrar area
                     echo"</tr>";}
@@ -79,6 +84,7 @@ require_once($CFG->dirroot . '/cohort/lib.php');
 
                         if($data->str_lvl=='#FF6600'  || $data->str_lvl=='#0066FF' && $data->is_title_area!="1"){//competency A
                             if($data->competency_proficiency=="approved"){
+                                $competencies_AD_pss_avalible_for_user=$competencies_AD_pss_avalible_for_user+1;
                                 $lvl_color="style='color:".$data->str_lvl.";'";
                                 //Cambiar el color de fondo y texto de la subárea correspondiente
                                 echo "
@@ -91,6 +97,7 @@ require_once($CFG->dirroot . '/cohort/lib.php');
                                 </style>";
                             }else{$lvl_color="";}
                                 echo "<td class='$data->str_lvl competency' $lvl_color>".get_string($data->shortname,'block_ideal_cstatus')."</td>";
+                            $competencies_AD_pss=$competencies_AD_pss+1;
                         }
             }
         echo "<tfoot><tr><th colspan='10' style='margin:0 auto; text-align:center; padding:5px'><button class='btn btn-primary' id='enroll_cohort_AD'>".get_string('enroll_cohort_cert', 'block_ideal_cstatus')."</button>"."</th></tr></tfoot>";
@@ -109,14 +116,15 @@ require_once($CFG->dirroot . '/cohort/lib.php');
                     break;
                 }
             }
-
             if ($has_available) {
                 echo "<p>" . get_string('select_cert_cohort','block_ideal_cstatus') . "</p>";
                 echo "<select class='select_to_cohot_certf_1'>";
                 foreach ($cohorts_ECDE as $cohort) {
                     if ($cohort->matriculado == 0) {
+
                         echo "<option value='" . htmlspecialchars($cohort->id) . "'>" .
-                                htmlspecialchars($cohort->name) .
+                                //htmlspecialchars($cohort->name) .
+                                htmlspecialchars(string: $languages[substr($cohort->name,-2)]) .
                             "</option>";
                     }
                 }
@@ -133,7 +141,8 @@ require_once($CFG->dirroot . '/cohort/lib.php');
                         echo "<ul>";
                         $has_enrolled = true;
                     }
-                    echo "<li>" . htmlspecialchars($cohort->name) . "</li>";
+                    // echo "<li>" . htmlspecialchars($cohort->name) . "</li>";
+                    echo "<li>" . htmlspecialchars(string: $languages[substr($cohort->name,-2)]) . "</li>";
                 }
             }
             echo "<div class='container_btns' style='margin:0 auto;'>";
@@ -143,9 +152,18 @@ require_once($CFG->dirroot . '/cohort/lib.php');
             }
 
             if($has_available){
-                echo "<button class='btn btn-primary' id='confirmEnroll' onclick='confirmEnroll(".intval($USER->id).",".json_encode($strs_msj).")'>
-                    ".get_string('confirm','core')."
-                </button>";
+                echo "
+                    <button class='btn btn-primary' 
+                            id='confirmEnroll2' 
+                            style='margin-right:8px;' 
+                            onclick='confirmEnroll(
+                                " . intval($USER->id) . ", 
+                                " . json_encode($strs_msj) . ", 
+                                \".select_to_cohot_certf_1\"
+                            )'>
+                        " . get_string('confirm', 'core') . "
+                    </button>
+                ";
             }
                 echo"<button class='btn btn-secondary' id='cancelEnroll'>".get_string('cancel','core')."</button>
             </div>
@@ -244,9 +262,18 @@ require_once($CFG->dirroot . '/cohort/lib.php');
                         }
             }
 
-        echo "<tfoot><tr><th colspan='10' style='margin:0 auto; text-align:center; padding:5px'>
-            <button class='btn btn-primary' id='enroll_cohort_L'>".get_string('enroll_cohort_cert', 'block_ideal_cstatus')."</button>
-        </th></tr></tfoot>";
+        echo "<tfoot><tr><th colspan='10' style='margin:0 auto; text-align:center; padding:5px'>";
+            if($competencies_AD_pss=$competencies_AD_pss_avalible_for_user){
+                echo "<button class='btn btn-primary' id='enroll_cohort_L'>".get_string('enroll_cohort_cert', 'block_ideal_cstatus')."</button>";
+            }else{
+                echo"<div class='btn-primary' style='position: relative;display: flow;border-radius: 25px;'>
+                    <p'>
+                        <strong style='color:red;font-size: x-large;'>!   </strong>"
+                        .get_string('necesario','block_ideal_cstatus')."
+                    </p>
+                </div>";
+            }            
+            echo "</th></tr></tfoot>";
       //MODAL 2
         echo "
         <div id='enrollModal2' style='display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.5);'>
@@ -268,7 +295,8 @@ require_once($CFG->dirroot . '/cohort/lib.php');
                 foreach ($cohorts_ECDPL as $cohort) {
                     if ($cohort->matriculado == 0) {
                         echo "<option value='" . htmlspecialchars($cohort->id) . "'>" .
-                                htmlspecialchars($cohort->name) .
+                                // htmlspecialchars($cohort->name) .
+                                htmlspecialchars(string: $languages[substr($cohort->name,-2)]) .
                             "</option>";
                     }
                 }
@@ -285,7 +313,8 @@ require_once($CFG->dirroot . '/cohort/lib.php');
                         echo "<ul>";
                         $has_enrolled = true;
                     }
-                    echo "<li>" . htmlspecialchars($cohort->name) . "</li>";
+                    // echo "<li>" . htmlspecialchars($cohort->name) . "</li>";
+                    echo "<li>" . htmlspecialchars(string: $languages[substr($cohort->name,-2)]) . "</li>";
                 }
             }
             echo "<div class='container_btns' style='margin:0 auto;'>";
@@ -294,11 +323,19 @@ require_once($CFG->dirroot . '/cohort/lib.php');
             }
 
             if($has_available){
-                echo "<button class='btn btn-primary' id='confirmEnroll2' style='margin-right:8px;' onclick='confirmEnroll(".intval($USER->id).",".json_encode($strs_msj).")'>
-                    ".get_string('confirm','core')."
-                </button>";
+                echo "
+                    <button class='btn btn-primary' 
+                            id='confirmEnroll2' 
+                            style='margin-right:8px;' 
+                            onclick='confirmEnroll(
+                                " . intval($USER->id) . ", 
+                                " . json_encode($strs_msj) . ", 
+                                \".select_to_cohot_certf_2\"
+                            )'>
+                        " . get_string('confirm', 'core') . "
+                    </button>
+                ";
             }
-
                 echo"<button class='btn btn-secondary' id='cancelEnroll2'>".get_string('cancel','core')."</button>
             </div>
             </div>

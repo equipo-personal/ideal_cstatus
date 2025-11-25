@@ -150,11 +150,12 @@ $string['8.3 Algorithmic thinking '] = '8.3 Algoritmiskā domāšana ';
 $string['8.4 Risk assessment '] = '8.4 Risku novērtēšana ';
 $string['8.5 Human-Computer Interaction & Prompt Engineering'] = '8.5 Cilvēka–datora mijiedarbība un uzvedņu inženierija';
 //certificate new view
-$string['cerft_AD_title'] = 'Eiropas digitālās izglītības līdera sertifikāts';
+$string['cerft_AD_title'] = 'Eiropas digitālā pedagoģiskā līdera sertifikāta';
 $string['cerft_L_title'] = 'Eiropas Digitālās Izglītības Līdera Sertifikāts';
 $string['enroll_cohort_cert'] = 'Reģistrējieties, lai iegūtu šo sertifikātu';
 $string['certificate_title'] = 'Sertifikācijas maršruti';
-$string['subtitle_modal_enroll_ECDE'] = 'Tu reģistrēsies visos šim sertifikātam atbilstošajos kursos.';
+$string['subtitle_modal_enroll_ECDE'] = 'Tu reģistrēsies visos nepieciešamos kursos, lai apgūtu visas prasmes, kas nepieciešamas šī sertifikāta iegūšanai.';
 $string['select_cert_cohort'] = 'Izvēlieties valodu, kurā vēlaties reģistrēties kursiem:';
 $string['already_enrolled_in'] = 'Jūs jau esat reģistrējies:';
+$string['necesario'] = 'Lai reģistrētos šim sertifikātam, jums ir jābūt pabeigušam visus: <br> Eiropas digitālā pedagoģiskā līdera sertifikāta.';
 ?>

@@ -42,7 +42,6 @@ if (cohort_is_member($cohortid, $userid)) {
 try {
     // Iniciar transacción protegida
     $transaction = $DB->start_delegated_transaction();
-
     // Añadir miembro
     cohort_add_member($cohortid, $userid);
 
