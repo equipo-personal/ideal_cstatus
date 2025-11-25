@@ -266,8 +266,8 @@ require_once($CFG->dirroot . '/cohort/lib.php');
             if($competencies_AD_pss=$competencies_AD_pss_avalible_for_user){
                 echo "<button class='btn btn-primary' id='enroll_cohort_L'>".get_string('enroll_cohort_cert', 'block_ideal_cstatus')."</button>";
             }else{
-                echo"<div class='btn-primary' style='position: relative;display: flow;border-radius: 25px;'>
-                    <p'>
+                echo"<div class='btn-primary' style='position: relative;display: flow;border-radius: 25px; margin-top:3%;'>
+                    <p>
                         <strong style='color:red;font-size: x-large;'>!   </strong>"
                         .get_string('necesario','block_ideal_cstatus')."
                     </p>
