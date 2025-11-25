@@ -75,7 +75,7 @@ define(['jquery'], function($) {
     };
 });
 
-function confirmEnroll(userid,strs) {
+function confirmEnroll(userid,strs,select_arg) {
     var modal = document.getElementById('enrollModal');
 
     var confirmBtn = document.getElementById('confirmEnroll');
@@ -88,10 +88,8 @@ function confirmEnroll(userid,strs) {
     confirmBtn.textContent = strs[0];
 
     // Obtener el cohorte seleccionado
-    var select = document.querySelector('.select_to_cohot_certf_1');
-    if(!select){
-        select = document.querySelector('.select_to_cohot_certf_2');
-    }
+    var select = document.querySelector(select_arg);
+
     var cohort_id = select.value;
     var cohort_name   = select.options[select.selectedIndex].text; 
 
