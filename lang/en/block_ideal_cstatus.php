@@ -177,5 +177,5 @@ $string['certificate_title'] = 'Certificate pathways';
 $string['subtitle_modal_enroll_ECDE'] = 'You are going to enrol in all the courses necessary to complete all the competencies required to obtain this certificate.';
 $string['select_cert_cohort'] = 'Select the language in which you wish to enrol in the courses:';
 $string['already_enrolled_in'] = 'Select the language in which you wish to enrol in the courses:'; // ⚠ Revisar, parece un error
-$string['necesario'] = 'To enrol in this certificate, you must have completed all the courses in:<br> the European Digital Learning Leader Certificate. ';
+$string['necesario'] = 'To enrol in this certificate, you must have completed all the courses in:<br> the European Digital Pedagogical Leader Certificate. ';
 ?>
