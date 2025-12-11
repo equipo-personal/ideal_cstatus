@@ -31,6 +31,7 @@ require_once($CFG->dirroot . '/cohort/lib.php');
         'es'=>'Español (es)',
         'fr'=>'Français (fr)',
         'lv'=>'Latviešu (lv)',
+        'el'=>'Greek (el)',
     ];
     // $renderer = $PAGE->get_renderer('block_ideal_cstatus');
     // Renderizar la plantilla usando el renderer.
