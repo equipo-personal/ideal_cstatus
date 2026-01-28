@@ -80,7 +80,13 @@ require_once($CFG->dirroot . '/cohort/lib.php');
                             $class_to_change_color="_".substr($data->shortname,0,3);
                             $class_to_change_color=preg_replace('/\./', '_', $class_to_change_color);
 
-                            echo "<td class='title_subarea ". htmlspecialchars($class_to_change_color)."'>".$data->shortname."</td>";
+                            echo "<td class='title_subarea ". htmlspecialchars($class_to_change_color)."'>"
+                                .get_string($data->shortname,'block_ideal_cstatus').
+                            "</td>";
+
+                            // echo"<br>";var_dump(get_string(htmlspecialchars($data->shortname),'block_ideal_cstatus'));
+                            
+
                         }
 
                         if($data->str_lvl=='#FF6600'  || $data->str_lvl=='#0066FF' && $data->is_title_area!="1"){//competency A
@@ -229,7 +235,9 @@ require_once($CFG->dirroot . '/cohort/lib.php');
                             if(substr($data->shortname,0,1)>5){
                                 $class_to_change_color=$class_to_change_color . " other_level";
                             }
-                            echo "<td class='title_subarea ". htmlspecialchars($class_to_change_color)."'>".$data->shortname."</td>";
+                            echo "<td class='title_subarea ". htmlspecialchars($class_to_change_color)."'>"
+                                .get_string($data->shortname,'block_ideal_cstatus').
+                            "</td>";
                         }
 
                         if($data->str_lvl==='#6600FF' && $data->is_title_area!="1"){//competency L
