@@ -178,4 +178,32 @@ $string['subtitle_modal_enroll_ECDE'] = 'Πρόκειται να εγγραφε�
 $string['select_cert_cohort'] = 'Επιλέξτε τη γλώσσα στην οποία επιθυμείτε να εγγραφείτε στα μαθήματα:';
 $string['already_enrolled_in'] = 'Επιλέξτε τη γλώσσα στην οποία επιθυμείτε να εγγραφείτε στα μαθήματα:';
 $string['necesario'] = 'Για να εγγραφείτε σε αυτό το πιστοποιητικό, πρέπει να έχετε ολοκληρώσει όλα τα μαθήματα στο:<br> Ευρωπαϊκό Πιστοποιητικό Ψηφιακού Παιδαγωγικού Ηγέτη. ';
+$string['description_help_1'] = '<p style="font-size: 2rem; color:#094bab;font-weight: bold;">
+                                        <a style=color:#094bab; href="https://hub.ideal-future.eu/course/view.php?id=100"> Ξεκινήστε με το IDEAL HUB Εισαγωγή</a>
+                                </p>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <a href="https://hub.ideal-future.eu/course/view.php?id=100" 
+                                                target="_blank" rel="noopener">
+                                                    <img src="../blocks/ideal_cstatus/templates/media/img/title_introduction_el.png" alt="" width="250" height="194" role="presentation" class="img-fluid ">
+                                            </a>
+                                        </div>
+                                        <div class="col-6">
+                                            <p style="font-size: 1.2rem;">
+                                                Ξεκινήστε την επαγγελματική σας εκπαίδευση εδώ με μια εισαγωγή στο hub.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>';
+
+$string['description_help_2'] = '<div style="font-size: 2rem; color:#094bab;font-weight: bold;">
+                                        <a>Κατάσταση ικανοτήτων και εγγραφή σε μαθήματα IDEAL</a>
+                                </div>
+                                <p style="font-size: 1.2rem;">
+                                    Στην ενότητα «Κατάσταση προσωπικών ικανοτήτων» παρακάτω μπορείτε να δείτε με χρωματικό κώδικα τις ικανότητες που έχετε ήδη αποκτήσει.
+                                </p>
+                                <p style="font-size: 1.2rem;">
+                                    Μπορείτε επίσης να εγγραφείτε στα μαθήματα για έναν τομέα, κάνοντας κλικ στον αριθμό στο κέντρο των μεγάλων σφαιρών του τομέα, και εκεί θα έχετε την επιλογή να εγγραφείτε στα μαθήματα για αυτόν τον τομέα, τα οποία θα εμφανιστούν στη συνέχεια στο μενού «Τα μαθήματά μου».
+                                </p>';
 ?>

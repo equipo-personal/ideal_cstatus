@@ -8,7 +8,6 @@ class block_ideal_cstatus extends block_base {
     public function get_content() {
         global $OUTPUT, $PAGE;
 
-
         if ($this->content !== null) {
             return $this->content;
         }
