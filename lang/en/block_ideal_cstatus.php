@@ -178,4 +178,33 @@ $string['subtitle_modal_enroll_ECDE'] = 'You are going to enrol in all the cours
 $string['select_cert_cohort'] = 'Select the language in which you wish to enrol in the courses:';
 $string['already_enrolled_in'] = 'Select the language in which you wish to enrol in the courses:'; // ⚠ Revisar, parece un error
 $string['necesario'] = 'To enrol in this certificate, you must have completed all the courses in:<br> the European Digital Pedagogical Leader Certificate. ';
+$string['description_help_1'] = '<p style="font-size: 2rem; color:#094bab;font-weight: bold;">
+                                        <a style=color:#094bab; href="https://hub.ideal-future.eu/course/view.php?id=100"> Start by IDEAL HUB Introduction</a>
+                                </p>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <a href="https://hub.ideal-future.eu/course/view.php?id=100" 
+                                                target="_blank" rel="noopener">
+                                                    <img src="../blocks/ideal_cstatus/templates/media/img/title_introduction_en.png" alt="" width="250" height="194" role="presentation" class="img-fluid ">
+                                            </a>
+                                        </div>
+                                        <div class="col-6">
+                                            <p style="font-size: 1.2rem;">
+                                                Begin your professional learning here with an introduction to the hub.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>';
+
+$string['description_help_2'] = '<div style="font-size: 2rem; color:#094bab;font-weight: bold;">
+                                        <a>Status of competences and Enrolment in IDEAL Courses</a>
+                                </div>
+                                <p style="font-size: 1.2rem;">
+                                    In the "Personal Competencies´ Status" below you may see with a color code the competences you have already achieved.
+                                </p>
+                                <p style="font-size: 1.2rem;">
+                                    You may also enrol in the courses for an area, by clicking in the number in the center of the big area balls, and there you will get the option to&nbsp; enrol in the courses for that area, that will appear afterwards in the "My Courses" menu
+                                </p>';
+                                
 ?>

@@ -94,7 +94,7 @@ function get_id_user_search_competence_admin()
 
 function render_circles()
 {
-    global $CFG, $DB,$PAGE,$USER;
+    global $CFG,$USER,$OUTPUT;
     //require '../block/ideal_cstatus/circles/modal_centro/modal_centro.js';
 
     require_once($CFG->dirroot . '/user/lib.php');
@@ -102,6 +102,11 @@ function render_circles()
     $id_user_search_competence = $USER->id;
     $name_user_search_competence=$USER->username;
     $lang_user=get_lang_x_user(id_user: $id_user_search_competence);
+    echo $OUTPUT->box(get_string('description_help_1', 'block_ideal_cstatus'), 'generalbox');
+    echo $OUTPUT->box(get_string('description_help_2', 'block_ideal_cstatus'), 'generalbox');
+    // echo $OUTPUT->notification(get_string('description_help_1', 'block_ideal_cstatus'), 'info');
+    // echo $OUTPUT->notification(get_string('description_help_2', 'block_ideal_cstatus'), 'info');
+
     try {
         $ids = get_ids_cabeceras_db(get_cabeceras());
         if (!$ids) {

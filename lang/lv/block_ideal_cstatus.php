@@ -158,4 +158,32 @@ $string['subtitle_modal_enroll_ECDE'] = 'Tu reģistrēsies visos nepieciešamos 
 $string['select_cert_cohort'] = 'Izvēlieties valodu, kurā vēlaties reģistrēties kursiem:';
 $string['already_enrolled_in'] = 'Jūs jau esat reģistrējies:';
 $string['necesario'] = 'Lai reģistrētos šim sertifikātam, jums ir jābūt pabeigušam visus: <br> Eiropas digitālā pedagoģiskā līdera Sertifikāti.';
+$string['description_help_1'] = '<p style="font-size: 2rem; color:#094bab;font-weight: bold;">
+                                        <a style=color:#094bab; href="https://hub.ideal-future.eu/course/view.php?id=100"> Sāciet ar IDEAL HUB ievadu</a>
+                                </p>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <a href="https://hub.ideal-future.eu/course/view.php?id=100" 
+                                                target="_blank" rel="noopener">
+                                                    <img src="../blocks/ideal_cstatus/templates/media/img/title_introduction_lv.png" alt="" width="250" height="194" role="presentation" class="img-fluid ">
+                                            </a>
+                                        </div>
+                                        <div class="col-6">
+                                            <p style="font-size: 1.2rem;">
+                                                Sāciet savu profesionālo apmācību šeit ar ievadu par centru.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>';
+
+$string['description_help_2'] = '<div style="font-size: 2rem; color:#094bab;font-weight: bold;">
+                                        <a>Kompetencijų statusas ir registracija IDEAL kursuose</a>
+                                </div>
+                                <p style="font-size: 1.2rem;">
+                                    Toliau esančiame „Asmeninių kompetencijų statusas“ skyriuje spalvų kodais galite pamatyti jau įgytas kompetencijas.
+                                </p>
+                                <p style="font-size: 1.2rem;">
+                                    Taip pat galite užsiregistruoti į tam tikros srities kursus, spustelėdami skaičių didelių srities rutulių centre, ir ten galėsite užsiregistruoti į tos srities kursus, kurie vėliau bus rodomi meniu „Mano kursai“.
+                                </p>';
 ?>
