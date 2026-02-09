@@ -179,3 +179,32 @@ $string['subtitle_modal_enroll_ECDE'] = 'Vas a matricularte en todos los cursos 
 $string['select_cert_cohort'] = 'Selecciona el idioma en el que deseas matricularte en los cursos:';
 $string['already_enrolled_in'] = 'Ya estás inscrito en:';
 $string['necesario'] = 'Para matricularte en este certificado tienes que haber terminado todos los cursos del certificado de:<br> Líder Pedagógico Digital Europeo.';
+//help to cstatus
+$string['description_help_1'] = '<p style="font-size: 2rem; color:#094bab;font-weight: bold;">
+                                        <a style=color:#094bab; href="https://hub.ideal-future.eu/course/view.php?id=100"> Comience por la introducción a IDEAL HUB</a>
+                                </p>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <a href="https://hub.ideal-future.eu/course/view.php?id=100" 
+                                                target="_blank" rel="noopener">
+                                                    <img src="../blocks/ideal_cstatus/templates/media/img/title_introduction_es.png" alt="" width="250" height="194" role="presentation" class="img-fluid ">
+                                            </a>
+                                        </div>
+                                        <div class="col-6">
+                                            <p style="font-size: 1.2rem;">
+                                                Comience aquí su aprendizaje profesional con una introducción al centro.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>';
+
+$string['description_help_2'] = '<div style="font-size: 2rem; color:#094bab;font-weight: bold;">
+                                        <a>Estado de las competencias e inscripción en los cursos IDEAL</a>
+                                </div>
+                                <p style="font-size: 1.2rem;">
+                                    En el «Estado personal de competencias» que aparece a continuación, puede ver con un código de colores las competencias que ya ha adquirido.
+                                </p>
+                                <p style="font-size: 1.2rem;">
+                                    También puede inscribirse en los cursos de un área haciendo clic en el número que aparece en el centro de las bolas grandes del área, donde tendrá la opción de  inscribirse en los cursos de esa área,  que aparecerán posteriormente en el menú «Mis cursos».
+                                </p>';
