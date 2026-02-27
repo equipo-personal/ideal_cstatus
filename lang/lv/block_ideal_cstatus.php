@@ -1,5 +1,5 @@
 <?php
-$string['pluginname'] = 'Personīgā statusa kompetences';
+$string['pluginname'] = 'Personīgo kompetenču statuss';
 $string['pluginname-short'] = 'Ideālā CStatus';
 $string['nocircles'] = 'Nav pieejami apļi, lai attēlotu.';
 $string['renderingerror'] = 'Radās kļūda, attēlojot apļus.';
@@ -178,12 +178,12 @@ $string['description_help_1'] = '<p style="font-size: 2rem; color:#094bab;font-w
                                 </div>';
 
 $string['description_help_2'] = '<div style="font-size: 2rem; color:#094bab;font-weight: bold;">
-                                        <a>Kompetencijų statusas ir registracija IDEAL kursuose</a>
+                                        <a>Kompetenču statuses un reģistrēšanās IDEAL courses</a>
                                 </div>
                                 <p style="font-size: 1.2rem;">
-                                    Toliau esančiame „Asmeninių kompetencijų statusas“ skyriuje spalvų kodais galite pamatyti jau įgytas kompetencijas.
+                                    Sadaļā “Personīgo kompetenču statuses” zemāk ar krāsu kodiem varat redzēt kompetences, kuras jau esat apguvuši.
                                 </p>
                                 <p style="font-size: 1.2rem;">
-                                    Taip pat galite užsiregistruoti į tam tikros srities kursus, spustelėdami skaičių didelių srities rutulių centre, ir ten galėsite užsiregistruoti į tos srities kursus, kurie vėliau bus rodomi meniu „Mano kursai“.
+                                    Jūs varat arī reģistrēties kursiem konkrētā jomā, noklikšķinot uz skaitļa lielā apļa centrā. Pēc tam jums tiks piedāvāta iespēja reģistrēties šīs jomas kursiem, kas vēlāk parādīsies sadaļā “Mani kursi”.
                                 </p>';
 ?>
